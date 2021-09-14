@@ -51,6 +51,10 @@ code {
     text-align: left;
 }
 
+.tier:nth-child(odd) {
+    background-color: lightgray;
+}
+
 .tier-letter {
     font-size: 4em;
     font-weight: bold;
@@ -83,4 +87,8 @@ input {
 label {
     padding-left: 10px;
     padding-right: 5px;
+}
+
+.selected-cards {
+    width:100%;
 }
