@@ -19,7 +19,7 @@ class Weights extends React.Component {
                     [2,0,0,0,8,3,0]
                 ],
                 umaBonus: [1,1,1,1,1,1],
-                stats: [1,1,1,0.75,1,0.5,1.5],
+                stats: [1,1,1.1,0.7,1,0.5,1.5],
                 supportPenalty: 180
             },
             stamina: {
@@ -35,7 +35,7 @@ class Weights extends React.Component {
                     [2,0,0,0,8,3,0]
                 ],
                 umaBonus: [1,1,1,1,1,1],
-                stats: [1,1,1,0.75,1,0.5,1.5],
+                stats: [1,1,1,0.8,1,0.5,1.5],
                 supportPenalty: 180
             },
             power: {
@@ -51,7 +51,7 @@ class Weights extends React.Component {
                     [2,0,0,0,8,3,0]
                 ],
                 umaBonus: [1,1,1,1,1,1],
-                stats: [1,1,1,0.75,1,0.5,1.5],
+                stats: [1,1.1,1,0.7,1,0.5,1.5],
                 supportPenalty: 180
             },
             guts: {
@@ -67,7 +67,7 @@ class Weights extends React.Component {
                     [2,0,0,0,8,3,0]
                 ],
                 umaBonus: [1,1,1,1,1,1],
-                stats: [1,1,1,0.75,1,0.5,1.5],
+                stats: [1.1,1,1.1,0.8,1,0.5,1.5],
                 supportPenalty: 180
             },
             wisdom: {
@@ -83,7 +83,7 @@ class Weights extends React.Component {
                     [2,0,0,0,8,3,0]
                 ],
                 umaBonus: [1,1,1,1,1,1],
-                stats: [1,1,1,0.75,1,0.5,1.5],
+                stats: [1.1,1,1,0.7,1,0.5,1.5],
                 supportPenalty: 180
             },
             friend: {
@@ -99,7 +99,7 @@ class Weights extends React.Component {
                     [2,0,0,0,8,3,0]
                 ],
                 umaBonus: [1,1,1,1,1,1],
-                stats: [1,1,1,0.75,1,0.5,1.5],
+                stats: [1,1,1,0.7,1,0.5,1.5],
                 supportPenalty: 180
             }
         };

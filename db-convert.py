@@ -70,15 +70,15 @@ def AddEffectToCard(card, effect_type, effect_value):
     elif effect_type == 2:
         card.motivation_bonus += effect_value / 100
     elif effect_type == 3:
-        card.stat_bonus[0] += 1
+        card.stat_bonus[0] += effect_value
     elif effect_type == 4:
-        card.stat_bonus[1] += 1
+        card.stat_bonus[1] += effect_value
     elif effect_type == 5:
-        card.stat_bonus[2] += 1
+        card.stat_bonus[2] += effect_value
     elif effect_type == 6:
-        card.stat_bonus[3] += 1
+        card.stat_bonus[3] += effect_value
     elif effect_type == 7:
-        card.stat_bonus[4] += 1
+        card.stat_bonus[4] += effect_value
     elif effect_type == 8:
         card.training_bonus += effect_value  / 100
     elif effect_type == 9:

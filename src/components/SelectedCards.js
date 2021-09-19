@@ -6,7 +6,6 @@ function SelectedCards(props) {
     for (let i = 0; i < props.selectedCards.length; i++) {
         let lit_up = "";
         let dark = "";
-        console.log(props.selectedCards[i]);
 
         for(let j = 0; j < 4; j++) {
             if (j < props.selectedCards[i].limit_break) {

@@ -31,6 +31,7 @@ function TierList(props) {
                 lb={processedCards[i].lb}
                 score={processedCards[i].score}
                 key={processedCards[i].id + "LB" + processedCards[i].lb}
+                info={processedCards[i].info}
                 onClick={() => props.cardSelected(cards.find((c) => c.id === processedCards[i].id && c.limit_break === processedCards[i].lb))}
             />
         ));
@@ -67,8 +68,9 @@ const types = {
 function processCards(cards, weights, selectedCards) {
     let processedCards = [];
     selectedCards = selectedCards.slice();
-
+    
     for (let i = 0; i < cards.length; i++) {
+        let info = {};
         let card = cards[i];
         let cardType = types[card.type];
         let daysToBond = (80 - card.starting_bond) / weights.bondPerDay;
@@ -92,7 +94,7 @@ function processCards(cards, weights, selectedCards) {
             let cardSpecialtyPercent = 0.18 + (selectedCards[card].specialty_rate / 1000 * 1.5);
             selectedCards[card].rainbowSpecialty = cardSpecialtyPercent;
             selectedCards[card].offSpecialty = (0.9 - cardSpecialtyPercent) / 4;
-            selectedCards[card].cardType = types[selectedCards[card].cardType];
+            selectedCards[card].cardType = types[selectedCards[card].type];
         }
 
         // Add starting stats and stats from events
@@ -100,11 +102,15 @@ function processCards(cards, weights, selectedCards) {
         statGains.push(0);
         let energyGain = 0;
 
+        info.starting_stats = card.starting_stats.slice();
+        info.event_stats = [0,0,0,0,0,0,0];
+
         if (events[card.id]) {
             for (let stat = 0; stat < 6; stat++) {
                 statGains[stat] += events[card.id][stat] * card.effect_size_up;
             }
             energyGain += events[card.id][6] * card.energy_up;
+            info.event_stats = events[card.id].slice();
 
             if (cardType == 6) {
                 energyGain -= weights.supportPenalty;
@@ -118,17 +124,24 @@ function processCards(cards, weights, selectedCards) {
             energyGain += daysOnThisTraining * gains[6] * card.energy_discount;
 
             let trainingGains = CalculateTrainingGain(gains, weights, card, selectedCards, training, daysOnThisTraining, false);
+            info.non_rainbow_gains = trainingGains.slice();
+            info.non_rainbow_gains.push(daysOnThisTraining * gains[6] * card.energy_discount);
 
             for (let stat = 0; stat < 6; stat ++) {
                 statGains[stat] += trainingGains[stat];
             }
         }
 
+        info.rainbow_gains = [0,0,0,0,0,0,0];
+
         // Stats from rainbows
         if (cardType < 6) {
             energyGain += rainbowTraining * card.wisdom_recovery;
             let specialtyGains = weights.trainingGain[cardType];
             let trainingGains = CalculateTrainingGain(specialtyGains, weights, card, selectedCards, cardType, rainbowTraining, true);
+
+            info.rainbow_gains = trainingGains.slice();
+            info.rainbow_gains.push(rainbowTraining * card.wisdom_recovery);
 
             for (let stat = 0; stat < 6; stat ++) {
                 statGains[stat] += trainingGains[stat];
@@ -139,7 +152,9 @@ function processCards(cards, weights, selectedCards) {
         for (let stat = 0; stat < 5; stat ++) {
             statGains[stat] += card.race_bonus * 3 / 5;
         }
-        statGains[5] = card.race_bonus * 8;
+        statGains[5] += card.race_bonus * 8;
+
+        info.race_bonus_gains = (card.race_bonus * 3 / 5) * 5 + card.race_bonus * 8;
 
         // Convert stat gains to score
         let score = 0;
@@ -151,7 +166,8 @@ function processCards(cards, weights, selectedCards) {
         processedCards.push({
             id: card.id,
             lb: card.limit_break,
-            score: score
+            score: score,
+            info: info
         })
     }
 
@@ -178,9 +194,9 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
             * (1 + 0.2 * motivationBonus)
             * friendshipBonus
             * 1.05
+            * weights.umaBonus[stat]
             - gains[stat])
             * days
-            * weights.umaBonus[stat]
             * CalculateCombinationChance([], otherCards, trainingType);
     }
     
@@ -190,6 +206,8 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
 
     for (let i = 0; i < combinations.length; i++) {
         for (let stat = 0; stat < 6; stat ++) {
+            if (gains[stat] === 0) continue;
+
             let combinationTrainingBonus = combinations[i].reduce((current, c) => current + c.training_bonus - 1, trainingBonus);
             let combinationFriendshipBonus = combinations[i].reduce((current, c) => {
                 if (c.cardType === trainingType) {
@@ -207,10 +225,10 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
                 * combinationTrainingBonus
                 * (1 + 0.2 * combinationMotivationBonus)
                 * combinationFriendshipBonus
-                * 1.05
+                * (1.05 * (combinations[i].length + 1))
+                * weights.umaBonus[stat]
                 - gains[stat])
                 * days
-                * weights.umaBonus[stat]
                 * CalculateCombinationChance(combinations[i], otherCards, trainingType);
         }
     }
