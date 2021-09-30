@@ -3,6 +3,7 @@ import cards from './cards';
 import TierList from './components/TierList';
 import Weights from './components/Weights';
 import SelectedCards from './components/SelectedCards';
+import Filters from './components/Filters';
 import React from 'react';
 
 class App extends React.Component {
@@ -25,12 +26,14 @@ class App extends React.Component {
                 stats: [1,1,1,0.75,1,0.5,1.5],
                 supportPenalty: 180
             },
-            selectedCards: [cards.find((c) => c.id === 30028 && c.limit_break === 4)]
+            selectedCards: [cards.find((c) => c.id === 30028 && c.limit_break === 4)],
+            availableCards: cards
         }
 
         this.onWeightsChanged = this.onWeightsChanged.bind(this);
         this.onCardSelected = this.onCardSelected.bind(this);
         this.onCardRemoved = this.onCardRemoved.bind(this);
+        this.onCardsChanged = this.onCardsChanged.bind(this);
     }
 
     onWeightsChanged(weights) {
@@ -53,18 +56,25 @@ class App extends React.Component {
         this.setState({selectedCards:cards});
     }
 
+    onCardsChanged(cards) {
+        this.setState({availableCards: cards});
+    }
+
     render() {
         return (
             <div className="App">
                 <Weights
                     onChange={this.onWeightsChanged}
-                />
+                    />
                 <SelectedCards
                     selectedCards={this.state.selectedCards}
                     onClick={this.onCardRemoved}
-                />
+                    />
+                <Filters
+                    onCardsChanged={this.onCardsChanged}
+                    />
                 <TierList 
-                    cards={cards}
+                    cards={this.state.availableCards}
                     weights={this.state.weights}
                     selectedCards={this.state.selectedCards}
                     cardSelected={this.onCardSelected}

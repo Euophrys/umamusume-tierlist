@@ -7,6 +7,7 @@ dblocation = 'C:\\Users\\Erzz\\AppData\\LocalLow\\Cygames\\umamusume\\master\\ma
 class Card():
     card_id = 0
     limit_break = -1
+    rarity = 0
     # Speed, Stamina, Power, Guts, Int, Skill Points, Energy
     event_gain = [0,0,0,0,0,0,0]
     # Speed, Stamina, Power, Guts, Int
@@ -127,6 +128,7 @@ with sqlite3.connect(dblocation) as conn:
             current_card = Card()
             current_card.id = data[0]
             current_card.type = int(data[7])
+            current_card.rarity = int(data[2])
             current_card.limit_break = i
             current_card.starting_stats = [0,0,0,0,0]
             current_card.stat_bonus = [0,0,0,0,0,0]

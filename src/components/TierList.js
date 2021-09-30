@@ -5,13 +5,15 @@ import events from '../card-events';
 function TierList(props) {
     let cards = props.cards;
 
-    cards = cards.filter(e => e.id > 20000 || e.limit_break === 4);
-
     if(props.weights.type > -1) {
         cards = cards.filter(e => types[e.type] === props.weights.type);
     }
 
     let processedCards = processCards(cards, props.weights, props.selectedCards);
+
+    if (processedCards.length === 0) {
+        return <div className="tier-list"></div>;
+    }
 
     let rows = [[]];
     let current_row = 0;
@@ -19,7 +21,7 @@ function TierList(props) {
     let boundary = processedCards[0].score - step;
 
     for (let i = 0; i < processedCards.length; i++) {
-        while (processedCards[i].score < boundary) {
+        while (processedCards[i].score < boundary - 1) {
             rows.push([]);
             current_row++;
             boundary -= step;
@@ -208,28 +210,34 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
         for (let stat = 0; stat < 6; stat ++) {
             if (gains[stat] === 0) continue;
 
-            let combinationTrainingBonus = combinations[i].reduce((current, c) => current + c.training_bonus - 1, trainingBonus);
+            let combinationTrainingBonus = combinations[i].reduce((current, c) => current + c.training_bonus - 1, 1);
             let combinationFriendshipBonus = combinations[i].reduce((current, c) => {
                 if (c.cardType === trainingType) {
                     return current * c.friendship_bonus * c.unique_friendship_bonus;
                 } else {
                     return current;
                 }
-            }, friendshipBonus);
-            let combinationMotivationBonus = combinations[i].reduce((current, c) => current + c.motivation_bonus - 1, motivationBonus);
-            let combinationStatBonus = combinations[i].reduce((current, c) => current + c.stat_bonus[stat], card.stat_bonus[stat]);
+            }, 1);
+            let combinationMotivationBonus = combinations[i].reduce((current, c) => current + c.motivation_bonus - 1, 1);
+            let combinationStatBonus = combinations[i].reduce((current, c) => current + c.stat_bonus[stat], 0);
 
             const base = gains[stat] + combinationStatBonus;
 
-            trainingGains[stat] += (base 
+            let combinationGains = (base 
                 * combinationTrainingBonus
                 * (1 + 0.2 * combinationMotivationBonus)
                 * combinationFriendshipBonus
+                * (1.05 * combinations[i].length)
+                * weights.umaBonus[stat]);
+                
+            let totalGains = ((base + card.stat_bonus[stat])
+                * (combinationTrainingBonus + trainingBonus - 1)
+                * (1 + 0.2 * (combinationMotivationBonus + motivationBonus - 1))
+                * (combinationFriendshipBonus * friendshipBonus)
                 * (1.05 * (combinations[i].length + 1))
-                * weights.umaBonus[stat]
-                - gains[stat])
-                * days
-                * CalculateCombinationChance(combinations[i], otherCards, trainingType);
+                * weights.umaBonus[stat]);
+            
+            trainingGains[stat] += (totalGains - combinationGains) * days * CalculateCombinationChance(combinations[i], otherCards, trainingType);
         }
     }
 

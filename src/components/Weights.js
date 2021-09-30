@@ -155,12 +155,12 @@ class Weights extends React.Component {
                 <div className="weight-row">
                     <div class="section-header">Time Controls</div>
                     <div class="section-explanation">
-                        Training days should be roughly (Total Days - Races Done - Number of Rests)<br/>
-                        The fewer bond and days, the more Starting Bond matters.
+                        Training turns should be roughly (75 - Races Done - Number of Rests/Dates)<br/>
+                        The fewer bond and turns, the more Starting Bond matters.
                     </div>
-                    <label for="bondPerDay">Bond Gained per Day:</label>
+                    <label for="bondPerDay">Bond Gained per Turn:</label>
                     <NumericInput onChange={this.onSettingChanged} type="number" id="bondPerDay" value={this.state[this.state.currentState].bondPerDay} min={1} max={9} step={0.25}/>
-                    <label for="trainingDays">Available Training Days:</label>
+                    <label for="trainingDays">Available Training Turns:</label>
                     <NumericInput onChange={this.onSettingChanged} type="number" id="trainingDays" value={this.state[this.state.currentState].trainingDays} min={30} max={70} step={1}/>
                 </div>
                 <div className="weight-row">

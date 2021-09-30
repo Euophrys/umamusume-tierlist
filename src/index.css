@@ -81,6 +81,24 @@ code {
     padding-bottom:10px;
 }
 
+.filters {
+    text-align:center;
+}
+
+table {
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td {
+    width:150px;
+}
+
+th {
+    width:150px;
+}
+
 .section-header {
     width: 100%;
     font-weight: bold;
