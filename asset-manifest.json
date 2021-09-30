@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/uma-tiers/static/css/main.322ec89f.chunk.css",
+    "main.js": "/uma-tiers/static/js/main.c3449ef6.chunk.js",
+    "main.js.map": "/uma-tiers/static/js/main.c3449ef6.chunk.js.map",
+    "runtime-main.js": "/uma-tiers/static/js/runtime-main.8112a686.js",
+    "runtime-main.js.map": "/uma-tiers/static/js/runtime-main.8112a686.js.map",
+    "static/js/2.2a510dc5.chunk.js": "/uma-tiers/static/js/2.2a510dc5.chunk.js",
+    "static/js/2.2a510dc5.chunk.js.map": "/uma-tiers/static/js/2.2a510dc5.chunk.js.map",
+    "static/js/3.b689436f.chunk.js": "/uma-tiers/static/js/3.b689436f.chunk.js",
+    "static/js/3.b689436f.chunk.js.map": "/uma-tiers/static/js/3.b689436f.chunk.js.map",
+    "index.html": "/uma-tiers/index.html",
+    "static/css/main.322ec89f.chunk.css.map": "/uma-tiers/static/css/main.322ec89f.chunk.css.map",
+    "static/js/2.2a510dc5.chunk.js.LICENSE.txt": "/uma-tiers/static/js/2.2a510dc5.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8112a686.js",
+    "static/js/2.2a510dc5.chunk.js",
+    "static/css/main.322ec89f.chunk.css",
+    "static/js/main.c3449ef6.chunk.js"
+  ]
+}
