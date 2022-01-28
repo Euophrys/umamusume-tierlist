@@ -18,8 +18,8 @@ function SupportCard(props) {
                 className="support-card-image"
                 name={props.id}
                 src={process.env.PUBLIC_URL + "/cardImages/support_card_s_" + props.id + ".png"}
-                title={props.score}
-                alt={props.score}
+                title={props.charName}
+                alt={props.charName}
                 onClick={props.onClick}
             />
             <span className="limit-breaks">

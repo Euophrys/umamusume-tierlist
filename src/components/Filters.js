@@ -12,6 +12,16 @@ class Filters extends React.Component {
         };
 
         this.onSettingChanged = this.onSettingChanged.bind(this);
+        let availableCards = cards.filter((c) => {
+            if (c.rarity === 1) {
+                return this.state.r[c.limit_break]
+            } else if (c.rarity === 2) {
+                return this.state.sr[c.limit_break]
+            } else {
+                return this.state.ssr[c.limit_break]
+            }
+        });
+        this.props.onCardsChanged(availableCards);
     }
 
     onSettingChanged(event, numberString, numberInput) {
@@ -33,10 +43,10 @@ class Filters extends React.Component {
                 return this.state.r[c.limit_break]
             } else if (c.rarity === 2) {
                 return this.state.sr[c.limit_break]
-            } else if (c.rarity === 3) {
+            } else {
                 return this.state.ssr[c.limit_break]
             }
-        })
+        });
         this.props.onCardsChanged(availableCards);
     }
 

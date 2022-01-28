@@ -5,11 +5,10 @@ from json import JSONEncoder
 dblocation = 'C:\\Users\\Erzz\\AppData\\LocalLow\\Cygames\\umamusume\\master\\master.mdb'
 
 class Card():
-    card_id = 0
+    id = 0
+    type = 0
     limit_break = -1
     rarity = 0
-    # Speed, Stamina, Power, Guts, Int, Skill Points, Energy
-    event_gain = [0,0,0,0,0,0,0]
     # Speed, Stamina, Power, Guts, Int
     starting_stats = []
     race_bonus = 0
@@ -17,16 +16,21 @@ class Card():
     # Speed, Stamina, Power, Guts, Int, Skill Points
     stat_bonus = []
     specialty_rate = 0
+    unique_specialty = 1
     training_bonus = 0
     friendship_bonus = 0
     motivation_bonus = 0
     unique_friendship_bonus = 0
+    friendship_stats = []
+    friendship_training = 0
+    hint_rate = 0
     wisdom_recovery = 0
     effect_size_up = 0
     energy_up = 0
     energy_discount = 0
     fail_rate_down = 0
     card_type = 0
+    char_name = "Unknown"
 
 def GetValue(data, lb, rarity):
     base_value = -1
@@ -96,6 +100,8 @@ def AddEffectToCard(card, effect_type, effect_value):
         card.starting_bond += effect_value
     elif effect_type == 15:
         card.race_bonus += effect_value
+    elif effect_type == 18:
+        card.hint_rate += effect_value / 100
     elif effect_type == 19:
         card.specialty_rate += effect_value
     elif effect_type == 25:
@@ -110,6 +116,10 @@ def AddEffectToCard(card, effect_type, effect_value):
         card.stat_bonus[5] += 1
     elif effect_type == 31:
         card.wisdom_recovery += effect_value
+    elif effect_type == 101:
+        card.friendship_stats[4] += 3
+    elif effect_type == 102:
+        card.friendship_training += 0.2
 
 cards = []
 
@@ -132,19 +142,23 @@ with sqlite3.connect(dblocation) as conn:
             current_card.limit_break = i
             current_card.starting_stats = [0,0,0,0,0]
             current_card.stat_bonus = [0,0,0,0,0,0]
-            current_card.event_gain = [0,0,0,0,0,0,0]
             current_card.race_bonus = 0
             current_card.starting_bond = 0
             current_card.specialty_rate = 0
+            current_card.unique_specialty = 1
             current_card.training_bonus = 1
             current_card.friendship_bonus = 1
             current_card.motivation_bonus = 1
             current_card.unique_friendship_bonus = 1
+            current_card.friendship_stats = [0,0,0,0,0,0]
+            current_card.friendship_training = 0
             current_card.wisdom_recovery = 0
             current_card.effect_size_up = 1
             current_card.energy_up = 1
             current_card.energy_discount = 0
             current_card.fail_rate_down = 0
+            current_card.hint_rate = 1
+            current_card.char_name = ""
 
             for effect in effects:
                 # 0 id | 1 type | 2 init | 3 limit_lv_5 | ... | 12 limit_lv_50
@@ -152,20 +166,27 @@ with sqlite3.connect(dblocation) as conn:
                 AddEffectToCard(current_card, effect_type, GetValue(effect, i, int(data[2])))
 
             cursor.execute('SELECT * FROM support_card_unique_effect WHERE id = %s' % data[0])
-            # 0 id | 1 lv | 2 type_0 | 3 value_0 | 4 type_1 | 5 value_1
+            # 0 id | 1 lv | 2 type_0 | 3 value_0　... | 8 type_1 | 9 value_1
             unique = cursor.fetchone()
             if unique is not None:
-                for u in range(0,3,2):
+                for u in range(0,10,6):
                     type_0 = int(unique[2 + u])
                     if type_0 == 1:
                         current_card.unique_friendship_bonus += int(unique[3 + u]) / 100
+                    elif type_0 == 19:
+                        current_card.unique_specialty = 1.2
                     else:
                         AddEffectToCard(current_card, type_0, int(unique[3 + u]))
             cards.append(current_card)
 
+            cursor.execute('SELECT * FROM text_data WHERE id = 170 AND [index] = %s' % data[1])
+            char_name = cursor.fetchone()
+            if char_name is not None:
+                current_card.char_name = char_name[3]
+
 card_strings = []
 for card in cards:
-    card_strings.append(json.dumps(card.__dict__))
+    card_strings.append(json.dumps(card.__dict__, ensure_ascii=False))
 
 json_string = 'const cards = [%s];\n\nexport default cards;' % ",".join(card_strings)
 

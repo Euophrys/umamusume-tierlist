@@ -42,6 +42,13 @@ code {
     text-shadow: -1px -1px 0 #f5f0eb, 1px -1px 0 #f5f0eb, -1px 1px 0 #f5f0eb, 1px 1px 0 #f5f0eb;
 }
 
+.type-icon {
+    position:absolute;
+    top:5px;
+    right:5px;
+    width:30px;
+}
+
 .score {
     position:absolute;
     top:5px;
@@ -56,6 +63,8 @@ code {
 
 .tier {
     display:flex;
+    padding-top:10px;
+    padding-bottom:5px;
 }
 
 .tier-images {
@@ -97,6 +106,7 @@ td {
 
 th {
     width:150px;
+    padding-right: 40px;
 }
 
 .section-header {
@@ -121,4 +131,23 @@ label {
 
 .selected-cards {
     width:100%;
+}
+
+.slider {
+    width: 300px;
+}
+
+.image-btn {
+    width: 50px;
+    height: 50px;
+    padding-top: 15px;
+}
+
+.selected {
+    filter:grayscale(100%);
+}
+
+.btn-preset {
+    margin-left: 2px;
+    margin-right: 2px;
 }
