@@ -15,6 +15,7 @@ class App extends React.Component {
                 bondPerDay: 3.5,
                 trainingDays: 50,
                 trainingImportance: [1,0.2,0.3,0.1,0.3],
+                races: [10,10,5,3],
                 trainingGain: [
                     [10,0,4,0,0,2,21],
                     [0,9,0,3,0,2,19],
@@ -43,8 +44,9 @@ class App extends React.Component {
         this.onLoadPreset = this.onLoadPreset.bind(this);
     }
 
-    onWeightsChanged(weights) {
-        this.setState({weights: weights});
+    onWeightsChanged(statWeights, generalWeights) {
+        let combinedWeights = {...statWeights, ...generalWeights};
+        this.setState({weights: combinedWeights});
     }
 
     onCardSelected(card) {
@@ -88,6 +90,7 @@ class App extends React.Component {
                 <span class="section-explanation">
                     Created by Erzzy from the UmaMusume EN Discord<br/>
                     For more game information, check the <a href="https://docs.google.com/document/d/1gNcV7XLmxx0OI2DEAR8gmKb8P9BBhcwGhlJOVbYaXeo/edit?usp=sharing">Uma Musume Reference</a><br/>
+                    This tier list defaults to the MANT Scenario and doesn't consider skills, only stats.<br/>
                 </span>
                 <Weights
                     onChange={this.onWeightsChanged}

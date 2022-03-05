@@ -29,7 +29,8 @@ class Card():
     energy_up = 0
     energy_discount = 0
     fail_rate_down = 0
-    card_type = 0
+    highlander_threshold = 0
+    highlander_training = 0
     char_name = "Unknown"
 
 def GetValue(data, lb, rarity):
@@ -113,13 +114,19 @@ def AddEffectToCard(card, effect_type, effect_value):
     elif effect_type == 28:
         card.energy_discount += effect_value / 100
     elif effect_type == 30:
-        card.stat_bonus[5] += 1
+        card.stat_bonus[5] += effect_value
     elif effect_type == 31:
         card.wisdom_recovery += effect_value
+    # The below unique effects are in a different column so they're hardcoded for now
     elif effect_type == 101:
         card.friendship_stats[4] += 3
     elif effect_type == 102:
         card.friendship_training += 0.2
+    elif effect_type == 103:
+        card.highlander_training += 0.15
+    elif effect_type == 104:
+        #fan training
+        card.training_bonus += 0.1
 
 cards = []
 
@@ -158,6 +165,8 @@ with sqlite3.connect(dblocation) as conn:
             current_card.energy_discount = 0
             current_card.fail_rate_down = 0
             current_card.hint_rate = 1
+            current_card.highlander_threshold = 4
+            current_card.highlander_training = 0
             current_card.char_name = ""
 
             for effect in effects:
@@ -175,6 +184,16 @@ with sqlite3.connect(dblocation) as conn:
                         current_card.unique_friendship_bonus += int(unique[3 + u]) / 100
                     elif type_0 == 19:
                         current_card.unique_specialty = 1.2
+                    elif type_0 == 103:
+                        current_card.highlander_threshold = int(unique[3 + u])
+                        current_card.highlander_training = int(unique[4 + u]) / 100
+                    elif type_0 == 101:
+                        bonus_type = int(unique[4 + u])
+                        bonus_value = int(unique[5 + u])
+                        if bonus_type == 4:
+                            current_card.friendship_stats[1] += bonus_value
+                        elif bonus_type == 7:
+                            current_card.friendship_stats[4] += bonus_value
                     else:
                         AddEffectToCard(current_card, type_0, int(unique[3 + u]))
             cards.append(current_card)

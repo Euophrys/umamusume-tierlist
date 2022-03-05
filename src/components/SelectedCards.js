@@ -68,11 +68,16 @@ function SelectedCards(props) {
             {cards}
             <div>
                 Presets:
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20023,20031,20020,20024,20003])}>Speed/Power</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20023,20031,20020,20012,20015])}>Speed/Int</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20031,20012,20015,20018,20002])}>Int/Speed</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20023,20031,10060,30034,20003])}>Mid/Long</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30019,20029,20017,20004,20038,30010])}>Guts/Int</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20023,20031,20024,20003])}>Speed/Power</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20023,20031,20012,20015])}>Speed/Int</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20031,20012,20015,20002])}>Int/Speed</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20031,10060,30034,20003])}>Mid/Long</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([30019,20041,20038,20012,30010])}>Guts/Int</button>
+            </div>
+            <div>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20023,20031,20008,30022])}>Speed/Stamina</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([30078,20003,20027,20041,20038])}>Speed/Pow/Guts</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([30078,20008,30022,20041,20038])}>Speed/Stam/Guts</button>
             </div>
         </div>
     );
