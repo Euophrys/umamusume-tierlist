@@ -126,9 +126,18 @@ def AddEffectToCard(card, effect_type, effect_value):
         card.highlander_training += 0.15
     elif effect_type == 104:
         #fan training
-        card.training_bonus += 0.1
+        card.training_bonus += 0.15
 
 cards = []
+
+types = {
+    0: 6,
+    101: 0,
+    102: 2,
+    103: 3,
+    105: 1,
+    106: 4
+}
 
 with sqlite3.connect(dblocation) as conn:
     cursor = conn.cursor()
@@ -144,7 +153,7 @@ with sqlite3.connect(dblocation) as conn:
         for i in range(5):
             current_card = Card()
             current_card.id = data[0]
-            current_card.type = int(data[7])
+            current_card.type = types[int(data[7])]
             current_card.rarity = int(data[2])
             current_card.limit_break = i
             current_card.starting_stats = [0,0,0,0,0]

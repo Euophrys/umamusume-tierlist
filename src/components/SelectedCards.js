@@ -6,15 +6,14 @@ import GutsIcon from '../icons/utx_ico_obtain_03.png';
 import WisdomIcon from '../icons/utx_ico_obtain_04.png';
 import FriendIcon from '../icons/utx_ico_obtain_05.png';
 
-const type_to_icon = {
-    0: FriendIcon,
-    101: SpeedIcon,
-    102: PowerIcon,
-    103: GutsIcon,
-    105: StaminaIcon,
-    106: WisdomIcon
-}
-
+const type_to_icon = [
+    SpeedIcon,
+    StaminaIcon,
+    PowerIcon,
+    GutsIcon,
+    WisdomIcon,
+    FriendIcon,
+]
 
 function SelectedCards(props) {
     let cards = [];

@@ -6,7 +6,7 @@ function TierList(props) {
     let cards = props.cards;
 
     if(props.weights.type > -1) {
-        cards = cards.filter(e => types[e.type] === props.weights.type);
+        cards = cards.filter(e => e.type === props.weights.type);
     }
 
     let processedCards = processCards(cards, props.weights, props.selectedCards);
@@ -59,14 +59,6 @@ function TierList(props) {
 }
 
 const tierNames = ['S', 'A', 'B', 'C', 'D', 'E', 'F']
-const types = {
-    0: 6,
-    101: 0,
-    102: 2,
-    103: 3,
-    105: 1,
-    106: 4
-}
 const scenarioLink = [
 ]
 const raceRewards = [
@@ -87,14 +79,14 @@ function processCards(cards, weights, selectedCards) {
         let cardSpecialtyPercent = (cardSpecialty) / (450 + cardSpecialty)
         selectedCards[card].rainbowSpecialty = cardSpecialtyPercent;
         selectedCards[card].offSpecialty = 100 / (450 + cardSpecialty);
-        selectedCards[card].cardType = types[selectedCards[card].type];
+        selectedCards[card].cardType = selectedCards[card].type;
         presentTypes[selectedCards[card].cardType] = true;
     }
 
     for (let i = 0; i < cards.length; i++) {
         let info = {};
         let card = cards[i];
-        let cardType = types[card.type];
+        let cardType = card.type;
         let bondNeeded = 80 - card.starting_bond;
         let presentTypesWithCard = presentTypes.slice();
         presentTypesWithCard[cardType] = true;

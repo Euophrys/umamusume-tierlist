@@ -151,3 +151,10 @@ label {
     margin-left: 2px;
     margin-right: 2px;
 }
+
+.label {
+    display:block;
+    margin-left: 8px;
+    text-align: left;
+    font-weight: bold;
+}

@@ -6,6 +6,9 @@ import SelectedCards from './components/SelectedCards';
 import Filters from './components/Filters';
 import React from 'react';
 
+const ordinal = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th"];
+const type_names = ["Speed", "Stamina", "Power", "Guts", "Wisdom", "Friend"];
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -34,7 +37,8 @@ class App extends React.Component {
                 cards.find((c) => c.id === 20024 && c.limit_break === 4),
                 cards.find((c) => c.id === 20003 && c.limit_break === 4),
             ],
-            availableCards: cards
+            availableCards: cards,
+            label: "Ranking for the 4th Speed card in this deck:"
         }
 
         this.onWeightsChanged = this.onWeightsChanged.bind(this);
@@ -46,7 +50,9 @@ class App extends React.Component {
 
     onWeightsChanged(statWeights, generalWeights) {
         let combinedWeights = {...statWeights, ...generalWeights};
-        this.setState({weights: combinedWeights});
+        this.setState({weights: combinedWeights}, () => {
+            this.updateLabel();
+        });
     }
 
     onCardSelected(card) {
@@ -60,7 +66,9 @@ class App extends React.Component {
             cards.push(card);
         }
 
-        this.setState({selectedCards:cards});
+        this.setState({selectedCards:cards}, () => {
+            this.updateLabel();
+        });
     }
 
     onCardRemoved(card) {
@@ -68,11 +76,22 @@ class App extends React.Component {
         let cards = this.state.selectedCards.slice();
         let cardIndex = cards.findIndex((c) => c.id === card.id);
         cards.splice(cardIndex, 1);
-        this.setState({selectedCards:cards});
+        this.setState({selectedCards:cards}, () => {
+            this.updateLabel();
+        });
     }
 
     onCardsChanged(cards) {
-        this.setState({availableCards: cards});
+        this.setState({availableCards: cards}, () => {
+            this.updateLabel();
+        });
+    }
+
+    updateLabel() {
+        let count = this.state.selectedCards.filter((c) => c.type == this.state.weights.type).length;
+        this.setState({
+            label: `Ranking for the ${ordinal[count]} ${type_names[this.state.weights.type]} card in this deck:`
+        })
     }
 
     onLoadPreset(presetCards) {
@@ -80,7 +99,9 @@ class App extends React.Component {
         for(let i = 0; i < presetCards.length; i++) {
             selectedCards.push(cards.find((c) => c.id === presetCards[i] && c.limit_break === 4));
         }
-        this.setState({selectedCards:selectedCards});
+        this.setState({selectedCards:selectedCards}, () => {
+            this.updateLabel();
+        });
     }
 
     render() {
@@ -103,6 +124,7 @@ class App extends React.Component {
                 <Filters
                     onCardsChanged={this.onCardsChanged}
                     />
+                <span class="label">{this.state.label}</span>
                 <TierList 
                     cards={this.state.availableCards}
                     weights={this.state.weights}
