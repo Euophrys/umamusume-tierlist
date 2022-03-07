@@ -23,6 +23,7 @@ class Card():
     unique_friendship_bonus = 0
     friendship_stats = []
     friendship_training = 0
+    friendship_motivation = 0
     hint_rate = 0
     wisdom_recovery = 0
     effect_size_up = 0
@@ -168,6 +169,7 @@ with sqlite3.connect(dblocation) as conn:
             current_card.unique_friendship_bonus = 1
             current_card.friendship_stats = [0,0,0,0,0,0]
             current_card.friendship_training = 0
+            current_card.friendship_motivation = 0
             current_card.wisdom_recovery = 0
             current_card.effect_size_up = 1
             current_card.energy_up = 1
@@ -199,7 +201,9 @@ with sqlite3.connect(dblocation) as conn:
                     elif type_0 == 101:
                         bonus_type = int(unique[4 + u])
                         bonus_value = int(unique[5 + u])
-                        if bonus_type == 4:
+                        if bonus_type == 2:
+                            current_card.friendship_motivation += bonus_value / 100
+                        elif bonus_type == 4:
                             current_card.friendship_stats[1] += bonus_value
                         elif bonus_type == 7:
                             current_card.friendship_stats[4] += bonus_value

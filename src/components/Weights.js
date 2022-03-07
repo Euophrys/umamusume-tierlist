@@ -28,37 +28,37 @@ class Weights extends React.Component {
             speed: {
                 type: 0,
                 stats: [1,1,1.1,1,1,0.5,1],
-                cap:500,
+                cap:400,
                 importance: 0.8
             },
             stamina: {
                 type: 1,
                 stats: [1,1,1,1.1,1,0.5,1],
-                cap:500,
+                cap:400,
                 importance: 0.66
             },
             power: {
                 type: 2,
                 stats: [1,1.1,1,1,1,0.5,1],
-                cap:500,
+                cap:400,
                 importance: 0.66
             },
             guts: {
                 type: 3,
                 stats: [2,1,2,1,1,0.5,1],
-                cap:500,
+                cap:400,
                 importance: 0.8
             },
             wisdom: {
                 type: 4,
                 stats: [1.1,1,1,1,1,0.5,1],
-                cap:500,
+                cap:400,
                 importance: 0.8
             },
             friend: {
                 type: 6,
                 stats: [1,1,1,1,1,0.5,1],
-                cap:500,
+                cap:400,
                 importance: 1
             }
         };
@@ -203,7 +203,7 @@ class Weights extends React.Component {
                             This will cap the stat gain, penalizing cards that only raise one stat.<br/>
                             Lower this if you tend to cap your stats very early to strengthen cards that raise multiple.
                         </div>
-                        <input type="range" onChange={this.onCapChanged} min={300} max={1000} value={this.state[this.state.currentState].cap} class="slider" id="cap"/>
+                        <input type="range" onChange={this.onCapChanged} min={200} max={600} value={this.state[this.state.currentState].cap} class="slider" id="cap"/>
                         <label for="cap">{this.state[this.state.currentState].cap}</label>
                     </div>
                     </>

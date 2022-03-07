@@ -131,6 +131,7 @@ function processCards(cards, weights, selectedCards) {
         let specialtyPercent = specialty / (450 + specialty);
         let otherPercent = 100 / (450 + specialty);
         let daysPerTraining = [0,0,0,0,0];
+        let bondedDaysPerTraining = [0,0,0,0,0];
         let rainbowTraining = 0;
         
         // Calculate appearance rates on each training
@@ -139,7 +140,8 @@ function processCards(cards, weights, selectedCards) {
                 rainbowTraining = specialtyPercent * rainbowDays;
                 daysPerTraining[stat] = specialtyPercent * daysToBond;
             } else {
-                daysPerTraining[stat] = otherPercent / 4 * trainingDays;
+                daysPerTraining[stat] = otherPercent / 4 * daysToBond;
+                bondedDaysPerTraining[stat] = otherPercent / 4 * rainbowDays;
             }
         }
 
@@ -150,7 +152,22 @@ function processCards(cards, weights, selectedCards) {
             let daysOnThisTraining = daysPerTraining[training];
             energyGain += daysOnThisTraining * gains[6] * card.energy_discount;
 
-            let trainingGains = CalculateCrossTrainingGain(gains, weights, card, selectedCards, training, daysOnThisTraining, false, typeCount);
+            let trainingGains = CalculateCrossTrainingGain(gains, weights, card, selectedCards, training, daysOnThisTraining, typeCount, false);
+            
+            for (let stat = 0; stat < 6; stat ++) {
+                statGains[stat] += trainingGains[stat];
+                info.non_rainbow_gains[stat] += trainingGains[stat];
+            }
+            info.non_rainbow_gains[6] += (daysOnThisTraining * gains[6] * card.energy_discount);
+        }
+
+        // Stats from cross-training while bonded
+        for (let training = 0; training < 5; training ++) {
+            let gains = weights.trainingGain[training];
+            let daysOnThisTraining = bondedDaysPerTraining[training];
+            energyGain += daysOnThisTraining * gains[6] * card.energy_discount;
+
+            let trainingGains = CalculateCrossTrainingGain(gains, weights, card, selectedCards, training, daysOnThisTraining, typeCount, true);
             
             for (let stat = 0; stat < 6; stat ++) {
                 statGains[stat] += trainingGains[stat];
@@ -217,10 +234,11 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
     let trainingBonus = card.training_bonus;
     if (typeCount >= card.highlander_threshold) trainingBonus += card.highlander_training;
     let friendshipBonus = 1;
+    let motivationBonus = card.motivation_bonus;
     if (rainbow) {
         friendshipBonus = card.friendship_bonus * card.unique_friendship_bonus;
+        motivationBonus += card.friendship_motivation;
     }
-    let motivationBonus = card.motivation_bonus;
 
     for (let stat = 0; stat < 6; stat ++) {
         if (gains[stat] === 0) continue;
@@ -290,12 +308,11 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
     return trainingGains;
 }
 
-function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingType, days, typeCount) {
+function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingType, days, typeCount, bonded) {
     let trainingGains = [0,0,0,0,0,0,0];
     let statCards = otherCards.filter((c) => c.cardType === trainingType);
-    let trainingBonus = card.training_bonus + card.friendship_training;
+    let trainingBonus = card.training_bonus;
     if (typeCount >= card.highlander_threshold) trainingBonus += card.highlander_training;
-    let motivationBonus = card.motivation_bonus;
     const combinations = GetCombinations(otherCards);
 
     for (let i = 0; i < combinations.length; i++) {
@@ -328,14 +345,24 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
                 * combinationFriendshipBonus
                 * (1.05 * combination.length)
                 * weights.umaBonus[stat]);
-                
-            let totalGains = ((base + card.stat_bonus[stat])
-                * (combinationTrainingBonus + trainingBonus - 1)
-                * (1 + 0.2 * (combinationMotivationBonus + motivationBonus - 1))
-                * (combinationFriendshipBonus)
-                * (1.05 * (combination.length + 1))
-                * weights.umaBonus[stat]);
             
+            let totalGains = 0;
+            if (bonded) {
+                totalGains = ((base + card.stat_bonus[stat] + card.friendship_stats[stat])
+                    * (combinationTrainingBonus + trainingBonus + card.friendship_training - 1)
+                    * (1 + 0.2 * (combinationMotivationBonus + card.motivation_bonus + card.friendship_motivation - 1))
+                    * (combinationFriendshipBonus)
+                    * (1.05 * (combination.length + 1))
+                    * weights.umaBonus[stat]);
+            } else {
+                totalGains = ((base + card.stat_bonus[stat])
+                    * (combinationTrainingBonus + trainingBonus - 1)
+                    * (1 + 0.2 * (combinationMotivationBonus + card.motivation_bonus - 1))
+                    * (combinationFriendshipBonus)
+                    * (1.05 * (combination.length + 1))
+                    * weights.umaBonus[stat]);
+            }
+
             trainingGains[stat] += (totalGains - combinationGains) * days * CalculateCombinationChance(combination, otherCards, trainingType);
         }
     }
