@@ -6,69 +6,100 @@ import PowerIcon from '../icons/utx_ico_obtain_02.png';
 import GutsIcon from '../icons/utx_ico_obtain_03.png';
 import WisdomIcon from '../icons/utx_ico_obtain_04.png';
 import FriendIcon from '../icons/utx_ico_obtain_05.png';
+import { lsTest } from '../utils';
+
+function defaultState() {
+    return {
+        version: 1,
+        currentState: "speed",
+        show: false,
+        general: {
+            bondPerDay: 2.5,
+            races: [10,10,5,3],
+            trainingGain: [
+                [10,0,4,0,0,2,21],
+                [0,9,0,3,0,2,19],
+                [0,4,8,0,0,2,20],
+                [3,0,3,8,0,2,22],
+                [2,0,0,0,8,3,0]
+            ],
+            umaBonus: [1,1,1,1,1,1],
+        },
+        speed: {
+            type: 0,
+            stats: [1,1,1.1,1,1,0.5,1],
+            cap:400,
+            importance: 0.8
+        },
+        stamina: {
+            type: 1,
+            stats: [1,1,1,1.1,1,0.5,1],
+            cap:400,
+            importance: 0.66
+        },
+        power: {
+            type: 2,
+            stats: [1,1.1,1,1,1,0.5,1],
+            cap:400,
+            importance: 0.66
+        },
+        guts: {
+            type: 3,
+            stats: [2,1,2,1,1,0.5,1],
+            cap:400,
+            importance: 0.8
+        },
+        wisdom: {
+            type: 4,
+            stats: [1.1,1,1,1,1,0.5,1],
+            cap:400,
+            importance: 0.8
+        },
+        friend: {
+            type: 6,
+            stats: [1,1,1,1,1,0.5,1],
+            cap:400,
+            importance: 1
+        }
+    }
+}
 
 class Weights extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            currentState: "speed",
-            show: false,
-            general: {
-                bondPerDay: 2.5,
-                races: [10,10,5,3],
-                trainingGain: [
-                    [10,0,4,0,0,2,21],
-                    [0,9,0,3,0,2,19],
-                    [0,4,8,0,0,2,20],
-                    [3,0,3,8,0,2,22],
-                    [2,0,0,0,8,3,0]
-                ],
-                umaBonus: [1,1,1,1,1,1],
-            },
-            speed: {
-                type: 0,
-                stats: [1,1,1.1,1,1,0.5,1],
-                cap:400,
-                importance: 0.8
-            },
-            stamina: {
-                type: 1,
-                stats: [1,1,1,1.1,1,0.5,1],
-                cap:400,
-                importance: 0.66
-            },
-            power: {
-                type: 2,
-                stats: [1,1.1,1,1,1,0.5,1],
-                cap:400,
-                importance: 0.66
-            },
-            guts: {
-                type: 3,
-                stats: [2,1,2,1,1,0.5,1],
-                cap:400,
-                importance: 0.8
-            },
-            wisdom: {
-                type: 4,
-                stats: [1.1,1,1,1,1,0.5,1],
-                cap:400,
-                importance: 0.8
-            },
-            friend: {
-                type: 6,
-                stats: [1,1,1,1,1,0.5,1],
-                cap:400,
-                importance: 1
-            }
-        };
-
+        
         this.onSettingChanged = this.onSettingChanged.bind(this);
         this.onGeneralSettingChanged = this.onGeneralSettingChanged.bind(this);
         this.onTypeChanged = this.onTypeChanged.bind(this);
         this.onCapChanged = this.onCapChanged.bind(this);
         this.onToggleWeights = this.onToggleWeights.bind(this);
-        this.props.onChange(this.state.speed, this.state.general);
+        this.onReset = this.onReset.bind(this);
+
+        if(lsTest()) {
+            let savedWeights = window.localStorage.getItem("weights");
+            if (savedWeights !== null) {
+                savedWeights = JSON.parse(savedWeights);
+                if (savedWeights.version == defaultState.version) {
+                    this.state = savedWeights;
+                    return this.props.onChange(this.state[this.state.currentState], this.state.general);
+                }
+            }
+        }
+
+        this.state = defaultState();
+        this.props.onChange(this.state[this.state.currentState], this.state.general);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(lsTest()) {
+            window.localStorage.setItem("weights", JSON.stringify(this.state));
+        }
+    }
+
+    onReset() {
+        let newState = defaultState();
+        this.setState(newState);
+        this.props.onChange(newState[newState.currentState], newState.general);
     }
 
     onSettingChanged(event, numberString, numberInput) {
@@ -157,6 +188,9 @@ class Weights extends React.Component {
                 {
                     this.state.show &&
                     <>
+                    <div className="weight-row">
+                    <button id="reset-weights" type="button" onClick={this.onReset}>Reset to Defaults</button>
+                    </div>
                     <div className="weight-row">
                         <div class="section-header">Bond Rate</div>
                         <div class="section-explanation">

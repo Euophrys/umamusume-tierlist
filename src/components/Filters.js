@@ -1,17 +1,26 @@
 import React from 'react';
 import cards from '../cards';
+import { lsTest } from '../utils';
 
 class Filters extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            general: true,
             ssr:[true,false,true,false,true],
             sr:[true,false,true,false,true],
             r: [false,false,false,false,true],
         };
 
         this.onSettingChanged = this.onSettingChanged.bind(this);
+
+        if(lsTest()) {
+            let savedFilters = window.localStorage.getItem("filters");
+            if (savedFilters !== null) {
+                savedFilters = JSON.parse(savedFilters);
+                this.state = savedFilters;
+            }
+        }
+
         let availableCards = cards.filter((c) => {
             if (c.rarity === 1) {
                 return this.state.r[c.limit_break]
@@ -22,6 +31,12 @@ class Filters extends React.Component {
             }
         });
         this.props.onCardsChanged(availableCards);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(lsTest()) {
+            window.localStorage.setItem("filters", JSON.stringify(this.state));
+        }
     }
 
     onSettingChanged(event, numberString, numberInput) {
@@ -84,16 +99,11 @@ class Filters extends React.Component {
         
         return (
             <div className="filters">
-                {
-                this.state.general ? 
                 <div className="general-filters">
                     <table>
                         {rows}
                     </table>
-                </div> 
-                : 
-                <div className="specific-filters"></div>
-                }
+                </div>
             </div>
         );
     }

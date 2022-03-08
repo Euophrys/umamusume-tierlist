@@ -12,6 +12,7 @@ const type_to_icon = [
     PowerIcon,
     GutsIcon,
     WisdomIcon,
+    "",
     FriendIcon,
 ]
 
