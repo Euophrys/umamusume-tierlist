@@ -34,7 +34,7 @@ class Filters extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(lsTest()) {
+        if(prevState && prevState !== this.state && lsTest()) {
             window.localStorage.setItem("filters", JSON.stringify(this.state));
         }
     }

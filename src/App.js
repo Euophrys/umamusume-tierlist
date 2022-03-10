@@ -40,8 +40,6 @@ class App extends React.Component {
             availableCards: cards,
             label: "Ranking for the 4th Speed card in this deck:"
         }
-        
-        console.log(JSON.stringify(this.state));
 
         this.onWeightsChanged = this.onWeightsChanged.bind(this);
         this.onCardSelected = this.onCardSelected.bind(this);

@@ -10,7 +10,7 @@ import { lsTest } from '../utils';
 
 function defaultState() {
     return {
-        version: 1,
+        version: 3,
         currentState: "speed",
         show: false,
         general: {
@@ -24,42 +24,43 @@ function defaultState() {
                 [2,0,0,0,8,3,0]
             ],
             umaBonus: [1,1,1,1,1,1],
+            multi: 1.4,
         },
         speed: {
             type: 0,
             stats: [1,1,1.1,1,1,0.5,1],
-            cap:400,
-            importance: 0.8
+            cap:350,
+            minimum: 50,
         },
         stamina: {
             type: 1,
             stats: [1,1,1,1.1,1,0.5,1],
-            cap:400,
-            importance: 0.66
+            cap:350,
+            minimum: 40,
         },
         power: {
             type: 2,
             stats: [1,1.1,1,1,1,0.5,1],
-            cap:400,
-            importance: 0.66
+            cap:350,
+            minimum: 50,
         },
         guts: {
             type: 3,
             stats: [2,1,2,1,1,0.5,1],
-            cap:400,
-            importance: 0.8
+            cap:350,
+            minimum: 50,
         },
         wisdom: {
             type: 4,
             stats: [1.1,1,1,1,1,0.5,1],
-            cap:400,
-            importance: 0.8
+            cap:350,
+            minimum: 40,
         },
         friend: {
             type: 6,
             stats: [1,1,1,1,1,0.5,1],
-            cap:400,
-            importance: 1
+            cap:350,
+            minimum: 40,
         }
     }
 }
@@ -72,6 +73,7 @@ class Weights extends React.Component {
         this.onGeneralSettingChanged = this.onGeneralSettingChanged.bind(this);
         this.onTypeChanged = this.onTypeChanged.bind(this);
         this.onCapChanged = this.onCapChanged.bind(this);
+        this.onMinimumChanged = this.onMinimumChanged.bind(this);
         this.onToggleWeights = this.onToggleWeights.bind(this);
         this.onReset = this.onReset.bind(this);
 
@@ -91,7 +93,7 @@ class Weights extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(lsTest()) {
+        if(prevState && prevState !== this.state && lsTest()) {
             window.localStorage.setItem("weights", JSON.stringify(this.state));
         }
     }
@@ -167,6 +169,15 @@ class Weights extends React.Component {
         this.props.onChange(settings, this.state.general);
     }
 
+    onMinimumChanged(event) {
+        let settings = this.state[this.state.currentState];
+        settings.minimum = event.target.value;
+        let newSettings = {};
+        newSettings[this.state.currentState] = settings;
+        this.setState(newSettings);
+        this.props.onChange(settings, this.state.general);
+    }
+
     onToggleWeights(event) {
         this.setState({show: !this.state.show});
     }
@@ -212,6 +223,15 @@ class Weights extends React.Component {
                         <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="races.2" value={this.state.general.races[2]} min={0} max={30} step={1}/>
                     </div>
                     <div className="weight-row">
+                        <div class="section-header">Rainbow Multiplier</div>
+                        <div class="section-explanation">
+                            A multiplier on the stat gains from friendship training, to account for MANT items.<br/>
+                            Set to 1 for URA/Aoharu. Raising this will make starting stats less important.
+                        </div>
+                        <label for="bondPerDay">Multiplier:</label>
+                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="multi" value={this.state.general.multi} min={1} max={2.2} step={0.05}/>
+                    </div>
+                    <div className="weight-row">
                         <div class="section-header">Stat Weights</div>
                         <div class="section-explanation">
                             How much score each point of the given stat/resource gives.
@@ -237,8 +257,18 @@ class Weights extends React.Component {
                             This will cap the stat gain, penalizing cards that only raise one stat.<br/>
                             Lower this if you tend to cap your stats very early to strengthen cards that raise multiple.
                         </div>
-                        <input type="range" onChange={this.onCapChanged} min={200} max={600} value={this.state[this.state.currentState].cap} class="slider" id="cap"/>
+                        <input type="range" onChange={this.onCapChanged} min={200} max={500} step={10} value={this.state[this.state.currentState].cap} class="slider" id="cap"/>
                         <label for="cap">{this.state[this.state.currentState].cap}</label>
+                    </div>
+                    <div className="weight-row">
+                        <div class="section-header">Minimum Training Value</div>
+                        <div class="section-explanation">
+                            Any training combination that gives less than this will be ignored.<br/>
+                            Increase this to ignore trainings you wouldn't do, such as lone rainbows.<br/>
+                            Solo MLB Kitasan rainbow is about 40, depending on the weights, for reference.
+                        </div>
+                        <input type="range" onChange={this.onMinimumChanged} min={20} max={100} step={5} value={this.state[this.state.currentState].minimum} class="slider" id="minimum"/>
+                        <label for="minimum">{this.state[this.state.currentState].minimum}</label>
                     </div>
                     </>
                 }

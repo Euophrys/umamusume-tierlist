@@ -203,17 +203,8 @@ function processCards(cards, weights, selectedCards) {
         }
 
         // Convert stat gains to score
-        let score = 0;
-        for (let stat = 0; stat < 6; stat ++) {
-            score += Math.min(statGains[stat], weights.cap) * weights.stats[stat];
-        }
+        let score = GainsToScore(statGains, weights);
         score += energyGain * weights.stats[6];
-
-        if (scenarioLink.indexOf(card.char_name) > -1) {
-            // 10 stats from the better event, 10 stats from the better explosion
-            score += 20;
-            info.is_scenario_link = true;
-        }
 
         processedCards.push({
             id: card.id,
@@ -240,6 +231,7 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
         motivationBonus += card.friendship_motivation;
     }
 
+    let soloGain = [0,0,0,0,0,0];
     for (let stat = 0; stat < 6; stat ++) {
         if (gains[stat] === 0) continue;
 
@@ -247,15 +239,21 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
         if (rainbow) {
             base += card.friendship_stats[stat];
         }
-        trainingGains[stat] += (base 
+        soloGain[stat] += (base 
             * trainingBonus
             * (1 + 0.2 * motivationBonus)
             * friendshipBonus
             * 1.05
             * weights.umaBonus[stat]
-            - gains[stat])
-            * days
-            * CalculateCombinationChance([], otherCards, trainingType);
+            - gains[stat]);
+    }
+    if (GainsToScore(soloGain, weights) > weights.minimum) {
+        for (let stat = 0; stat < 6; stat ++) {
+            trainingGains[stat] += soloGain[stat]
+                * days
+                * CalculateCombinationChance([], otherCards, trainingType)
+                * (rainbow ? weights.multi : 1);
+        }
     }
     
     if (otherCards.length == 0) return trainingGains;
@@ -263,6 +261,8 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
     const combinations = GetCombinations(otherCards);
 
     for (let i = 0; i < combinations.length; i++) {
+        let fullCombinationGains = [0,0,0,0,0,0];
+        let fullTotalGains = [0,0,0,0,0,0];
         for (let stat = 0; stat < 6; stat ++) {
             if (gains[stat] === 0) continue;
 
@@ -301,7 +301,16 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
                 * (1.05 * (combinations[i].length + 1))
                 * weights.umaBonus[stat]);
             
-            trainingGains[stat] += (totalGains - combinationGains) * days * CalculateCombinationChance(combinations[i], otherCards, trainingType);
+            fullCombinationGains[stat] += combinationGains;
+            fullTotalGains[stat] += totalGains;
+        }
+        if (GainsToScore(fullTotalGains, weights) > weights.minimum) {
+            for (let stat = 0; stat < 6; stat ++) {
+                trainingGains[stat] += (fullTotalGains[stat] - fullCombinationGains[stat]) 
+                    * days
+                    * CalculateCombinationChance(combinations[i], otherCards, trainingType)
+                    * (rainbow ? weights.multi : 1);
+            }
         }
     }
 
@@ -316,6 +325,8 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
     const combinations = GetCombinations(otherCards);
 
     for (let i = 0; i < combinations.length; i++) {
+        let fullCombinationGains = [0,0,0,0,0,0];
+        let fullTotalGains = [0,0,0,0,0,0];
         for (let stat = 0; stat < 6; stat ++) {
             if (gains[stat] === 0) continue;
             const combination = combinations[i];
@@ -362,12 +373,29 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
                     * (1.05 * (combination.length + 1))
                     * weights.umaBonus[stat]);
             }
-
-            trainingGains[stat] += (totalGains - combinationGains) * days * CalculateCombinationChance(combination, otherCards, trainingType);
+            
+            fullCombinationGains[stat] += combinationGains;
+            fullTotalGains[stat] += totalGains;
+        }
+        if (GainsToScore(fullTotalGains, weights) > weights.minimum) {
+            for (let stat = 0; stat < 6; stat ++) {
+                trainingGains[stat] += (fullTotalGains[stat] - fullCombinationGains[stat]) 
+                    * days
+                    * CalculateCombinationChance(combinations[i], otherCards, trainingType)
+                    * weights.multi;
+            }
         }
     }
 
     return trainingGains;
+}
+
+function GainsToScore(gains, weights) {
+    let score = 0;
+    for (let stat = 0; stat < 6; stat ++) {
+        score += Math.min(gains[stat], weights.cap) * weights.stats[stat];
+    }
+    return score;
 }
 
 function GetCombinations(cards) {
