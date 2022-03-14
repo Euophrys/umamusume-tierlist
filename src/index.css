@@ -158,3 +158,8 @@ label {
     text-align: left;
     font-weight: bold;
 }
+
+.link {
+    margin-bottom: 10px;
+    margin-top:5px;
+}

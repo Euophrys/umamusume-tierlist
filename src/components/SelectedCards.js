@@ -66,6 +66,9 @@ function SelectedCards(props) {
                 You must have at least one card here for the tier list to work properly.
             </div>
             {cards}
+            <div class="link">
+                <a href={getEventHelperURL(props.selectedCards)} target="_blank">Open in Gametora Event Helper</a>
+            </div>
             <div>
                 Presets:
                 <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20023,20031,20024,20003])}>Speed/Power</button>
@@ -81,6 +84,19 @@ function SelectedCards(props) {
             </div>
         </div>
     );
+}
+
+function getEventHelperURL(selectedCards) {
+    let url = "https://gametora.com/umamusume/training-event-helper?deck=lflw-";
+
+    let ids = selectedCards.map(c => c.id);
+    while (ids.length < 6) ids.push(10000)
+
+    url += parseInt(`${ids[0]}${ids[1]}${ids[2]}`, 10).toString(36);
+    url += "-";
+    url += parseInt(`${ids[3]}${ids[4]}${ids[5]}`, 10).toString(36);
+
+    return url;
 }
 
 export default SelectedCards;

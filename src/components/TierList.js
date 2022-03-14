@@ -369,7 +369,6 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
                 totalGains = ((base + card.stat_bonus[stat])
                     * (combinationTrainingBonus + trainingBonus - 1)
                     * (1 + 0.2 * (combinationMotivationBonus + card.motivation_bonus - 1))
-                    * (combinationFriendshipBonus)
                     * (1.05 * (combination.length + 1))
                     * weights.umaBonus[stat]);
             }
