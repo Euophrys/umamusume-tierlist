@@ -7,6 +7,7 @@ dblocation = 'C:\\Users\\Erzz\\AppData\\LocalLow\\Cygames\\umamusume\\master\\ma
 class Card():
     id = 0
     type = 0
+    group = False
     limit_break = -1
     rarity = 0
     # Speed, Stamina, Power, Guts, Int
@@ -155,6 +156,7 @@ with sqlite3.connect(dblocation) as conn:
             current_card = Card()
             current_card.id = data[0]
             current_card.type = types[int(data[7])]
+            current_card.group = int(data[8]) == 3
             current_card.rarity = int(data[2])
             current_card.limit_break = i
             current_card.starting_stats = [0,0,0,0,0]
@@ -207,6 +209,8 @@ with sqlite3.connect(dblocation) as conn:
                             current_card.friendship_stats[1] += bonus_value
                         elif bonus_type == 7:
                             current_card.friendship_stats[4] += bonus_value
+                        elif bonus_type == 8:
+                            current_card.friendship_training += bonus_value / 100
                     else:
                         AddEffectToCard(current_card, type_0, int(unique[3 + u]))
             cards.append(current_card)

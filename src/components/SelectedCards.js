@@ -87,7 +87,7 @@ function SelectedCards(props) {
 }
 
 function getEventHelperURL(selectedCards) {
-    let url = "https://gametora.com/umamusume/training-event-helper?deck=lflw-";
+    let url = "https://gametora.com/umamusume/training-event-helper?deck=mp4y-";
 
     let ids = selectedCards.map(c => c.id);
     while (ids.length < 6) ids.push(10000)

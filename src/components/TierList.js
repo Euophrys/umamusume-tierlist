@@ -322,6 +322,10 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
     let statCards = otherCards.filter((c) => c.cardType === trainingType);
     let trainingBonus = card.training_bonus;
     if (typeCount >= card.highlander_threshold) trainingBonus += card.highlander_training;
+    let friendshipBonus = 1;
+    if (card.group && bonded) {
+        friendshipBonus = card.friendship_bonus + card.unique_friendship_bonus;
+    }
     const combinations = GetCombinations(otherCards);
 
     for (let i = 0; i < combinations.length; i++) {
@@ -362,7 +366,7 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
                 totalGains = ((base + card.stat_bonus[stat] + card.friendship_stats[stat])
                     * (combinationTrainingBonus + trainingBonus + card.friendship_training - 1)
                     * (1 + 0.2 * (combinationMotivationBonus + card.motivation_bonus + card.friendship_motivation - 1))
-                    * (combinationFriendshipBonus)
+                    * (combinationFriendshipBonus * friendshipBonus)
                     * (1.05 * (combination.length + 1))
                     * weights.umaBonus[stat]);
             } else {
