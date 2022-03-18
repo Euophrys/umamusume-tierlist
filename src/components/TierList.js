@@ -174,6 +174,10 @@ function processCards(cards, weights, selectedCards) {
                 info.non_rainbow_gains[stat] += trainingGains[stat];
             }
             info.non_rainbow_gains[6] += (daysOnThisTraining * gains[6] * card.energy_discount);
+
+            if (training == 5 && card.group) {
+                energyGain += daysOnThisTraining * card.wisdom_recovery;
+            }
         }
 
         info.rainbow_gains = [0,0,0,0,0,0,0];
