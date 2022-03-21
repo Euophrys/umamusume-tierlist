@@ -50,9 +50,7 @@ class App extends React.Component {
 
     onWeightsChanged(statWeights, generalWeights) {
         let combinedWeights = {...statWeights, ...generalWeights};
-        this.setState({weights: combinedWeights}, () => {
-            this.updateLabel();
-        });
+        this.setState({weights: combinedWeights});
     }
 
     onCardSelected(card) {
@@ -66,9 +64,7 @@ class App extends React.Component {
             cards.push(card);
         }
 
-        this.setState({selectedCards:cards}, () => {
-            this.updateLabel();
-        });
+        this.setState({selectedCards:cards});
     }
 
     onCardRemoved(card) {
@@ -76,22 +72,11 @@ class App extends React.Component {
         let cards = this.state.selectedCards.slice();
         let cardIndex = cards.findIndex((c) => c.id === card.id);
         cards.splice(cardIndex, 1);
-        this.setState({selectedCards:cards}, () => {
-            this.updateLabel();
-        });
+        this.setState({selectedCards:cards});
     }
 
     onCardsChanged(cards) {
-        this.setState({availableCards: cards}, () => {
-            this.updateLabel();
-        });
-    }
-
-    updateLabel() {
-        let count = this.state.selectedCards.filter((c) => c.type == this.state.weights.type).length;
-        this.setState({
-            label: `Ranking for the ${ordinal[count]} ${type_names[this.state.weights.type]} card in this deck:`
-        })
+        this.setState({availableCards: cards});
     }
 
     onLoadPreset(presetCards) {
@@ -99,9 +84,7 @@ class App extends React.Component {
         for(let i = 0; i < presetCards.length; i++) {
             selectedCards.push(cards.find((c) => c.id === presetCards[i] && c.limit_break === 4));
         }
-        this.setState({selectedCards:selectedCards}, () => {
-            this.updateLabel();
-        });
+        this.setState({selectedCards:selectedCards});
     }
 
     render() {
@@ -124,7 +107,6 @@ class App extends React.Component {
                 <Filters
                     onCardsChanged={this.onCardsChanged}
                     />
-                <span class="label">{this.state.label}</span>
                 <TierList 
                     cards={this.state.availableCards}
                     weights={this.state.weights}

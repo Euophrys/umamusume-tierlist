@@ -42,6 +42,31 @@ code {
     text-shadow: -1px -1px 0 #f5f0eb, 1px -1px 0 #f5f0eb, -1px 1px 0 #f5f0eb, 1px 1px 0 #f5f0eb;
 }
 
+.stat-1 {
+    position:absolute;
+    top:20px;
+    right:10px;
+    font-size: 0.75em;
+    color:yellow;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.stat-2 {
+    position:absolute;
+    top:35px;
+    right:10px;
+    font-size: 0.75em;
+    color:yellow;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.stat-3 {
+    position:absolute;
+    top:50px;
+    right:10px;
+    font-size: 0.75em;
+    color:yellow;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
 .type-icon {
     position:absolute;
     top:5px;
@@ -162,4 +187,22 @@ label {
 .link {
     margin-bottom: 10px;
     margin-top:5px;
+}
+
+.selectors {
+    display:flex;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+.select {
+    width:25%;
+    flex:1;
+}
+
+.selectLabel {
+    text-align: center;
+    vertical-align: center;
+    padding-right:10px;
+    padding-top:6px;
 }

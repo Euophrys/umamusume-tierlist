@@ -1,61 +1,117 @@
 import React from 'react';
 import SupportCard from './SupportCard';
 import events from '../card-events';
+import { supportCardProperties } from '../constants';
+import Select from 'react-select';
 
-function TierList(props) {
-    let cards = props.cards;
+const ordinal = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th"];
+const type_names = ["Speed", "Stamina", "Power", "Guts", "Wisdom", "", "Friend"];
 
-    if(props.weights.type > -1) {
-        cards = cards.filter(e => e.type === props.weights.type);
-    }
+class TierList extends React.Component {
+    constructor (props) {
+        super(props);
 
-    let processedCards = processCards(cards, props.weights, props.selectedCards);
-
-    if (processedCards.length === 0) {
-        return <div className="tier-list"></div>;
-    }
-
-    let rows = [[]];
-    let current_row = 0;
-    let step = (processedCards[0].score - processedCards[processedCards.length - 1].score) / 7;
-    let boundary = processedCards[0].score - step;
-
-    for (let i = 0; i < processedCards.length; i++) {
-        while (processedCards[i].score < boundary - 1) {
-            rows.push([]);
-            current_row++;
-            boundary -= step;
+        this.state = {
+            dropdownSelections: ["none","none","none"]
         }
 
-        rows[current_row].push((
-            <SupportCard
-                id={processedCards[i].id}
-                lb={processedCards[i].lb}
-                score={processedCards[i].score}
-                key={processedCards[i].id + "LB" + processedCards[i].lb}
-                info={processedCards[i].info}
-                charName={processedCards[i].char_name}
-                onClick={() => props.cardSelected(cards.find((c) => c.id === processedCards[i].id && c.limit_break === processedCards[i].lb))}
-            />
-        ));
+        this.onDropdown1Changed = this.onDropdown1Changed.bind(this);
+        this.onDropdown2Changed = this.onDropdown2Changed.bind(this);
+        this.onDropdown3Changed = this.onDropdown3Changed.bind(this);
     }
 
-    let tiers = [];
+    //lmao
+    onDropdown1Changed(newValue) {
+        let newSelections = this.state.dropdownSelections.slice();
+        newSelections[0] = newValue.value;
+        console.log(newValue);
+        this.setState({dropdownSelections:newSelections});
+    }
+    onDropdown2Changed(newValue) {
+        let newSelections = this.state.dropdownSelections.slice();
+        newSelections[1] = newValue.value;
+        this.setState({dropdownSelections:newSelections});
+    }
+    onDropdown3Changed(newValue) {
+        let newSelections = this.state.dropdownSelections.slice();
+        newSelections[2] = newValue.value;
+        this.setState({dropdownSelections:newSelections});
+    }
 
-    for (let i = 0; i < 7; i++) {
-        tiers.push(
-            <div className="tier" key={tierNames[i]}>
-                <div className="tier-letter">{tierNames[i]}</div>
-                <div className="tier-images">{rows[i]}</div>
+    render() {
+        let cards = this.props.cards;
+    
+        if(this.props.weights.type > -1) {
+            cards = cards.filter(e => e.type === this.props.weights.type);
+        }
+    
+        let processedCards = processCards(cards, this.props.weights, this.props.selectedCards);
+    
+        if (processedCards.length === 0) {
+            return <div className="tier-list"></div>;
+        }
+    
+        let rows = [[]];
+        let current_row = 0;
+        let step = (processedCards[0].score - processedCards[processedCards.length - 1].score) / 7;
+        let boundary = processedCards[0].score - step;
+    
+        for (let i = 0; i < processedCards.length; i++) {
+            while (processedCards[i].score < boundary - 1) {
+                rows.push([]);
+                current_row++;
+                boundary -= step;
+            }
+    
+            rows[current_row].push((
+                <SupportCard
+                    id={processedCards[i].id}
+                    lb={processedCards[i].lb}
+                    score={processedCards[i].score}
+                    key={processedCards[i].id + "LB" + processedCards[i].lb}
+                    info={processedCards[i].info}
+                    charName={processedCards[i].char_name}
+                    card={cards.find((c) => c.id === processedCards[i].id && c.limit_break === processedCards[i].lb)}
+                    onClick={() => this.props.cardSelected(cards.find((c) => c.id === processedCards[i].id && c.limit_break === processedCards[i].lb))}
+                    stats={this.state.dropdownSelections}
+                />
+            ));
+        }
+    
+        let tiers = [];
+    
+        for (let i = 0; i < 7; i++) {
+            tiers.push(
+                <div className="tier" key={tierNames[i]}>
+                    <div className="tier-letter">{tierNames[i]}</div>
+                    <div className="tier-images">{rows[i]}</div>
+                </div>
+            )
+        }
+    
+        let count = this.props.selectedCards.filter((c) => c.type == this.props.weights.type).length;
+        let dropdownOptions = [{value:"none", label:"None"}];
+        let properties = Object.keys(supportCardProperties).sort();
+        for (let i = 0; i < properties.length; i++) {
+            dropdownOptions.push({
+                value:properties[i],
+                label:supportCardProperties[properties[i]].friendly_name
+            });
+        }
+    
+        return (
+            <div className="tier-list">
+                <div className="selectors">
+                    <span className="selectLabel">Show Stats:</span>
+                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown1Changed} defaultValue={{value:"none", label:"None"}}/>
+                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown2Changed} defaultValue={{value:"none", label:"None"}}/>
+                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown3Changed} defaultValue={{value:"none", label:"None"}}/>
+                </div>
+                <span className="label">Ranking for the {ordinal[count]} {type_names[this.props.weights.type]} card in this deck:</span>
+                {tiers}
             </div>
-        )
+        );
     }
-
-    return (
-        <div className="tier-list">
-            {tiers}
-        </div>
-    );
 }
 
 const tierNames = ['S', 'A', 'B', 'C', 'D', 'E', 'F']
