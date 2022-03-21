@@ -87,7 +87,7 @@ function processCards(cards, weights, selectedCards) {
         let info = {};
         let card = cards[i];
         let cardType = card.type;
-        let bondNeeded = 80 - card.starting_bond;
+        let bondNeeded = 75 - card.starting_bond;
         let presentTypesWithCard = presentTypes.slice();
         presentTypesWithCard[cardType] = true;
 

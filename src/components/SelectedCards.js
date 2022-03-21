@@ -18,10 +18,12 @@ const type_to_icon = [
 
 function SelectedCards(props) {
     let cards = [];
+    let raceBonus = 0;
     
     for (let i = 0; i < props.selectedCards.length; i++) {
         let lit_up = "";
         let dark = "";
+        raceBonus += props.selectedCards[i].race_bonus;
 
         for(let j = 0; j < 4; j++) {
             if (j < props.selectedCards[i].limit_break) {
@@ -66,6 +68,9 @@ function SelectedCards(props) {
                 You must have at least one card here for the tier list to work properly.
             </div>
             {cards}
+            <div>
+                Total Race Bonus: <b>{raceBonus}</b> <i>(aim for 35 for URA/Aoharu, 50 for MANT)</i>
+            </div>
             <div class="link">
                 <a href={getEventHelperURL(props.selectedCards)} target="_blank">Open in Gametora Event Helper</a>
             </div>
