@@ -10,7 +10,7 @@ import { lsTest } from '../utils';
 
 function defaultState() {
     return {
-        version: 3,
+        version: 4,
         currentState: "speed",
         show: false,
         general: {
@@ -25,6 +25,7 @@ function defaultState() {
             ],
             umaBonus: [1,1,1,1,1,1],
             multi: 1.4,
+            motivation: 0.2
         },
         speed: {
             type: 0,
@@ -75,6 +76,7 @@ class Weights extends React.Component {
         this.onCapChanged = this.onCapChanged.bind(this);
         this.onMinimumChanged = this.onMinimumChanged.bind(this);
         this.onToggleWeights = this.onToggleWeights.bind(this);
+        this.onMotivationChanged = this.onMotivationChanged.bind(this);
         this.onReset = this.onReset.bind(this);
 
         if(lsTest()) {
@@ -149,6 +151,15 @@ class Weights extends React.Component {
         newSettings.general = settings;
         this.setState(newSettings);
 
+        this.props.onChange(this.state[this.state.currentState], settings);
+    }
+
+    onMotivationChanged(event) {
+        let settings = this.state.general;
+        settings.motivation = event.target.value;
+        let newSettings = {};
+        newSettings.general = settings;
+        this.setState(newSettings);
         this.props.onChange(this.state[this.state.currentState], settings);
     }
 
@@ -250,6 +261,14 @@ class Weights extends React.Component {
                         <NumericInput onChange={this.onSettingChanged} type="number" id="stats.5" value={this.state[this.state.currentState].stats[5]} min={0} max={3} step={0.1}/>
                         <label for="stats.6">Energy</label>
                         <NumericInput onChange={this.onSettingChanged} type="number" id="stats.6" value={this.state[this.state.currentState].stats[6]} min={0} max={3} step={0.1}/>
+                    </div>
+                    <div className="weight-row">
+                        <div class="section-header">Average Motivation</div>
+                        <div class="section-explanation">
+                            You get 10% per motivation stage. This affects Motivation Bonus.
+                        </div>
+                        <input type="range" onChange={this.onMotivationChanged} min={-0.2} max={0.2} step={0.05} value={this.state.general.motivation} class="slider" id="motivation"/>
+                        <label for="minimum">{this.state.general.motivation * 100}%</label>
                     </div>
                     <div className="weight-row">
                         <div class="section-header">Stat Cap</div>

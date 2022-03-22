@@ -301,7 +301,7 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
         }
         soloGain[stat] += (base 
             * trainingBonus
-            * (1 + 0.2 * motivationBonus)
+            * (1 + weights.motivation * motivationBonus)
             * friendshipBonus
             * 1.05
             * weights.umaBonus[stat]
@@ -349,14 +349,14 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
 
             let combinationGains = (base 
                 * combinationTrainingBonus
-                * (1 + 0.2 * combinationMotivationBonus)
+                * (1 + weights.motivation * combinationMotivationBonus)
                 * combinationFriendshipBonus
                 * (1.05 * combinations[i].length)
                 * weights.umaBonus[stat]);
                 
             let totalGains = ((base + card.stat_bonus[stat])
                 * (combinationTrainingBonus + trainingBonus - 1)
-                * (1 + 0.2 * (combinationMotivationBonus + motivationBonus - 1))
+                * (1 + weights.motivation * (combinationMotivationBonus + motivationBonus - 1))
                 * (combinationFriendshipBonus * friendshipBonus)
                 * (1.05 * (combinations[i].length + 1))
                 * weights.umaBonus[stat]);
@@ -416,7 +416,7 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
 
             let combinationGains = (base 
                 * combinationTrainingBonus
-                * (1 + 0.2 * combinationMotivationBonus)
+                * (1 + weights.motivation * combinationMotivationBonus)
                 * combinationFriendshipBonus
                 * (1.05 * combination.length)
                 * weights.umaBonus[stat]);
@@ -425,14 +425,14 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
             if (bonded) {
                 totalGains = ((base + card.stat_bonus[stat] + card.friendship_stats[stat])
                     * (combinationTrainingBonus + trainingBonus + card.friendship_training - 1)
-                    * (1 + 0.2 * (combinationMotivationBonus + card.motivation_bonus + card.friendship_motivation - 1))
+                    * (1 + weights.motivation * (combinationMotivationBonus + card.motivation_bonus + card.friendship_motivation - 1))
                     * (combinationFriendshipBonus * friendshipBonus)
                     * (1.05 * (combination.length + 1))
                     * weights.umaBonus[stat]);
             } else {
                 totalGains = ((base + card.stat_bonus[stat])
                     * (combinationTrainingBonus + trainingBonus - 1)
-                    * (1 + 0.2 * (combinationMotivationBonus + card.motivation_bonus - 1))
+                    * (1 + weights.motivation * (combinationMotivationBonus + card.motivation_bonus - 1))
                     * (1.05 * (combination.length + 1))
                     * weights.umaBonus[stat]);
             }
