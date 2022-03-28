@@ -10,12 +10,12 @@ import { lsTest } from '../utils';
 
 function defaultState() {
     return {
-        version: 4,
+        version: 5,
         currentState: "speed",
         show: false,
         general: {
-            bondPerDay: 2.5,
-            races: [10,10,5,3],
+            bondPerDay: 20,
+            races: [10,15,2,3],
             trainingGain: [
                 [10,0,4,0,0,2,21],
                 [0,9,0,3,0,2,19],
@@ -216,10 +216,11 @@ class Weights extends React.Component {
                     <div className="weight-row">
                         <div class="section-header">Bond Rate</div>
                         <div class="section-explanation">
-                            The fewer bond per turn, the more Starting Bond matters.
+                            The fewer bond per turn, the more Starting Bond matters.<br/>
+                            This is the bond over every card, so 14 = two cards per day, etc.
                         </div>
                         <label for="bondPerDay">Bond Gained per Turn:</label>
-                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="bondPerDay" value={this.state.general.bondPerDay} min={1} max={9} step={0.25}/>
+                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="bondPerDay" value={this.state.general.bondPerDay} min={1} max={50} step={0.1}/>
                     </div>
                     <div className="weight-row">
                         <div class="section-header">Optional Races</div>

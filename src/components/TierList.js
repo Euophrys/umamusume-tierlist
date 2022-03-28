@@ -130,20 +130,32 @@ function processCards(cards, weights, selectedCards) {
     
     // Calculate some stuff here so we don't have to do it a million times later
     let presentTypes = [false,false,false,false,false,false,false]
+    let baseBondNeeded = 0;
     for (let card = 0; card < selectedCards.length; card++) {
-        let cardSpecialty = (100 + selectedCards[card].specialty_rate) * selectedCards[card].unique_specialty;
+        let selectedCard = selectedCards[card];
+        let cardSpecialty = (100 + selectedCard.specialty_rate) * selectedCard.unique_specialty;
         let cardSpecialtyPercent = (cardSpecialty) / (450 + cardSpecialty)
-        selectedCards[card].rainbowSpecialty = cardSpecialtyPercent;
-        selectedCards[card].offSpecialty = 100 / (450 + cardSpecialty);
-        selectedCards[card].cardType = selectedCards[card].type;
-        presentTypes[selectedCards[card].cardType] = true;
+        selectedCard.rainbowSpecialty = cardSpecialtyPercent;
+        selectedCard.offSpecialty = 100 / (450 + cardSpecialty);
+        selectedCard.cardType = selectedCard.type;
+        presentTypes[selectedCard.cardType] = true;
+        if (selectedCard.cardType == 6) {
+            baseBondNeeded += 55 - selectedCard.starting_bond
+        } else {
+            baseBondNeeded += 75 - selectedCard.starting_bond
+        }
     }
 
     for (let i = 0; i < cards.length; i++) {
         let info = {};
         let card = cards[i];
         let cardType = card.type;
-        let bondNeeded = 75 - card.starting_bond;
+        let bondNeeded = baseBondNeeded;
+        if (cardType == 6) {
+            bondNeeded += 55 - card.starting_bond
+        } else {
+            bondNeeded += 75 - card.starting_bond
+        }
         let presentTypesWithCard = presentTypes.slice();
         presentTypesWithCard[cardType] = true;
 
