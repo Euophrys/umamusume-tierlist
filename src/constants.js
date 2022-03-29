@@ -3,19 +3,19 @@ export const supportCardProperties = {
         friendly_name: "Race Bonus",
         shorthand: "RB"
     },
-    training_bonus: {
+    tb: {
         friendly_name: "Training Bonus",
         shorthand: "TB"
     },
-    friendship_bonus: {
+    fs_bonus: {
         friendly_name: "Friendship Bonus",
         shorthand: "FB"
     },
-    motivation_bonus: {
+    mb: {
         friendly_name: "Motivation Bonus",
         shorthand: "MB"
     },
-    starting_bond: {
+    sb: {
         friendly_name: "Starting Bond",
         shorthand: "SB"
     },

@@ -19,9 +19,9 @@ function SupportCard(props) {
         let stat = props.stats[i];
         if (stat == "none") continue;
         let value = props.card[stat];
-        if (stat == "friendship_bonus") {
+        if (stat == "fs_bonus") {
             console.log("pre: " + value);
-            value *= props.card["unique_friendship_bonus"];
+            value *= props.card["unique_fs_bonus"];
             console.log(value);
         } else if (stat == "specialty_rate") {
             value = (value + 100) * props.card["unique_specialty"] - 100;

@@ -12,19 +12,21 @@ class Card():
     rarity = 0
     # Speed, Stamina, Power, Guts, Int
     starting_stats = []
+    type_stats = 0
     race_bonus = 0
-    starting_bond = 0
+    sb = 0
     # Speed, Stamina, Power, Guts, Int, Skill Points
     stat_bonus = []
     specialty_rate = 0
     unique_specialty = 1
-    training_bonus = 0
-    friendship_bonus = 0
-    motivation_bonus = 0
-    unique_friendship_bonus = 0
-    friendship_stats = []
-    friendship_training = 0
-    friendship_motivation = 0
+    tb = 0
+    fs_bonus = 0
+    mb = 0
+    unique_fs_bonus = 0
+    fs_stats = []
+    fs_training = 0
+    fs_motivation = 0
+    fs_ramp=[0,0]
     hint_rate = 0
     wisdom_recovery = 0
     effect_size_up = 0
@@ -74,9 +76,9 @@ def GetValue(data, lb, rarity):
 
 def AddEffectToCard(card, effect_type, effect_value):
     if effect_type == 1: 
-        card.friendship_bonus += effect_value / 100
+        card.fs_bonus += effect_value / 100
     elif effect_type == 2:
-        card.motivation_bonus += effect_value / 100
+        card.mb += effect_value / 100
     elif effect_type == 3:
         card.stat_bonus[0] += effect_value
     elif effect_type == 4:
@@ -88,7 +90,7 @@ def AddEffectToCard(card, effect_type, effect_value):
     elif effect_type == 7:
         card.stat_bonus[4] += effect_value
     elif effect_type == 8:
-        card.training_bonus += effect_value  / 100
+        card.tb += effect_value  / 100
     elif effect_type == 9:
         card.starting_stats[0] += effect_value
     elif effect_type == 10:
@@ -100,7 +102,7 @@ def AddEffectToCard(card, effect_type, effect_value):
     elif effect_type == 13:
         card.starting_stats[4] += effect_value
     elif effect_type == 14:
-        card.starting_bond += effect_value
+        card.sb += effect_value
     elif effect_type == 15:
         card.race_bonus += effect_value
     elif effect_type == 18:
@@ -121,14 +123,14 @@ def AddEffectToCard(card, effect_type, effect_value):
         card.wisdom_recovery += effect_value
     # The below unique effects are in a different column so they're hardcoded for now
     elif effect_type == 101:
-        card.friendship_stats[4] += 3
+        card.fs_stats[4] += 3
     elif effect_type == 102:
-        card.friendship_training += 0.2
+        card.fs_training += 0.2
     elif effect_type == 103:
         card.highlander_training += 0.15
     elif effect_type == 104:
         #fan training
-        card.training_bonus += 0.15
+        card.tb += 0.15
 
 cards = []
 
@@ -160,18 +162,20 @@ with sqlite3.connect(dblocation) as conn:
             current_card.rarity = int(data[2])
             current_card.limit_break = i
             current_card.starting_stats = [0,0,0,0,0]
+            current_card.type_stats = 0
             current_card.stat_bonus = [0,0,0,0,0,0]
             current_card.race_bonus = 0
-            current_card.starting_bond = 0
+            current_card.sb = 0
             current_card.specialty_rate = 0
             current_card.unique_specialty = 1
-            current_card.training_bonus = 1
-            current_card.friendship_bonus = 1
-            current_card.motivation_bonus = 1
-            current_card.unique_friendship_bonus = 1
-            current_card.friendship_stats = [0,0,0,0,0,0]
-            current_card.friendship_training = 0
-            current_card.friendship_motivation = 0
+            current_card.tb = 1
+            current_card.fs_bonus = 1
+            current_card.mb = 1
+            current_card.unique_fs_bonus = 1
+            current_card.fs_stats = [0,0,0,0,0,0]
+            current_card.fs_training = 0
+            current_card.fs_motivation = 0
+            current_card.fs_ramp = [0,0]
             current_card.wisdom_recovery = 0
             current_card.effect_size_up = 1
             current_card.energy_up = 1
@@ -194,7 +198,7 @@ with sqlite3.connect(dblocation) as conn:
                 for u in range(0,10,6):
                     type_0 = int(unique[2 + u])
                     if type_0 == 1:
-                        current_card.unique_friendship_bonus += int(unique[3 + u]) / 100
+                        current_card.unique_fs_bonus += int(unique[3 + u]) / 100
                     elif type_0 == 19:
                         current_card.unique_specialty = 1.2
                     elif type_0 == 103:
@@ -204,13 +208,19 @@ with sqlite3.connect(dblocation) as conn:
                         bonus_type = int(unique[4 + u])
                         bonus_value = int(unique[5 + u])
                         if bonus_type == 2:
-                            current_card.friendship_motivation += bonus_value / 100
+                            current_card.fs_motivation += bonus_value / 100
+                        if bonus_type == 3:
+                            current_card.fs_stats[0] += bonus_value
                         elif bonus_type == 4:
-                            current_card.friendship_stats[1] += bonus_value
+                            current_card.fs_stats[1] += bonus_value
                         elif bonus_type == 7:
-                            current_card.friendship_stats[4] += bonus_value
+                            current_card.fs_stats[4] += bonus_value
                         elif bonus_type == 8:
-                            current_card.friendship_training += bonus_value / 100
+                            current_card.fs_training += bonus_value / 100
+                    elif type_0 == 106:
+                        current_card.fs_ramp = [3,15]
+                    elif type_0 == 105:
+                        current_card.type_stats = 10
                     else:
                         AddEffectToCard(current_card, type_0, int(unique[3 + u]))
             cards.append(current_card)
