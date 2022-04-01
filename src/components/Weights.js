@@ -15,7 +15,7 @@ function defaultState() {
         show: false,
         general: {
             bondPerDay: 20,
-            races: [10,15,2,3],
+            races: [15,10,2,3],
             trainingGain: [
                 [10,0,4,0,0,2,21],
                 [0,9,0,3,0,2,19],

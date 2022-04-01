@@ -183,14 +183,14 @@ function processCards(cards, weights, selectedCards) {
         } else {
             // Dummy event values for cards we don't yet know the events for
             if (card.rarity === 2) {
-                // 25 total
-                for (let stat = 0; stat < 5; stat++) {
-                    statGains[stat] += 5;
-                }
-            } else if (card.rarity === 3) {
                 // 35 total
                 for (let stat = 0; stat < 5; stat++) {
                     statGains[stat] += 7;
+                }
+            } else if (card.rarity === 3) {
+                // 45 total
+                for (let stat = 0; stat < 5; stat++) {
+                    statGains[stat] += 9;
                 }
             }
         }
@@ -234,7 +234,7 @@ function processCards(cards, weights, selectedCards) {
         if (card.fs_ramp[0] > 0) {
             let current_bonus = 0;
             let total = 0;
-            for (let j = rainbowTraining * 0.75; j > 0; j--) {
+            for (let j = rainbowTraining * 0.66; j > 0; j--) {
                 total += current_bonus;
                 current_bonus = Math.min(current_bonus + card.fs_ramp[0], card.fs_ramp[1]);
             }
