@@ -424,7 +424,7 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
     if (typeCount >= card.highlander_threshold) trainingBonus += card.highlander_training;
     let fsBonus = 1;
     if (card.group && bonded) {
-        fsBonus = card.fs_bonus + card.unique_fs_bonus;
+        fsBonus += (card.fs_bonus + card.unique_fs_bonus - 1) / 4;
     }
     const combinations = GetCombinations(otherCards);
 

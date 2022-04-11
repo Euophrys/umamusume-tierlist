@@ -103,6 +103,7 @@ class App extends React.Component {
                     selectedCards={this.state.selectedCards}
                     onClick={this.onCardRemoved}
                     onLoadPreset={this.onLoadPreset}
+                    weights={this.state.weights}
                     />
                 <Filters
                     onCardsChanged={this.onCardsChanged}
