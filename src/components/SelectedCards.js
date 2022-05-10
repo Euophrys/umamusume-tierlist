@@ -84,7 +84,7 @@ function SelectedCards(props) {
     }
 
     for (let stat = 0; stat < 5; stat++) {
-        statsNoTraining[stat] += 13.5 * raceMultiplier;
+        statsNoTraining[stat] += Math.floor(13.5 * raceMultiplier) * 3;
         statsNoTraining[stat] = Math.round(statsNoTraining[stat]);
     }
 

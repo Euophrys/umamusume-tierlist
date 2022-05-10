@@ -214,13 +214,21 @@ with sqlite3.connect(dblocation) as conn:
                         elif bonus_type == 4:
                             current_card.fs_stats[1] += bonus_value
                         elif bonus_type == 7:
-                            current_card.fs_stats[4] += bonus_value
+                            if(bonus_value > 1):
+                                current_card.fs_stats[4] += bonus_value
+                            else:
+                                current_card.fs_stats[4] += 1
+                                current_card.fs_stats[5] += 1
                         elif bonus_type == 8:
                             current_card.fs_training += bonus_value / 100
                     elif type_0 == 106:
                         current_card.fs_ramp = [3,15]
                     elif type_0 == 105:
                         current_card.type_stats = 10
+                    elif type_0 == 108:
+                        current_card.tb += 0.12
+                    elif type_0 == 107:
+                        current_card.unique_fs_bonus += 0.07
                     else:
                         AddEffectToCard(current_card, type_0, int(unique[3 + u]))
             cards.append(current_card)
