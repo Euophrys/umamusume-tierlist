@@ -227,6 +227,8 @@ with sqlite3.connect(dblocation) as conn:
                         current_card.type_stats = 10
                     elif type_0 == 108:
                         current_card.tb += 0.12
+                    elif type_0 == 109:
+                        current_card.tb += 0.15
                     elif type_0 == 107:
                         current_card.unique_fs_bonus += 0.07
                     else:

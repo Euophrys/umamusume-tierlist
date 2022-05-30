@@ -187,11 +187,13 @@ function processCards(cards, weights, selectedCards) {
                 for (let stat = 0; stat < 5; stat++) {
                     statGains[stat] += 7;
                 }
+                bondNeeded -= 5;
             } else if (card.rarity === 3) {
                 // 45 total
                 for (let stat = 0; stat < 5; stat++) {
                     statGains[stat] += 9;
                 }
+                bondNeeded -= 5;
             }
         }
 
@@ -329,6 +331,7 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
     if (rainbow) {
         fsBonus = card.fs_bonus * card.unique_fs_bonus;
         motivationBonus += card.fs_motivation;
+        trainingBonus += card.fs_training;
     }
 
     let soloGain = [0,0,0,0,0,0];
