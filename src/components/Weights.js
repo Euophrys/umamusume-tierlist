@@ -8,7 +8,7 @@ import WisdomIcon from '../icons/utx_ico_obtain_04.png';
 import FriendIcon from '../icons/utx_ico_obtain_05.png';
 import { lsTest } from '../utils';
 
-function defaultState() {
+function defaultMANTState() {
     return {
         version: 5,
         currentState: "speed",
@@ -66,6 +66,64 @@ function defaultState() {
     }
 }
 
+function defaultURAState() {
+    return {
+        version: 5,
+        currentState: "speed",
+        show: false,
+        general: {
+            bondPerDay: 20,
+            races: [8,2,0,3],
+            trainingGain: [
+                [12,0,5,0,0,2,23],
+                [0,11,0,4,0,2,21],
+                [0,5,10,0,0,2,22],
+                [4,0,4,10,0,2,24],
+                [2,0,0,0,11,3,0]
+            ],
+            umaBonus: [1,1,1,1,1,1],
+            multi: 1,
+            motivation: 0.2
+        },
+        speed: {
+            type: 0,
+            stats: [1,1,1.1,1,1,0.5,1.5],
+            cap:350,
+            minimum: 50,
+        },
+        stamina: {
+            type: 1,
+            stats: [1,1,1,1.1,1,0.5,1.5],
+            cap:350,
+            minimum: 40,
+        },
+        power: {
+            type: 2,
+            stats: [1,1.1,1,1,1,0.5,1.5],
+            cap:350,
+            minimum: 50,
+        },
+        guts: {
+            type: 3,
+            stats: [2,1,2,1,1,0.5,1.5],
+            cap:350,
+            minimum: 50,
+        },
+        wisdom: {
+            type: 4,
+            stats: [1.1,1,1,1,1,0.5,1.5],
+            cap:350,
+            minimum: 40,
+        },
+        friend: {
+            type: 6,
+            stats: [1,1,1,1,1,0.5,1.5],
+            cap:350,
+            minimum: 40,
+        }
+    }
+}
+
 class Weights extends React.Component {
     constructor(props) {
         super(props);
@@ -77,20 +135,21 @@ class Weights extends React.Component {
         this.onMinimumChanged = this.onMinimumChanged.bind(this);
         this.onToggleWeights = this.onToggleWeights.bind(this);
         this.onMotivationChanged = this.onMotivationChanged.bind(this);
-        this.onReset = this.onReset.bind(this);
+        this.onMANTReset = this.onMANTReset.bind(this);
+        this.onURAReset = this.onURAReset.bind(this);
 
         if(lsTest()) {
             let savedWeights = window.localStorage.getItem("weights");
             if (savedWeights !== null) {
                 savedWeights = JSON.parse(savedWeights);
-                if (savedWeights.version == defaultState.version) {
+                if (savedWeights.version == defaultMANTState().version) {
                     this.state = savedWeights;
                     return this.props.onChange(this.state[this.state.currentState], this.state.general);
                 }
             }
         }
 
-        this.state = defaultState();
+        this.state = defaultMANTState();
         this.props.onChange(this.state[this.state.currentState], this.state.general);
     }
 
@@ -100,8 +159,14 @@ class Weights extends React.Component {
         }
     }
 
-    onReset() {
-        let newState = defaultState();
+    onMANTReset() {
+        let newState = defaultMANTState();
+        this.setState(newState);
+        this.props.onChange(newState[newState.currentState], newState.general);
+    }
+
+    onURAReset() {
+        let newState = defaultURAState();
         this.setState(newState);
         this.props.onChange(newState[newState.currentState], newState.general);
     }
@@ -211,7 +276,8 @@ class Weights extends React.Component {
                     this.state.show &&
                     <>
                     <div className="weight-row">
-                    <button id="reset-weights" type="button" onClick={this.onReset}>Reset to Defaults</button>
+                    <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>MANT Defaults</button>
+                    <button id="reset-weights-URA" type="button" onClick={this.onURAReset}>URA Defaults</button>
                     </div>
                     <div className="weight-row">
                         <div class="section-header">Bond Rate</div>

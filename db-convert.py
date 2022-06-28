@@ -210,7 +210,11 @@ with sqlite3.connect(dblocation) as conn:
                         if bonus_type == 2:
                             current_card.fs_motivation += bonus_value / 100
                         if bonus_type == 3:
-                            current_card.fs_stats[0] += bonus_value
+                            if (bonus_value > 1):
+                                current_card.fs_stats[0] += bonus_value
+                            else:
+                                current_card.fs_stats[0] += 1
+                                current_card.fs_stats[5] += 1
                         elif bonus_type == 4:
                             current_card.fs_stats[1] += bonus_value
                         elif bonus_type == 7:
