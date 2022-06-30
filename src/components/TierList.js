@@ -366,25 +366,27 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
     for (let i = 0; i < combinations.length; i++) {
         let fullCombinationGains = [0,0,0,0,0,0];
         let fullTotalGains = [0,0,0,0,0,0];
+        trainingBonus += (combinations[i].length + 1) * card.crowd_bonus;
+
+        const combinationTrainingBonus = combinations[i].reduce((current, c) => {
+            let training = current + (c.tb - 1) + (combinations[i].length * c.crowd_bonus);
+            if (typeCount >= c.highlander_threshold)
+                training += c.highlander_training;
+            return training;
+        }, 1);
+        const combinationFriendshipBonus = combinations[i].reduce((current, c) => {
+            if (c.cardType === trainingType) {
+                return current * c.fs_bonus * c.unique_fs_bonus;
+            } else {
+                return current;
+            }
+        }, 1);
+        const combinationMotivationBonus = combinations[i].reduce((current, c) => current + c.mb - 1, 1);
+        
         for (let stat = 0; stat < 6; stat ++) {
             if (gains[stat] === 0) continue;
-
-            let combinationTrainingBonus = combinations[i].reduce((current, c) => {
-                let training = current + c.tb - 1;
-                if (typeCount >= c.highlander_threshold)
-                    training += c.highlander_training;
-                return training;
-            }, 1);
-            let combinationFriendshipBonus = combinations[i].reduce((current, c) => {
-                if (c.cardType === trainingType) {
-                    return current * c.fs_bonus * c.unique_fs_bonus;
-                } else {
-                    return current;
-                }
-            }, 1);
-            let combinationMotivationBonus = combinations[i].reduce((current, c) => current + c.mb - 1, 1);
-            let combinationStatBonus = combinations[i].reduce((current, c) => current + c.stat_bonus[stat], 0);
-
+            
+            const combinationStatBonus = combinations[i].reduce((current, c) => current + c.stat_bonus[stat], 0);
             let base = gains[stat] + combinationStatBonus;
             if (rainbow) {
                 base += card.fs_stats[stat];
@@ -407,6 +409,7 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
             fullCombinationGains[stat] += combinationGains;
             fullTotalGains[stat] += totalGains;
         }
+        trainingBonus -= (combinations[i].length + 1) * card.crowd_bonus;
         if (GainsToScore(fullTotalGains, weights) > weights.minimum) {
             for (let stat = 0; stat < 6; stat ++) {
                 trainingGains[stat] += (fullTotalGains[stat] - fullCombinationGains[stat]) 
@@ -432,29 +435,31 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
     const combinations = GetCombinations(otherCards);
 
     for (let i = 0; i < combinations.length; i++) {
+        const combination = combinations[i];
         let fullCombinationGains = [0,0,0,0,0,0];
         let fullTotalGains = [0,0,0,0,0,0];
+        trainingBonus += (combination.length + 1) * card.crowd_bonus;
+
+        const combinationTrainingBonus = combination.reduce((current, c) => {
+            let training = current + (c.tb - 1) + (combination.length * c.crowd_bonus);
+            if (typeCount >= c.highlander_threshold)
+                training += c.highlander_training;
+            return training;
+        }, 1);
+        const combinationFriendshipBonus = combination.reduce((current, c) => {
+            if (c.cardType === trainingType) {
+                return current * c.fs_bonus * c.unique_fs_bonus;
+            } else {
+                return current;
+            }
+        }, 1);
+        const combinationMotivationBonus = combination.reduce((current, c) => current + c.mb - 1, 1);
+        
         for (let stat = 0; stat < 6; stat ++) {
             if (gains[stat] === 0) continue;
-            const combination = combinations[i];
             if(!combination.some((r) => statCards.indexOf(r) > -1)) continue;
-
-            let combinationTrainingBonus = combination.reduce((current, c) => {
-                let training = current + c.tb - 1;
-                if (typeCount >= c.highlander_threshold)
-                    training += c.highlander_training;
-                return training;
-            }, 1);
-            let combinationFriendshipBonus = combination.reduce((current, c) => {
-                if (c.cardType === trainingType) {
-                    return current * c.fs_bonus * c.unique_fs_bonus;
-                } else {
-                    return current;
-                }
-            }, 1);
-            let combinationMotivationBonus = combination.reduce((current, c) => current + c.mb - 1, 1);
-            let combinationStatBonus = combination.reduce((current, c) => current + c.stat_bonus[stat], 0);
-
+            
+            const combinationStatBonus = combination.reduce((current, c) => current + c.stat_bonus[stat], 0);
             const base = gains[stat] + combinationStatBonus;
 
             let combinationGains = (base 
@@ -483,6 +488,7 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
             fullCombinationGains[stat] += combinationGains;
             fullTotalGains[stat] += totalGains;
         }
+        trainingBonus -= (combination.length + 1) * card.crowd_bonus;
         if (GainsToScore(fullTotalGains, weights) > weights.minimum) {
             for (let stat = 0; stat < 6; stat ++) {
                 trainingGains[stat] += (fullTotalGains[stat] - fullCombinationGains[stat]) 
