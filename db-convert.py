@@ -249,6 +249,8 @@ with sqlite3.connect(dblocation) as conn:
                         current_card.tb += 0.15
                     elif type_0 == 107:
                         current_card.unique_fs_bonus += 0.07
+                    elif type_0 == 111:
+                        current_card.tb += 0.15
                     else:
                         AddEffectToCard(current_card, type_0, int(unique[3 + u]))
             cards.append(current_card)
