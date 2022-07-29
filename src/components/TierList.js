@@ -246,7 +246,7 @@ function processCards(cards, weights, selectedCards) {
         // Stats from cross-training
         info.non_rainbow_gains = [0,0,0,0,0,0,0];
         for (let training = 0; training < 5; training ++) {
-            let gains = weights.trainingGain[training];
+            let gains = weights.unbondedTrainingGain[training];
             let daysOnThisTraining = daysPerTraining[training];
             energyGain += daysOnThisTraining * gains[6] * card.energy_discount;
 
@@ -261,7 +261,7 @@ function processCards(cards, weights, selectedCards) {
 
         // Stats from cross-training while bonded
         for (let training = 0; training < 5; training ++) {
-            let gains = weights.trainingGain[training];
+            let gains = weights.bondedTrainingGain[training];
             let daysOnThisTraining = bondedDaysPerTraining[training];
             energyGain += daysOnThisTraining * gains[6] * card.energy_discount;
 
@@ -283,7 +283,7 @@ function processCards(cards, weights, selectedCards) {
         // Stats from rainbows
         if (cardType < 6) {
             energyGain += rainbowTraining * card.wisdom_recovery;
-            let specialtyGains = weights.trainingGain[cardType];
+            let specialtyGains = weights.bondedTrainingGain[cardType];
             let trainingGains = CalculateTrainingGain(specialtyGains, weights, card, selectedCards, cardType, rainbowTraining, true, typeCount);
 
             info.rainbow_gains = trainingGains.slice();

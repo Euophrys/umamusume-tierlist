@@ -10,18 +10,25 @@ import { lsTest } from '../utils';
 
 function defaultMANTState() {
     return {
-        version: 5,
+        version: 6,
         currentState: "speed",
         show: false,
         general: {
             bondPerDay: 20,
             races: [15,10,2,3],
-            trainingGain: [
+            unbondedTrainingGain: [
+                [8,0,4,0,0,2,19],
+                [0,7,0,3,0,2,17],
+                [0,4,6,0,0,2,18],
+                [3,0,3,6,0,2,20],
+                [2,0,0,0,6,3,0]
+            ],
+            bondedTrainingGain: [
                 [10,0,4,0,0,2,21],
-                [0,9,0,3,0,2,19],
-                [0,4,8,0,0,2,20],
-                [3,0,3,8,0,2,22],
-                [2,0,0,0,8,3,0]
+                [0,8,0,3,0,2,18],
+                [0,4,7,0,0,2,19],
+                [4,0,3,9,0,2,24],
+                [3,0,0,0,9,3,0]
             ],
             umaBonus: [1,1,1,1,1,1],
             multi: 1.4,
@@ -68,13 +75,20 @@ function defaultMANTState() {
 
 function defaultURAState() {
     return {
-        version: 5,
+        version: 6,
         currentState: "speed",
         show: false,
         general: {
             bondPerDay: 20,
             races: [8,2,0,3],
-            trainingGain: [
+            unbondedTrainingGain: [
+                [10,0,5,0,0,2,21],
+                [0,9,0,4,0,2,19],
+                [0,5,8,0,0,2,20],
+                [4,0,4,8,0,2,22],
+                [2,0,0,0,9,3,0]
+            ],
+            bondedTrainingGain: [
                 [12,0,5,0,0,2,23],
                 [0,11,0,4,0,2,21],
                 [0,5,10,0,0,2,22],
