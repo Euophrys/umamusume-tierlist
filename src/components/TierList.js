@@ -133,7 +133,7 @@ function processCards(cards, weights, selectedCards) {
     let baseBondNeeded = 0;
     for (let card = 0; card < selectedCards.length; card++) {
         let selectedCard = selectedCards[card];
-        let cardSpecialty = (100 + selectedCard.specialty_rate) * selectedCard.unique_specialty;
+        let cardSpecialty = (100 + selectedCard.specialty_rate + weights.bonusSpec) * selectedCard.unique_specialty;
         let cardSpecialtyPercent = (cardSpecialty) / (450 + cardSpecialty)
         selectedCard.rainbowSpecialty = cardSpecialtyPercent;
         selectedCard.offSpecialty = 100 / (450 + cardSpecialty);
@@ -215,7 +215,7 @@ function processCards(cards, weights, selectedCards) {
         let trainingDays = 65 - weights.races[0] - weights.races[1] - weights.races[2];
         let daysToBond = bondNeeded / weights.bondPerDay;
         let rainbowDays = trainingDays - daysToBond;
-        let specialty = (100 + card.specialty_rate) * card.unique_specialty;
+        let specialty = (100 + card.specialty_rate + weights.bonusSpec) * card.unique_specialty;
         let specialtyPercent = specialty / (450 + specialty);
         let otherPercent = 100 / (450 + specialty);
         let daysPerTraining = [0,0,0,0,0];
@@ -329,7 +329,7 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
     let fsBonus = 1;
     let motivationBonus = card.mb;
     if (rainbow) {
-        fsBonus = card.fs_bonus * card.unique_fs_bonus;
+        fsBonus = (card.fs_bonus + weights.bonusFS) * card.unique_fs_bonus;
         motivationBonus += card.fs_motivation;
         trainingBonus += card.fs_training;
     }
@@ -376,7 +376,7 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
         }, 1);
         const combinationFriendshipBonus = combinations[i].reduce((current, c) => {
             if (c.cardType === trainingType) {
-                return current * c.fs_bonus * c.unique_fs_bonus;
+                return current * (c.fs_bonus + weights.bonusFS) * c.unique_fs_bonus;
             } else {
                 return current;
             }
@@ -430,7 +430,7 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
     if (typeCount >= card.highlander_threshold) trainingBonus += card.highlander_training;
     let fsBonus = 1;
     if (card.group && bonded) {
-        fsBonus += (card.fs_bonus + card.unique_fs_bonus - 1) / 5;
+        fsBonus += ((card.fs_bonus + weights.bonusFS) + card.unique_fs_bonus - 1) / 5;
     }
     const combinations = GetCombinations(otherCards);
 
@@ -448,7 +448,7 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
         }, 1);
         const combinationFriendshipBonus = combination.reduce((current, c) => {
             if (c.cardType === trainingType) {
-                return current * c.fs_bonus * c.unique_fs_bonus;
+                return current * (c.fs_bonus + weights.bonusFS) * c.unique_fs_bonus;
             } else {
                 return current;
             }

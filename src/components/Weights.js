@@ -8,9 +8,76 @@ import WisdomIcon from '../icons/utx_ico_obtain_04.png';
 import FriendIcon from '../icons/utx_ico_obtain_05.png';
 import { lsTest } from '../utils';
 
+function defaultGLState() {
+    return {
+        version: 7,
+        currentState: "speed",
+        show: false,
+        general: {
+            bondPerDay: 20,
+            races: [8,2,0,3],
+            unbondedTrainingGain: [
+                [10,0,5,0,0,2,21],
+                [0,9,0,4,0,2,19],
+                [0,5,8,0,0,2,20],
+                [4,0,4,8,0,2,22],
+                [2,0,0,0,9,3,0]
+            ],
+            bondedTrainingGain: [
+                [12,0,5,0,0,2,23],
+                [0,11,0,4,0,2,21],
+                [0,5,10,0,0,2,22],
+                [4,0,4,10,0,2,24],
+                [2,0,0,0,11,3,0]
+            ],
+            umaBonus: [1,1,1,1,1,1],
+            multi: 1,
+            bonusFS: 0.1,
+            bonusSpec: 20,
+            motivation: 0.2
+        },
+        speed: {
+            type: 0,
+            stats: [1,1,1.1,1,1,0.5,1.5],
+            cap:500,
+            minimum: 50,
+        },
+        stamina: {
+            type: 1,
+            stats: [1,1,1,1.1,1,0.5,1.5],
+            cap:400,
+            minimum: 40,
+        },
+        power: {
+            type: 2,
+            stats: [1,1.1,1,1,1,0.5,1.5],
+            cap:400,
+            minimum: 50,
+        },
+        guts: {
+            type: 3,
+            stats: [2,1,2,1,1,0.5,1.5],
+            cap:450,
+            minimum: 50,
+        },
+        wisdom: {
+            type: 4,
+            stats: [1.1,1,1,1,1,0.5,1.5],
+            cap:400,
+            minimum: 40,
+        },
+        friend: {
+            type: 6,
+            stats: [1,1,1,1,1,0.5,1.5],
+            cap:400,
+            minimum: 40,
+        }
+    }
+}
+
 function defaultMANTState() {
     return {
-        version: 6,
+        version: 7,
         currentState: "speed",
         show: false,
         general: {
@@ -32,6 +99,8 @@ function defaultMANTState() {
             ],
             umaBonus: [1,1,1,1,1,1],
             multi: 1.4,
+            bonusFS: 0,
+            bonusSpec: 0,
             motivation: 0.2
         },
         speed: {
@@ -75,7 +144,7 @@ function defaultMANTState() {
 
 function defaultURAState() {
     return {
-        version: 6,
+        version: 7,
         currentState: "speed",
         show: false,
         general: {
@@ -97,6 +166,8 @@ function defaultURAState() {
             ],
             umaBonus: [1,1,1,1,1,1],
             multi: 1,
+            bonusFS: 0,
+            bonusSpec: 0,
             motivation: 0.2
         },
         speed: {
@@ -151,6 +222,7 @@ class Weights extends React.Component {
         this.onMotivationChanged = this.onMotivationChanged.bind(this);
         this.onMANTReset = this.onMANTReset.bind(this);
         this.onURAReset = this.onURAReset.bind(this);
+        this.onGLReset = this.onGLReset.bind(this);
 
         if(lsTest()) {
             let savedWeights = window.localStorage.getItem("weights");
@@ -171,6 +243,12 @@ class Weights extends React.Component {
         if(prevState && prevState !== this.state && lsTest()) {
             window.localStorage.setItem("weights", JSON.stringify(this.state));
         }
+    }
+
+    onGLReset() {
+        let newState = defaultGLState();
+        this.setState(newState);
+        this.props.onChange(newState[newState.currentState], newState.general);
     }
 
     onMANTReset() {
@@ -290,6 +368,7 @@ class Weights extends React.Component {
                     this.state.show &&
                     <>
                     <div className="weight-row">
+                    <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>GL Defaults</button>
                     <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>MANT Defaults</button>
                     <button id="reset-weights-URA" type="button" onClick={this.onURAReset}>URA Defaults</button>
                     </div>
@@ -315,13 +394,17 @@ class Weights extends React.Component {
                         <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="races.2" value={this.state.general.races[2]} min={0} max={30} step={1}/>
                     </div>
                     <div className="weight-row">
-                        <div class="section-header">Rainbow Multiplier</div>
+                        <div class="section-header">Scenario Specific</div>
                         <div class="section-explanation">
-                            A multiplier on the stat gains from friendship training, to account for MANT items.<br/>
-                            Set to 1 for URA/Aoharu. Raising this will make starting stats less important.
+                            Multiplier accounts for MANT items. 1.4 is a medium megaphone.<br/>
+                            Bonus Friendship and Specialty is for Grand Live lessons / live bonuses.
                         </div>
-                        <label for="bondPerDay">Multiplier:</label>
+                        <label for="multi">Multiplier:</label>
                         <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="multi" value={this.state.general.multi} min={1} max={2.2} step={0.05}/>
+                        <label for="bonusFS">Bonus Friendship:</label>
+                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="bonusFS" value={this.state.general.bonusFS} min={-1} max={1} step={0.05}/>
+                        <label for="bonusSpec">Bonus Specialty:</label>
+                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="bonusSpec" value={this.state.general.bonusSpec} min={-1} max={95} step={5}/>
                     </div>
                     <div className="weight-row">
                         <div class="section-header">Stat Weights</div>

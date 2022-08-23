@@ -33,8 +33,11 @@ class App extends React.Component {
                     [3,0,0,0,9,3,0]
                 ],
                 umaBonus: [1,1,1,1,1,1],
-                stats: [1,1,1,0.75,1,0.5,1.5],
-                supportPenalty: 180
+                stats: [1,1,1.1,1,1,0.5,1.5],
+                multi: 1,
+                bonusFS: 0,
+                bonusSpec: 0,
+                motivation: 0.2,
             },
             selectedCards: [
                 cards.find((c) => c.id === 30028 && c.limit_break === 4),
