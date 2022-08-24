@@ -235,7 +235,7 @@ class Weights extends React.Component {
             }
         }
 
-        this.state = defaultMANTState();
+        this.state = defaultGLState();
         this.props.onChange(this.state[this.state.currentState], this.state.general);
     }
 

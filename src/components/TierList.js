@@ -116,6 +116,11 @@ class TierList extends React.Component {
 
 const tierNames = ['S', 'A', 'B', 'C', 'D', 'E', 'F']
 const scenarioLink = [
+    "ミホノブルボン",
+    "ライトハロー",
+    "スマートファルコン",
+    "アグネスタキオン",
+    "サイレンススズカ",
 ]
 const raceRewards = [
     [2, 2, 2, 2, 2, 35],
@@ -264,6 +269,7 @@ function processCards(cards, weights, selectedCards) {
             let gains = weights.bondedTrainingGain[training];
             let daysOnThisTraining = bondedDaysPerTraining[training];
             energyGain += daysOnThisTraining * gains[6] * card.energy_discount;
+            energyGain += daysOnThisTraining * gains[6] * card.fs_energy;
 
             let trainingGains = CalculateCrossTrainingGain(gains, weights, card, selectedCards, training, daysOnThisTraining, typeCount, true);
             
@@ -272,6 +278,7 @@ function processCards(cards, weights, selectedCards) {
                 info.non_rainbow_gains[stat] += trainingGains[stat];
             }
             info.non_rainbow_gains[6] += (daysOnThisTraining * gains[6] * card.energy_discount);
+            info.non_rainbow_gains[6] += (daysOnThisTraining * gains[6] * card.fs_energy);
 
             if (training == 5 && card.group) {
                 energyGain += daysOnThisTraining * card.wisdom_recovery;
@@ -307,6 +314,10 @@ function processCards(cards, weights, selectedCards) {
         // Convert stat gains to score
         let score = GainsToScore(statGains, weights);
         score += energyGain * weights.stats[6];
+
+        if(scenarioLink.indexOf(card.char_name) > -1) {
+            score += 20;
+        }
 
         processedCards.push({
             id: card.id,

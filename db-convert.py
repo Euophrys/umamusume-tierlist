@@ -27,6 +27,7 @@ class Card():
     fs_training = 0
     fs_motivation = 0
     fs_ramp=[0,0]
+    fs_energy = 0
     hint_rate = 0
     wisdom_recovery = 0
     effect_size_up = 0
@@ -179,6 +180,7 @@ with sqlite3.connect(dblocation) as conn:
             current_card.fs_training = 0
             current_card.fs_motivation = 0
             current_card.fs_ramp = [0,0]
+            current_card.fs_energy = 0
             current_card.wisdom_recovery = 0
             current_card.effect_size_up = 1
             current_card.energy_up = 1
@@ -211,6 +213,8 @@ with sqlite3.connect(dblocation) as conn:
                     elif type_0 == 101:
                         bonus_type = int(unique[4 + u])
                         bonus_value = int(unique[5 + u])
+                        if bonus_type == 1:
+                            current_card.unique_fs_bonus += bonus_value / 100
                         if bonus_type == 2:
                             current_card.fs_motivation += bonus_value / 100
                         if bonus_type == 3:
@@ -251,6 +255,8 @@ with sqlite3.connect(dblocation) as conn:
                         current_card.unique_fs_bonus += 0.07
                     elif type_0 == 111:
                         current_card.tb += 0.15
+                    elif type_0 == 113:
+                        current_card.fs_energy += int(unique[4 + u]) / 100
                     else:
                         AddEffectToCard(current_card, type_0, int(unique[3 + u]))
             cards.append(current_card)
