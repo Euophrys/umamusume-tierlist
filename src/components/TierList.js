@@ -115,13 +115,6 @@ class TierList extends React.Component {
 }
 
 const tierNames = ['S', 'A', 'B', 'C', 'D', 'E', 'F']
-const scenarioLink = [
-    "ミホノブルボン",
-    "ライトハロー",
-    "スマートファルコン",
-    "アグネスタキオン",
-    "サイレンススズカ",
-]
 const raceRewards = [
     [2, 2, 2, 2, 2, 35],
     [1.6, 1.6, 1.6, 1.6, 1.6, 25],
@@ -315,8 +308,8 @@ function processCards(cards, weights, selectedCards) {
         let score = GainsToScore(statGains, weights);
         score += energyGain * weights.stats[6];
 
-        if(scenarioLink.indexOf(card.char_name) > -1) {
-            score += 20;
+        if(weights.scenarioLink.indexOf(card.char_name) > -1) {
+            score += weights.scenarioBonus;
         }
 
         processedCards.push({

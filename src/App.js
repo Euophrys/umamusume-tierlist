@@ -38,6 +38,8 @@ class App extends React.Component {
                 bonusFS: 0,
                 bonusSpec: 0,
                 motivation: 0.2,
+                scenarioLink: [],
+                scenarioBonus: 0
             },
             selectedCards: [
                 cards.find((c) => c.id === 30028 && c.limit_break === 4),
@@ -103,7 +105,7 @@ class App extends React.Component {
                 <span class="section-explanation">
                     Created by Erzzy from the UmaMusume EN Discord<br/>
                     For more game information, check the <a href="https://docs.google.com/document/d/1gNcV7XLmxx0OI2DEAR8gmKb8P9BBhcwGhlJOVbYaXeo/edit?usp=sharing">Uma Musume Reference</a><br/>
-                    This tier list defaults to the MANT Scenario and doesn't consider skills, only stats.<br/>
+                    This tier list defaults to the Grand Live Scenario and doesn't consider skills, only stats.<br/>
                 </span>
                 <Weights
                     onChange={this.onWeightsChanged}

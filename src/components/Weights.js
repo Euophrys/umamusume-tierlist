@@ -10,31 +10,39 @@ import { lsTest } from '../utils';
 
 function defaultGLState() {
     return {
-        version: 7,
+        version: 8,
         currentState: "speed",
         show: false,
         general: {
             bondPerDay: 20,
             races: [8,2,0,3],
             unbondedTrainingGain: [
-                [10,0,5,0,0,2,21],
-                [0,9,0,4,0,2,19],
-                [0,5,8,0,0,2,20],
-                [4,0,4,8,0,2,22],
-                [2,0,0,0,9,3,0]
+                [8,0,4,0,0,2,19],
+                [0,7,0,3,0,2,17],
+                [0,4,6,0,0,2,18],
+                [3,0,3,6,0,2,20],
+                [2,0,0,0,6,3,0]
             ],
             bondedTrainingGain: [
-                [12,0,5,0,0,2,23],
-                [0,11,0,4,0,2,21],
-                [0,5,10,0,0,2,22],
-                [4,0,4,10,0,2,24],
-                [2,0,0,0,11,3,0]
+                [10,0,4,0,0,2,21],
+                [0,8,0,3,0,2,18],
+                [0,4,7,0,0,2,19],
+                [4,0,3,9,0,2,24],
+                [3,0,0,0,9,3,0]
             ],
             umaBonus: [1,1,1,1,1,1],
             multi: 1,
             bonusFS: 0.1,
             bonusSpec: 20,
-            motivation: 0.2
+            motivation: 0.2,
+            scenarioLink: [
+                "ミホノブルボン",
+                "ライトハロー",
+                "スマートファルコン",
+                "アグネスタキオン",
+                "サイレンススズカ",
+            ],
+            scenarioBonus: 50
         },
         speed: {
             type: 0,
@@ -77,7 +85,7 @@ function defaultGLState() {
 
 function defaultMANTState() {
     return {
-        version: 7,
+        version: 8,
         currentState: "speed",
         show: false,
         general: {
@@ -101,7 +109,9 @@ function defaultMANTState() {
             multi: 1.4,
             bonusFS: 0,
             bonusSpec: 0,
-            motivation: 0.2
+            motivation: 0.2,
+            scenarioLink: [],
+            scenarioBonus: 0
         },
         speed: {
             type: 0,
@@ -144,7 +154,7 @@ function defaultMANTState() {
 
 function defaultURAState() {
     return {
-        version: 7,
+        version: 8,
         currentState: "speed",
         show: false,
         general: {
@@ -168,7 +178,9 @@ function defaultURAState() {
             multi: 1,
             bonusFS: 0,
             bonusSpec: 0,
-            motivation: 0.2
+            motivation: 0.2,
+            scenarioLink: [],
+            scenarioBonus: 0
         },
         speed: {
             type: 0,
