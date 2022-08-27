@@ -10,7 +10,7 @@ import { lsTest } from '../utils';
 
 function defaultGLState() {
     return {
-        version: 8,
+        version: 12,
         currentState: "speed",
         show: false,
         general: {
@@ -18,21 +18,21 @@ function defaultGLState() {
             races: [8,2,0,3],
             unbondedTrainingGain: [
                 [8,0,4,0,0,2,19],
-                [0,7,0,3,0,2,17],
-                [0,4,6,0,0,2,18],
-                [3,0,3,6,0,2,20],
+                [0,8,0,6,0,2,20],
+                [0,4,9,0,0,2,20],
+                [2,0,2,7,0,2,20],
                 [2,0,0,0,6,3,0]
             ],
             bondedTrainingGain: [
                 [10,0,4,0,0,2,21],
-                [0,8,0,3,0,2,18],
-                [0,4,7,0,0,2,19],
-                [4,0,3,9,0,2,24],
+                [0,9,0,6,0,2,21],
+                [0,4,10,0,0,2,21],
+                [3,0,2,10,0,2,24],
                 [3,0,0,0,9,3,0]
             ],
             umaBonus: [1,1,1,1,1,1],
             multi: 1,
-            bonusFS: 0.1,
+            bonusFS: 0.2,
             bonusSpec: 20,
             motivation: 0.2,
             scenarioLink: [
@@ -42,24 +42,25 @@ function defaultGLState() {
                 "アグネスタキオン",
                 "サイレンススズカ",
             ],
-            scenarioBonus: 50
+            scenarioBonus: 75,
+            fanBonus: 0.05
         },
         speed: {
             type: 0,
             stats: [1,1,1.1,1,1,0.5,1.5],
-            cap:500,
+            cap:600,
             minimum: 50,
         },
         stamina: {
             type: 1,
             stats: [1,1,1,1.1,1,0.5,1.5],
-            cap:400,
+            cap:450,
             minimum: 40,
         },
         power: {
             type: 2,
             stats: [1,1.1,1,1,1,0.5,1.5],
-            cap:400,
+            cap:450,
             minimum: 50,
         },
         guts: {
@@ -71,13 +72,13 @@ function defaultGLState() {
         wisdom: {
             type: 4,
             stats: [1.1,1,1,1,1,0.5,1.5],
-            cap:400,
+            cap:500,
             minimum: 40,
         },
         friend: {
             type: 6,
             stats: [1,1,1,1,1,0.5,1.5],
-            cap:400,
+            cap:500,
             minimum: 40,
         }
     }
@@ -85,7 +86,7 @@ function defaultGLState() {
 
 function defaultMANTState() {
     return {
-        version: 8,
+        version: 10,
         currentState: "speed",
         show: false,
         general: {
@@ -111,7 +112,8 @@ function defaultMANTState() {
             bonusSpec: 0,
             motivation: 0.2,
             scenarioLink: [],
-            scenarioBonus: 0
+            scenarioBonus: 0,
+            fanBonus: 0.15
         },
         speed: {
             type: 0,
@@ -154,7 +156,7 @@ function defaultMANTState() {
 
 function defaultURAState() {
     return {
-        version: 8,
+        version: 10,
         currentState: "speed",
         show: false,
         general: {
@@ -180,7 +182,8 @@ function defaultURAState() {
             bonusSpec: 0,
             motivation: 0.2,
             scenarioLink: [],
-            scenarioBonus: 0
+            scenarioBonus: 0,
+            fanBonus: 0.05
         },
         speed: {
             type: 0,
@@ -452,7 +455,7 @@ class Weights extends React.Component {
                             This will cap the stat gain, penalizing cards that only raise one stat.<br/>
                             Lower this if you tend to cap your stats very early to strengthen cards that raise multiple.
                         </div>
-                        <input type="range" onChange={this.onCapChanged} min={200} max={500} step={10} value={this.state[this.state.currentState].cap} class="slider" id="cap"/>
+                        <input type="range" onChange={this.onCapChanged} min={200} max={700} step={10} value={this.state[this.state.currentState].cap} class="slider" id="cap"/>
                         <label for="cap">{this.state[this.state.currentState].cap}</label>
                     </div>
                     <div className="weight-row">

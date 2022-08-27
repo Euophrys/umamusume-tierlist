@@ -328,7 +328,7 @@ function processCards(cards, weights, selectedCards) {
 function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, days, rainbow, typeCount) {
     let trainingGains = [0,0,0,0,0,0,0];
 
-    let trainingBonus = card.tb;
+    let trainingBonus = card.tb + card.fan_bonus * weights.fanBonus;
     if (typeCount >= card.highlander_threshold) trainingBonus += card.highlander_training;
     let fsBonus = 1;
     let motivationBonus = card.mb;
@@ -430,7 +430,7 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
 function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingType, days, typeCount, bonded) {
     let trainingGains = [0,0,0,0,0,0,0];
     let statCards = otherCards.filter((c) => c.cardType === trainingType);
-    let trainingBonus = card.tb;
+    let trainingBonus = card.tb + card.fan_bonus * weights.fanBonus;
     if (typeCount >= card.highlander_threshold) trainingBonus += card.highlander_training;
     let fsBonus = 1;
     if (card.group && bonded) {

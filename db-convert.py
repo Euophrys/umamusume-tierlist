@@ -37,6 +37,7 @@ class Card():
     highlander_threshold = 0
     highlander_training = 0
     crowd_bonus = 0
+    fan_bonus = 0
     char_name = "Unknown"
 
 def GetValue(data, lb, rarity):
@@ -132,7 +133,7 @@ def AddEffectToCard(card, effect_type, effect_value):
         card.highlander_training += 0.15
     elif effect_type == 104:
         #fan training
-        card.tb += 0.15
+        card.fan_bonus = 1
     elif effect_type == 110:
         card.crowd_bonus += 0.05
 
@@ -191,6 +192,7 @@ with sqlite3.connect(dblocation) as conn:
             current_card.highlander_training = 0
             current_card.crowd_bonus = 0
             current_card.char_name = ""
+            current_card.fan_bonus = 0
 
             for effect in effects:
                 # 0 id | 1 type | 2 init | 3 limit_lv_5 | ... | 12 limit_lv_50
