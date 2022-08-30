@@ -211,6 +211,7 @@ function processCards(cards, weights, selectedCards) {
         }
 
         let trainingDays = 65 - weights.races[0] - weights.races[1] - weights.races[2];
+        if(cardType === 6) trainingDays -= 5;
         let daysToBond = bondNeeded / weights.bondPerDay;
         let rainbowDays = trainingDays - daysToBond;
         let specialty = (100 + card.specialty_rate + weights.bonusSpec) * card.unique_specialty;
@@ -270,11 +271,12 @@ function processCards(cards, weights, selectedCards) {
                 statGains[stat] += trainingGains[stat];
                 info.non_rainbow_gains[stat] += trainingGains[stat];
             }
+
             info.non_rainbow_gains[6] += (daysOnThisTraining * gains[6] * card.energy_discount);
             info.non_rainbow_gains[6] += (daysOnThisTraining * gains[6] * card.fs_energy);
 
-            if (training == 5 && card.group) {
-                energyGain += daysOnThisTraining * card.wisdom_recovery;
+            if (training == 4 && card.group) {
+                energyGain += daysOnThisTraining * card.wisdom_recovery / 5;
             }
         }
 

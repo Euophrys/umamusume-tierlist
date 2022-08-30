@@ -15,7 +15,7 @@ function defaultGLState() {
         show: false,
         general: {
             bondPerDay: 20,
-            races: [8,2,0,3],
+            races: [10,2,0,3],
             unbondedTrainingGain: [
                 [8,0,4,0,0,2,19],
                 [0,8,0,6,0,2,20],
@@ -49,37 +49,37 @@ function defaultGLState() {
             type: 0,
             stats: [1,1,1.1,1,1,0.5,1.5],
             cap:600,
-            minimum: 50,
+            minimum: 40,
         },
         stamina: {
             type: 1,
             stats: [1,1,1,1.1,1,0.5,1.5],
-            cap:450,
-            minimum: 40,
+            cap:550,
+            minimum: 30,
         },
         power: {
             type: 2,
             stats: [1,1.1,1,1,1,0.5,1.5],
-            cap:450,
-            minimum: 50,
+            cap:550,
+            minimum: 40,
         },
         guts: {
             type: 3,
             stats: [2,1,2,1,1,0.5,1.5],
-            cap:450,
-            minimum: 50,
+            cap:550,
+            minimum: 40,
         },
         wisdom: {
             type: 4,
-            stats: [1.1,1,1,1,1,0.5,1.5],
-            cap:500,
-            minimum: 40,
+            stats: [1.1,1,1,1,1,0.5,1],
+            cap:600,
+            minimum: 30,
         },
         friend: {
             type: 6,
-            stats: [1,1,1,1,1,0.5,1.5],
+            stats: [1,1,1,1,1,0.5,0.75],
             cap:500,
-            minimum: 40,
+            minimum: 30,
         }
     }
 }
