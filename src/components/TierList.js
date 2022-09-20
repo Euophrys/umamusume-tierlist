@@ -40,6 +40,7 @@ class TierList extends React.Component {
 
     render() {
         let cards = this.props.cards;
+        let selectedNames = this.props.selectedCards.map(card => card.char_name);
     
         if(this.props.weights.type > -1) {
             cards = cards.filter(e => e.type === this.props.weights.type);
@@ -71,6 +72,7 @@ class TierList extends React.Component {
                     key={processedCards[i].id + "LB" + processedCards[i].lb}
                     info={processedCards[i].info}
                     charName={processedCards[i].char_name}
+                    selected={selectedNames}
                     card={cards.find((c) => c.id === processedCards[i].id && c.limit_break === processedCards[i].lb)}
                     onClick={() => this.props.cardSelected(cards.find((c) => c.id === processedCards[i].id && c.limit_break === processedCards[i].lb))}
                     stats={this.state.dropdownSelections}

@@ -10,7 +10,7 @@ import { lsTest } from '../utils';
 
 function defaultGLState() {
     return {
-        version: 12,
+        version: 14,
         currentState: "speed",
         show: false,
         general: {
@@ -49,25 +49,25 @@ function defaultGLState() {
             type: 0,
             stats: [1,1,1.1,1,1,0.5,1.5],
             cap:600,
-            minimum: 40,
+            minimum: 35,
         },
         stamina: {
             type: 1,
             stats: [1,1,1,1.1,1,0.5,1.5],
             cap:550,
-            minimum: 30,
+            minimum: 35,
         },
         power: {
             type: 2,
             stats: [1,1.1,1,1,1,0.5,1.5],
             cap:550,
-            minimum: 40,
+            minimum: 35,
         },
         guts: {
             type: 3,
             stats: [2,1,2,1,1,0.5,1.5],
             cap:550,
-            minimum: 40,
+            minimum: 30,
         },
         wisdom: {
             type: 4,
@@ -147,7 +147,7 @@ function defaultMANTState() {
         },
         friend: {
             type: 6,
-            stats: [1,1,1,1,1,0.5,1],
+            stats: [1,1,1,1,1,0.5,0.5],
             cap:350,
             minimum: 40,
         }

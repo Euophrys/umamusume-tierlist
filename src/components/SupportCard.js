@@ -36,15 +36,17 @@ function SupportCard(props) {
         statDisplays[i] = `${value}${supportCardProperties[stat].shorthand}`;
     }
 
+    const alreadySelected = props.selected.indexOf(props.charName) > -1;
+
     return (
         <div className="support-card">
             <img
-                className="support-card-image"
+                className={alreadySelected ? "support-card-image selected" : "support-card-image"}
                 name={props.id}
                 src={process.env.PUBLIC_URL + "/cardImages/support_card_s_" + props.id + ".png"}
                 title={props.charName}
                 alt={props.charName}
-                onClick={props.onClick}
+                onClick={alreadySelected ? ()=>{} : props.onClick}
             />
             <span className="limit-breaks">
                 <span className="lb-yes">{lit_up}</span>
