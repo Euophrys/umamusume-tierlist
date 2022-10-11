@@ -10,12 +10,12 @@ import { lsTest } from '../utils';
 
 function defaultGLState() {
     return {
-        version: 14,
+        version: 15,
         currentState: "speed",
         show: false,
         general: {
             bondPerDay: 20,
-            races: [10,2,0,3],
+            races: [7,2,0,3],
             unbondedTrainingGain: [
                 [8,0,4,0,0,2,19],
                 [0,8,0,6,0,2,20],
@@ -24,15 +24,14 @@ function defaultGLState() {
                 [2,0,0,0,6,3,0]
             ],
             bondedTrainingGain: [
-                [10,0,4,0,0,2,21],
+                [11,0,5,0,0,2,22],
                 [0,9,0,6,0,2,21],
                 [0,4,10,0,0,2,21],
                 [3,0,2,10,0,2,24],
                 [3,0,0,0,9,3,0]
             ],
             umaBonus: [1,1,1,1,1,1],
-            multi: 1,
-            bonusFS: 0.2,
+            multi: 1.4,
             bonusSpec: 20,
             motivation: 0.2,
             scenarioLink: [
@@ -47,33 +46,38 @@ function defaultGLState() {
         },
         speed: {
             type: 0,
-            stats: [1,1,1.1,1,1,0.5,1.5],
+            stats: [1.1,1,1.2,1,1,0.5,1.5],
             cap:600,
             minimum: 35,
+            prioritize: true,
         },
         stamina: {
             type: 1,
             stats: [1,1,1,1.1,1,0.5,1.5],
             cap:550,
             minimum: 35,
+            prioritize: false,
         },
         power: {
             type: 2,
             stats: [1,1.1,1,1,1,0.5,1.5],
             cap:550,
             minimum: 35,
+            prioritize: false,
         },
         guts: {
             type: 3,
             stats: [2,1,2,1,1,0.5,1.5],
             cap:550,
             minimum: 30,
+            prioritize: true,
         },
         wisdom: {
             type: 4,
-            stats: [1.1,1,1,1,1,0.5,1],
+            stats: [1.1,1,1,1,1.1,0.5,1],
             cap:600,
             minimum: 30,
+            prioritize: true,
         },
         friend: {
             type: 6,
@@ -108,7 +112,6 @@ function defaultMANTState() {
             ],
             umaBonus: [1,1,1,1,1,1],
             multi: 1.4,
-            bonusFS: 0,
             bonusSpec: 0,
             motivation: 0.2,
             scenarioLink: [],
@@ -120,30 +123,35 @@ function defaultMANTState() {
             stats: [1,1,1.1,1,1,0.5,1],
             cap:350,
             minimum: 50,
+            prioritize: true,
         },
         stamina: {
             type: 1,
             stats: [1,1,1,1.1,1,0.5,1],
             cap:350,
             minimum: 40,
+            prioritize: false,
         },
         power: {
             type: 2,
             stats: [1,1.1,1,1,1,0.5,1],
             cap:350,
             minimum: 50,
+            prioritize: false,
         },
         guts: {
             type: 3,
             stats: [2,1,2,1,1,0.5,1],
             cap:350,
             minimum: 50,
+            prioritize: true,
         },
         wisdom: {
             type: 4,
             stats: [1.1,1,1,1,1,0.5,1],
             cap:350,
             minimum: 40,
+            prioritize: true,
         },
         friend: {
             type: 6,
@@ -178,7 +186,6 @@ function defaultURAState() {
             ],
             umaBonus: [1,1,1,1,1,1],
             multi: 1,
-            bonusFS: 0,
             bonusSpec: 0,
             motivation: 0.2,
             scenarioLink: [],
@@ -190,30 +197,35 @@ function defaultURAState() {
             stats: [1,1,1.1,1,1,0.5,1.5],
             cap:350,
             minimum: 50,
+            prioritize: true,
         },
         stamina: {
             type: 1,
             stats: [1,1,1,1.1,1,0.5,1.5],
             cap:350,
             minimum: 40,
+            prioritize: false,
         },
         power: {
             type: 2,
             stats: [1,1.1,1,1,1,0.5,1.5],
             cap:350,
             minimum: 50,
+            prioritize: false,
         },
         guts: {
             type: 3,
             stats: [2,1,2,1,1,0.5,1.5],
             cap:350,
             minimum: 50,
+            prioritize: true,
         },
         wisdom: {
             type: 4,
             stats: [1.1,1,1,1,1,0.5,1.5],
             cap:350,
             minimum: 40,
+            prioritize: true,
         },
         friend: {
             type: 6,
@@ -411,13 +423,11 @@ class Weights extends React.Component {
                     <div className="weight-row">
                         <div class="section-header">Scenario Specific</div>
                         <div class="section-explanation">
-                            Multiplier accounts for MANT items. 1.4 is a medium megaphone.<br/>
-                            Bonus Friendship and Specialty is for Grand Live lessons / live bonuses.
+                            Multiplier accounts for MANT items and GL friendship songs.<br/>
+                            Bonus Specialty is for Grand Live song bonuses.
                         </div>
                         <label for="multi">Multiplier:</label>
                         <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="multi" value={this.state.general.multi} min={1} max={2.2} step={0.05}/>
-                        <label for="bonusFS">Bonus Friendship:</label>
-                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="bonusFS" value={this.state.general.bonusFS} min={-1} max={1} step={0.05}/>
                         <label for="bonusSpec">Bonus Specialty:</label>
                         <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="bonusSpec" value={this.state.general.bonusSpec} min={-1} max={95} step={5}/>
                     </div>
@@ -468,6 +478,18 @@ class Weights extends React.Component {
                         <input type="range" onChange={this.onMinimumChanged} min={20} max={100} step={5} value={this.state[this.state.currentState].minimum} class="slider" id="minimum"/>
                         <label for="minimum">{this.state[this.state.currentState].minimum}</label>
                     </div>
+                    {this.state.currentState !== "friend" &&
+                        <div className="weight-row">
+                            <div class="section-header">Prioritize Single Rainbows</div>
+                            <div class="section-explanation">
+                                If this training has a single rainbow, but another training has a double,<br/>
+                                this training's rainbow will be ignored. If this setting is turned off, then<br/>
+                                this training's single rainbows will be ignored if there is any other rainbow.
+                            </div>
+                            <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].prioritize} id="prioritize"/>
+                            <label for="prioritize">Prioritize This Stat</label>
+                        </div>
+                    }
                     </>
                 }
                 <div className="weight-row">

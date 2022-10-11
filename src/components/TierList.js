@@ -129,7 +129,8 @@ function processCards(cards, weights, selectedCards) {
     selectedCards = selectedCards.slice();
     
     // Calculate some stuff here so we don't have to do it a million times later
-    let presentTypes = [false,false,false,false,false,false,false]
+    let presentTypes = [false,false,false,false,false,false,false];
+    let cardsPerType = [[],[],[],[],[],[],[]];
     let baseBondNeeded = 0;
     for (let card = 0; card < selectedCards.length; card++) {
         let selectedCard = selectedCards[card];
@@ -138,7 +139,9 @@ function processCards(cards, weights, selectedCards) {
         selectedCard.rainbowSpecialty = cardSpecialtyPercent;
         selectedCard.offSpecialty = 100 / (450 + cardSpecialty);
         selectedCard.cardType = selectedCard.type;
+        selectedCard.index = card;
         presentTypes[selectedCard.cardType] = true;
+        cardsPerType[selectedCard.cardType].push(selectedCard);
         if (selectedCard.cardType == 6) {
             baseBondNeeded += 55 - selectedCard.sb
         } else {
@@ -149,10 +152,33 @@ function processCards(cards, weights, selectedCards) {
         }
     }
 
+    let preferredRainbowChances = [0,0,0,0,0];
+    for (let i = 0; i < 5; i++) {
+        if (i != weights.type) {
+            if(cardsPerType[i].length > 0) {
+                let minimum = 1;
+                if (weights.prioritize) {
+                    minimum = 2;
+                }
+                let combos = GetCombinations(cardsPerType[i], minimum);
+                if (combos.length > 0) {
+                    preferredRainbowChances[i] = combos.reduce((current, combo) => {
+                        return current += CalculateCombinationChance(combo, undefined, i);
+                    }, 0);
+                }
+            }
+        }
+    }
+    
+    let chanceOfPreferredRainbow = 1 - preferredRainbowChances.reduce((current, chance) => {
+        return current * (1 - chance);
+    }, 1);
+    
     for (let i = 0; i < cards.length; i++) {
         let info = {};
-        let card = cards[i];
+        let card = JSON.parse(JSON.stringify(cards[i]));
         let cardType = card.type;
+        card.index = 6;
         let bondNeeded = baseBondNeeded;
         if (cardType == 6) {
             bondNeeded += 55 - card.sb
@@ -165,6 +191,7 @@ function processCards(cards, weights, selectedCards) {
         let typeCount = presentTypesWithCard.filter(Boolean).length;
 
         // Add starting stats and stats from events
+        let score = card.sb;
         let energyGain = 0;
         let statGains = card.starting_stats.slice();
         statGains.push(0);
@@ -180,6 +207,7 @@ function processCards(cards, weights, selectedCards) {
             }
             energyGain += events[card.id][6] * card.energy_up;
             bondNeeded -= events[card.id][7];
+            score += events[card.id][7];
         } else {
             // Dummy event values for cards we don't yet know the events for
             if (card.rarity === 2) {
@@ -195,6 +223,7 @@ function processCards(cards, weights, selectedCards) {
                 }
                 bondNeeded -= 5;
             }
+            score += 5;
         }
 
         if (card.type_stats > 0) {
@@ -211,7 +240,7 @@ function processCards(cards, weights, selectedCards) {
                 }
             }
         }
-
+        
         let trainingDays = 65 - weights.races[0] - weights.races[1] - weights.races[2];
         if(cardType === 6) trainingDays -= 5;
         let daysToBond = bondNeeded / weights.bondPerDay;
@@ -223,10 +252,24 @@ function processCards(cards, weights, selectedCards) {
         let bondedDaysPerTraining = [0,0,0,0,0];
         let rainbowTraining = 0;
         
+        let rainbowOverride = 1;
+        if (cardType != 6) {
+            let chanceOfSingleRainbow = 0;
+            let cardsOfThisType = cardsPerType[cardType].slice();
+            card.rainbowSpecialty = specialtyPercent;
+            card.offSpecialty = otherPercent;
+            cardsOfThisType.push(card);
+            for (let j = 0; j < cardsOfThisType.length; j++) {
+                console.log(cardsOfThisType);
+                chanceOfSingleRainbow += CalculateCombinationChance([cardsOfThisType[j]], cardsOfThisType, cardType);
+            }
+            rainbowOverride = 1 - (chanceOfPreferredRainbow * chanceOfSingleRainbow);
+        }
+        
         // Calculate appearance rates on each training
         for (let stat = 0; stat < 5; stat++) {
             if (stat == cardType) {
-                rainbowTraining = specialtyPercent * rainbowDays;
+                rainbowTraining = specialtyPercent * rainbowDays * rainbowOverride;
                 daysPerTraining[stat] = specialtyPercent * daysToBond;
             } else {
                 daysPerTraining[stat] = otherPercent / 4 * daysToBond;
@@ -309,7 +352,7 @@ function processCards(cards, weights, selectedCards) {
         }
 
         // Convert stat gains to score
-        let score = GainsToScore(statGains, weights);
+        score += GainsToScore(statGains, weights);
         score += energyGain * weights.stats[6];
 
         if(weights.scenarioLink.indexOf(card.char_name) > -1) {
@@ -337,7 +380,7 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
     let fsBonus = 1;
     let motivationBonus = card.mb;
     if (rainbow) {
-        fsBonus = (card.fs_bonus + weights.bonusFS) * card.unique_fs_bonus;
+        fsBonus = card.fs_bonus * card.unique_fs_bonus;
         motivationBonus += card.fs_motivation;
         trainingBonus += card.fs_training;
     }
@@ -384,7 +427,7 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
         }, 1);
         const combinationFriendshipBonus = combinations[i].reduce((current, c) => {
             if (c.cardType === trainingType) {
-                return current * (c.fs_bonus + weights.bonusFS) * c.unique_fs_bonus;
+                return current * c.fs_bonus * c.unique_fs_bonus;
             } else {
                 return current;
             }
@@ -438,7 +481,7 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
     if (typeCount >= card.highlander_threshold) trainingBonus += card.highlander_training;
     let fsBonus = 1;
     if (card.group && bonded) {
-        fsBonus += ((card.fs_bonus + weights.bonusFS) + card.unique_fs_bonus - 1) / 5;
+        fsBonus += (card.fs_bonus + card.unique_fs_bonus - 1) / 5;
     }
     const combinations = GetCombinations(otherCards);
 
@@ -456,7 +499,7 @@ function CalculateCrossTrainingGain(gains, weights, card, otherCards, trainingTy
         }, 1);
         const combinationFriendshipBonus = combination.reduce((current, c) => {
             if (c.cardType === trainingType) {
-                return current * (c.fs_bonus + weights.bonusFS) * c.unique_fs_bonus;
+                return current * c.fs_bonus * c.unique_fs_bonus;
             } else {
                 return current;
             }
@@ -518,7 +561,7 @@ function GainsToScore(gains, weights) {
     return score;
 }
 
-function GetCombinations(cards) {
+function GetCombinations(cards, minLength = 1) {
     let combinations = [];
     let temp = [];
     const count = Math.pow(2, cards.length);
@@ -530,7 +573,7 @@ function GetCombinations(cards) {
                 temp.push(cards[j]);
             }
         }
-        if (temp.length > 0) {
+        if (temp.length >= minLength) {
             combinations.push(temp);
         }
     }
@@ -539,8 +582,6 @@ function GetCombinations(cards) {
 }
 
 function CalculateCombinationChance(combination, cards, trainingType) {
-    const otherCards = cards.filter((c) => combination.findIndex((d) => c.id == d.id) === -1);
-
     let chance = combination.reduce((current, card) => {
         if (card.cardType === trainingType) {
             return current * card.rainbowSpecialty;
@@ -548,14 +589,17 @@ function CalculateCombinationChance(combination, cards, trainingType) {
             return current * card.offSpecialty;
         }
     }, 1);
-
-    chance = otherCards.reduce((current, card) => {
-        if (card.cardType === trainingType) {
-            return current * (1 - card.rainbowSpecialty);
-        } else {
-            return current * (1 - card.offSpecialty);
-        }
-    }, chance);
+    
+    if (cards) {
+        const otherCards = cards.filter((c) => combination.findIndex((d) => c.index == d.index) === -1);
+        chance = otherCards.reduce((current, card) => {
+            if (card.cardType === trainingType) {
+                return current * (1 - card.rainbowSpecialty);
+            } else {
+                return current * (1 - card.offSpecialty);
+            }
+        }, chance);
+    }
 
     return chance;
 }

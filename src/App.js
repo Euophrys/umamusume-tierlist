@@ -40,14 +40,15 @@ class App extends React.Component {
                 motivation: 0.2,
                 scenarioLink: [],
                 scenarioBonus: 0,
-                fanBonus: 0.05
+                fanBonus: 0.05,
+                prioritize: true
             },
             selectedCards: [
                 cards.find((c) => c.id === 30028 && c.limit_break === 4),
-                cards.find((c) => c.id === 20023 && c.limit_break === 4),
+                cards.find((c) => c.id === 20033 && c.limit_break === 4),
                 cards.find((c) => c.id === 20012 && c.limit_break === 4),
-                cards.find((c) => c.id === 20015 && c.limit_break === 4),
-                cards.find((c) => c.id === 10060 && c.limit_break === 4),
+                cards.find((c) => c.id === 20002 && c.limit_break === 4),
+                cards.find((c) => c.id === 10083 && c.limit_break === 4),
             ],
             availableCards: cards,
             label: "Ranking for the 4th Speed card in this deck:"
