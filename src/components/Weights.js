@@ -10,7 +10,7 @@ import { lsTest } from '../utils';
 
 function defaultGLState() {
     return {
-        version: 15,
+        version: 17,
         currentState: "speed",
         show: false,
         general: {
@@ -24,11 +24,18 @@ function defaultGLState() {
                 [2,0,0,0,6,3,0]
             ],
             bondedTrainingGain: [
-                [11,0,5,0,0,2,22],
+                [11,0,5,0,0,2,23],
                 [0,9,0,6,0,2,21],
                 [0,4,10,0,0,2,21],
                 [3,0,2,10,0,2,24],
                 [3,0,0,0,9,3,0]
+            ],
+            summerTrainingGain: [
+                [12,0,6,0,0,2,24],
+                [0,12,0,8,0,2,25],
+                [0,6,13,0,0,2,25],
+                [3,0,3,11,0,2,25],
+                [4,0,0,0,10,3,0]
             ],
             umaBonus: [1,1,1,1,1,1],
             multi: 1.4,
@@ -42,7 +49,7 @@ function defaultGLState() {
                 "サイレンススズカ",
             ],
             scenarioBonus: 75,
-            fanBonus: 0.05
+            fanBonus: 0.05,
         },
         speed: {
             type: 0,
@@ -50,6 +57,7 @@ function defaultGLState() {
             cap:600,
             minimum: 35,
             prioritize: true,
+            onlySummer: false,
         },
         stamina: {
             type: 1,
@@ -57,6 +65,7 @@ function defaultGLState() {
             cap:550,
             minimum: 35,
             prioritize: false,
+            onlySummer: false,
         },
         power: {
             type: 2,
@@ -64,6 +73,7 @@ function defaultGLState() {
             cap:550,
             minimum: 35,
             prioritize: false,
+            onlySummer: false,
         },
         guts: {
             type: 3,
@@ -71,6 +81,7 @@ function defaultGLState() {
             cap:550,
             minimum: 30,
             prioritize: true,
+            onlySummer: false,
         },
         wisdom: {
             type: 4,
@@ -78,6 +89,7 @@ function defaultGLState() {
             cap:600,
             minimum: 30,
             prioritize: true,
+            onlySummer: false,
         },
         friend: {
             type: 6,
@@ -90,7 +102,7 @@ function defaultGLState() {
 
 function defaultMANTState() {
     return {
-        version: 10,
+        version: 17,
         currentState: "speed",
         show: false,
         general: {
@@ -110,6 +122,13 @@ function defaultMANTState() {
                 [4,0,3,9,0,2,24],
                 [3,0,0,0,9,3,0]
             ],
+            summerTrainingGain: [
+                [12,0,6,0,0,2,24],
+                [0,11,0,5,0,2,22],
+                [0,6,10,0,0,2,23],
+                [4,0,4,10,0,2,25],
+                [4,0,0,0,10,3,0]
+            ],
             umaBonus: [1,1,1,1,1,1],
             multi: 1.4,
             bonusSpec: 0,
@@ -124,6 +143,7 @@ function defaultMANTState() {
             cap:350,
             minimum: 50,
             prioritize: true,
+            onlySummer: false,
         },
         stamina: {
             type: 1,
@@ -131,6 +151,7 @@ function defaultMANTState() {
             cap:350,
             minimum: 40,
             prioritize: false,
+            onlySummer: false,
         },
         power: {
             type: 2,
@@ -138,6 +159,7 @@ function defaultMANTState() {
             cap:350,
             minimum: 50,
             prioritize: false,
+            onlySummer: false,
         },
         guts: {
             type: 3,
@@ -145,6 +167,7 @@ function defaultMANTState() {
             cap:350,
             minimum: 50,
             prioritize: true,
+            onlySummer: false,
         },
         wisdom: {
             type: 4,
@@ -152,6 +175,7 @@ function defaultMANTState() {
             cap:350,
             minimum: 40,
             prioritize: true,
+            onlySummer: false,
         },
         friend: {
             type: 6,
@@ -164,12 +188,12 @@ function defaultMANTState() {
 
 function defaultURAState() {
     return {
-        version: 10,
+        version: 17,
         currentState: "speed",
         show: false,
         general: {
             bondPerDay: 20,
-            races: [8,2,0,3],
+            races: [7,2,0,3],
             unbondedTrainingGain: [
                 [10,0,5,0,0,2,21],
                 [0,9,0,4,0,2,19],
@@ -183,6 +207,13 @@ function defaultURAState() {
                 [0,5,10,0,0,2,22],
                 [4,0,4,10,0,2,24],
                 [2,0,0,0,11,3,0]
+            ],
+            summerTrainingGain: [
+                [14,0,7,0,0,2,24],
+                [0,13,0,6,0,2,25],
+                [0,7,12,0,0,2,25],
+                [5,0,5,12,0,2,25],
+                [4,0,0,0,13,3,0]
             ],
             umaBonus: [1,1,1,1,1,1],
             multi: 1,
@@ -198,6 +229,7 @@ function defaultURAState() {
             cap:350,
             minimum: 50,
             prioritize: true,
+            onlySummer: false,
         },
         stamina: {
             type: 1,
@@ -205,6 +237,7 @@ function defaultURAState() {
             cap:350,
             minimum: 40,
             prioritize: false,
+            onlySummer: false,
         },
         power: {
             type: 2,
@@ -212,6 +245,7 @@ function defaultURAState() {
             cap:350,
             minimum: 50,
             prioritize: false,
+            onlySummer: false,
         },
         guts: {
             type: 3,
@@ -219,6 +253,7 @@ function defaultURAState() {
             cap:350,
             minimum: 50,
             prioritize: true,
+            onlySummer: false,
         },
         wisdom: {
             type: 4,
@@ -226,6 +261,7 @@ function defaultURAState() {
             cap:350,
             minimum: 40,
             prioritize: true,
+            onlySummer: false,
         },
         friend: {
             type: 6,
@@ -480,14 +516,19 @@ class Weights extends React.Component {
                     </div>
                     {this.state.currentState !== "friend" &&
                         <div className="weight-row">
-                            <div class="section-header">Prioritize Single Rainbows</div>
+                            <div class="section-header">Rainbow Rate Alterations</div>
                             <div class="section-explanation">
-                                If this training has a single rainbow, but another training has a double,<br/>
-                                this training's rainbow will be ignored. If this setting is turned off, then<br/>
-                                this training's single rainbows will be ignored if there is any other rainbow.
+                                If this option is disabled, then single rainbows in this stat<br/>
+                                will be ignored if any other stat is rainbowing at the same time.
                             </div>
                             <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].prioritize} id="prioritize"/>
                             <label for="prioritize">Prioritize This Stat</label>
+                            <div class="section-explanation">
+                                If this option is enabled, then all rainbows will be ignored<br/>
+                                in this stat unless it's summer. Assumes 8 summer turns. Sorry Bakushin.
+                            </div>
+                            <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].onlySummer} id="onlySummer"/>
+                            <label for="onlySummer">Only Train In Summer</label>
                         </div>
                     }
                     </>

@@ -277,6 +277,10 @@ function processCards(cards, weights, selectedCards) {
             }
         }
 
+        if (weights.onlySummer) {
+            rainbowTraining = 8 * specialtyPercent * rainbowOverride;
+        }
+
         if (card.fs_ramp[0] > 0) {
             let current_bonus = 0;
             let total = 0;
@@ -331,6 +335,9 @@ function processCards(cards, weights, selectedCards) {
         if (cardType < 6) {
             energyGain += rainbowTraining * card.wisdom_recovery;
             let specialtyGains = weights.bondedTrainingGain[cardType];
+            if (weights.onlySummer) {
+                specialtyGains = weights.summerTrainingGain[cardType];
+            }
             let trainingGains = CalculateTrainingGain(specialtyGains, weights, card, selectedCards, cardType, rainbowTraining, true, typeCount);
 
             info.rainbow_gains = trainingGains.slice();

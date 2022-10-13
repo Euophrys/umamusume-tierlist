@@ -32,6 +32,13 @@ class App extends React.Component {
                     [4,0,3,9,0,2,24],
                     [3,0,0,0,9,3,0]
                 ],
+                summerTrainingGain: [
+                    [11,0,5,0,0,2,22],
+                    [0,9,0,6,0,2,21],
+                    [0,4,10,0,0,2,21],
+                    [3,0,2,10,0,2,24],
+                    [3,0,0,0,9,3,0]
+                ],
                 umaBonus: [1,1,1,1,1,1],
                 stats: [1,1,1.1,1,1,0.5,1.5],
                 multi: 1,
@@ -41,7 +48,8 @@ class App extends React.Component {
                 scenarioLink: [],
                 scenarioBonus: 0,
                 fanBonus: 0.05,
-                prioritize: true
+                prioritize: true,
+                onlySummer: false,
             },
             selectedCards: [
                 cards.find((c) => c.id === 30028 && c.limit_break === 4),
