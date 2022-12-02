@@ -10,7 +10,7 @@ import { lsTest } from '../utils';
 
 function defaultGLState() {
     return {
-        version: 17,
+        version: 18,
         currentState: "speed",
         show: false,
         general: {
@@ -37,7 +37,7 @@ function defaultGLState() {
                 [3,0,3,11,0,2,25],
                 [4,0,0,0,10,3,0]
             ],
-            umaBonus: [1,1,1,1,1,1],
+            umaBonus: [1.06,1.06,1.06,1.06,1.06,1],
             multi: 1.4,
             bonusSpec: 20,
             motivation: 0.2,
@@ -102,7 +102,7 @@ function defaultGLState() {
 
 function defaultMANTState() {
     return {
-        version: 17,
+        version: 18,
         currentState: "speed",
         show: false,
         general: {
@@ -129,7 +129,7 @@ function defaultMANTState() {
                 [4,0,4,10,0,2,25],
                 [4,0,0,0,10,3,0]
             ],
-            umaBonus: [1,1,1,1,1,1],
+            umaBonus: [1.06,1.06,1.06,1.06,1.06,1],
             multi: 1.4,
             bonusSpec: 0,
             motivation: 0.2,
@@ -188,85 +188,85 @@ function defaultMANTState() {
 
 function defaultURAState() {
     return {
-        version: 17,
+        version: 18,
         currentState: "speed",
         show: false,
         general: {
             bondPerDay: 20,
             races: [7,2,0,3],
             unbondedTrainingGain: [
-                [10,0,5,0,0,2,21],
-                [0,9,0,4,0,2,19],
-                [0,5,8,0,0,2,20],
-                [4,0,4,8,0,2,22],
-                [2,0,0,0,9,3,0]
+                [11,0,6,0,0,4,21],
+                [0,10,0,6,0,4,19],
+                [0,6,9,0,0,4,20],
+                [5,0,5,8,0,4,22],
+                [2,0,0,0,10,5,0]
             ],
             bondedTrainingGain: [
-                [12,0,5,0,0,2,23],
-                [0,11,0,4,0,2,21],
-                [0,5,10,0,0,2,22],
-                [4,0,4,10,0,2,24],
-                [2,0,0,0,11,3,0]
+                [13,0,6,0,0,4,23],
+                [0,11,0,6,0,4,21],
+                [0,6,11,0,0,4,22],
+                [5,0,5,10,0,4,24],
+                [2,0,0,0,12,5,0]
             ],
             summerTrainingGain: [
-                [14,0,7,0,0,2,24],
-                [0,13,0,6,0,2,25],
-                [0,7,12,0,0,2,25],
-                [5,0,5,12,0,2,25],
-                [4,0,0,0,13,3,0]
+                [15,0,8,0,0,4,24],
+                [0,14,0,7,0,4,25],
+                [0,8,13,0,0,4,25],
+                [6,0,6,12,0,4,25],
+                [4,0,0,0,14,5,0]
             ],
-            umaBonus: [1,1,1,1,1,1],
+            umaBonus: [1.06,1.06,1.06,1.06,1.06,1],
             multi: 1,
             bonusSpec: 0,
             motivation: 0.2,
-            scenarioLink: [],
-            scenarioBonus: 0,
+            scenarioLink: ["桐生院葵"],
+            scenarioBonus: 16,
             fanBonus: 0.05
         },
         speed: {
             type: 0,
-            stats: [1,1,1.1,1,1,0.5,1.5],
-            cap:350,
-            minimum: 50,
+            stats: [1,1.5,1.5,1,1,0.5,1],
+            cap:500,
+            minimum: 40,
             prioritize: true,
             onlySummer: false,
         },
         stamina: {
             type: 1,
-            stats: [1,1,1,1.1,1,0.5,1.5],
-            cap:350,
-            minimum: 40,
+            stats: [1,1.5,1.5,1.1,1,0.5,1],
+            cap:400,
+            minimum: 30,
             prioritize: false,
             onlySummer: false,
         },
         power: {
             type: 2,
-            stats: [1,1.1,1,1,1,0.5,1.5],
-            cap:350,
-            minimum: 50,
+            stats: [1,1.5,1.5,1,1,0.5,1],
+            cap:400,
+            minimum: 30,
             prioritize: false,
             onlySummer: false,
         },
         guts: {
             type: 3,
-            stats: [2,1,2,1,1,0.5,1.5],
-            cap:350,
-            minimum: 50,
+            stats: [2,1.5,2,1,1,0.5,1],
+            cap:500,
+            minimum: 40,
             prioritize: true,
             onlySummer: false,
         },
         wisdom: {
             type: 4,
-            stats: [1.1,1,1,1,1,0.5,1.5],
-            cap:350,
-            minimum: 40,
+            stats: [1.1,1.5,1.5,1,1,0.5,1],
+            cap:500,
+            minimum: 30,
             prioritize: true,
             onlySummer: false,
         },
         friend: {
             type: 6,
-            stats: [1,1,1,1,1,0.5,1.5],
-            cap:350,
+            stats: [1,1.5,1.5,1,1,0.5,0.5],
+            cap:500,
             minimum: 40,
         }
     }

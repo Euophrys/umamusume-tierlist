@@ -217,9 +217,9 @@ with sqlite3.connect(dblocation) as conn:
                         bonus_value = int(unique[5 + u])
                         if bonus_type == 1:
                             current_card.unique_fs_bonus += bonus_value / 100
-                        if bonus_type == 2:
+                        elif bonus_type == 2:
                             current_card.fs_motivation += bonus_value / 100
-                        if bonus_type == 3:
+                        elif bonus_type == 3:
                             if (bonus_value > 1):
                                 current_card.fs_stats[0] += bonus_value
                             else:
@@ -227,11 +227,17 @@ with sqlite3.connect(dblocation) as conn:
                                 current_card.fs_stats[5] += 1
                         elif bonus_type == 4:
                             current_card.fs_stats[1] += bonus_value
-                        if bonus_type == 5:
+                        elif bonus_type == 5:
                             if (bonus_value > 1):
                                 current_card.fs_stats[2] += bonus_value
                             else:
                                 current_card.fs_stats[2] += 1
+                                current_card.fs_stats[5] += 1
+                        elif bonus_type == 6: 
+                            if (bonus_value > 1):
+                                current_card.fs_stats[3] += bonus_value
+                            else:
+                                current_card.fs_stats[3] += 1
                                 current_card.fs_stats[5] += 1
                         elif bonus_type == 7:
                             if(bonus_value > 1):
@@ -261,6 +267,8 @@ with sqlite3.connect(dblocation) as conn:
                         current_card.fs_energy += int(unique[4 + u]) / 100
                     elif type_0 == 114:
                         current_card.tb += 0.15
+                    elif type_0 == 115:
+                        current_card.sb += 30
                     else:
                         AddEffectToCard(current_card, type_0, int(unique[3 + u]))
             cards.append(current_card)
