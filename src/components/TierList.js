@@ -134,7 +134,7 @@ function processCards(cards, weights, selectedCards) {
     let baseBondNeeded = 0;
     for (let card = 0; card < selectedCards.length; card++) {
         let selectedCard = selectedCards[card];
-        let cardSpecialty = (100 + selectedCard.specialty_rate + weights.bonusSpec) * selectedCard.unique_specialty;
+        let cardSpecialty = (100 + selectedCard.specialty_rate + weights.bonusSpec) * selectedCard.unique_specialty * selectedCard.fs_specialty;
         let cardSpecialtyPercent = (cardSpecialty) / (450 + cardSpecialty)
         selectedCard.rainbowSpecialty = cardSpecialtyPercent;
         selectedCard.offSpecialty = 100 / (450 + cardSpecialty);
@@ -245,7 +245,7 @@ function processCards(cards, weights, selectedCards) {
         if(cardType === 6) trainingDays -= 5;
         let daysToBond = bondNeeded / weights.bondPerDay;
         let rainbowDays = trainingDays - daysToBond;
-        let specialty = (100 + card.specialty_rate + weights.bonusSpec) * card.unique_specialty;
+        let specialty = (100 + card.specialty_rate + weights.bonusSpec) * card.unique_specialty * card.fs_specialty;
         let specialtyPercent = specialty / (450 + specialty);
         let otherPercent = 100 / (450 + specialty);
         let daysPerTraining = [0,0,0,0,0];
