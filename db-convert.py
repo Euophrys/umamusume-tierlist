@@ -26,6 +26,7 @@ class Card():
     fs_stats = []
     fs_training = 0
     fs_motivation = 0
+    fs_specialty = 1
     fs_ramp=[0,0]
     fs_energy = 0
     hint_rate = 0
@@ -180,6 +181,7 @@ with sqlite3.connect(dblocation) as conn:
             current_card.fs_stats = [0,0,0,0,0,0]
             current_card.fs_training = 0
             current_card.fs_motivation = 0
+            current_card.fs_specialty = 1
             current_card.fs_ramp = [0,0]
             current_card.fs_energy = 0
             current_card.wisdom_recovery = 0
@@ -247,6 +249,8 @@ with sqlite3.connect(dblocation) as conn:
                                 current_card.fs_stats[5] += 1
                         elif bonus_type == 8:
                             current_card.fs_training += bonus_value / 100
+                        elif bonus_type == 19:
+                            current_card.fs_specialty += bonus_value / 100
                         elif bonus_type == 30:
                             current_card.fs_stats[5] += 2
                         elif bonus_type == 31:
@@ -264,7 +268,12 @@ with sqlite3.connect(dblocation) as conn:
                     elif type_0 == 111:
                         current_card.tb += 0.15
                     elif type_0 == 113:
-                        current_card.fs_energy += int(unique[4 + u]) / 100
+                        bonus_type = int(unique[3 + u])
+                        bonus_value = int(unique[4 + u])
+                        if bonus_type == 2:
+                            current_card.fs_motivation += bonus_value / 100
+                        elif bonus_type == 28:
+                            current_card.fs_energy += bonus_value / 100
                     elif type_0 == 114:
                         current_card.tb += 0.15
                     elif type_0 == 115:
