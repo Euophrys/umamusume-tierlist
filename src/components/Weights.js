@@ -8,6 +8,94 @@ import WisdomIcon from '../icons/utx_ico_obtain_04.png';
 import FriendIcon from '../icons/utx_ico_obtain_05.png';
 import { lsTest } from '../utils';
 
+function defaultGMState() {
+    return {
+        version: 20,
+        currentState: "speed",
+        show: false,
+        general: {
+            bondPerDay: 15,
+            races: [10,2,0,3],
+            unbondedTrainingGain: [
+                [10,0,4,0,0,5,19],
+                [0,8,0,6,0,5,20],
+                [0,4,9,0,0,5,20],
+                [2,0,3,9,0,5,20],
+                [2,0,0,0,8,5,0]
+            ],
+            bondedTrainingGain: [
+                [13,0,5,0,0,5,23],
+                [0,9,0,6,0,5,21],
+                [0,4,10,0,0,5,21],
+                [3,0,3,12,0,5,24],
+                [3,0,0,0,11,5,0]
+            ],
+            summerTrainingGain: [
+                [14,0,6,0,0,5,24],
+                [0,12,0,8,0,5,25],
+                [0,6,13,0,0,5,25],
+                [4,0,4,13,0,5,25],
+                [4,0,0,0,12,5,0]
+            ],
+            umaBonus: [1.06,1.06,1.06,1.06,1.06,1],
+            multi: 1.2,
+            bonusSpec: 0,
+            motivation: 0.2,
+            scenarioLink: [
+
+            ],
+            scenarioBonus: 0,
+            fanBonus: 0.1,
+        },
+        speed: {
+            type: 0,
+            stats: [1.1,1,1.2,1,1,0.5,1.5],
+            cap:600,
+            minimum: 35,
+            prioritize: true,
+            onlySummer: false,
+        },
+        stamina: {
+            type: 1,
+            stats: [1,1,1,1.1,1,0.5,1.5],
+            cap:550,
+            minimum: 35,
+            prioritize: false,
+            onlySummer: false,
+        },
+        power: {
+            type: 2,
+            stats: [1,1.1,1,1,1,0.5,1.5],
+            cap:550,
+            minimum: 35,
+            prioritize: false,
+            onlySummer: false,
+        },
+        guts: {
+            type: 3,
+            stats: [2,1,2,1,1,0.5,1.5],
+            cap:550,
+            minimum: 30,
+            prioritize: true,
+            onlySummer: false,
+        },
+        wisdom: {
+            type: 4,
+            stats: [1.1,1,1,1,1.1,0.5,1],
+            cap:600,
+            minimum: 30,
+            prioritize: true,
+            onlySummer: false,
+        },
+        friend: {
+            type: 6,
+            stats: [1,1,1,1,1,0.5,0.75],
+            cap:500,
+            minimum: 30,
+        }
+    }
+}
+
 function defaultGLState() {
     return {
         version: 18,
@@ -186,6 +274,98 @@ function defaultMANTState() {
     }
 }
 
+function defaultAoharuState() {
+    return {
+        version: 18,
+        currentState: "wisdom",
+        show: false,
+        general: {
+            bondPerDay: 20,
+            races: [7,2,0,3],
+            unbondedTrainingGain: [
+                [8,0,4,0,0,4,19],
+                [0,8,0,6,0,4,20],
+                [0,4,9,0,0,4,20],
+                [3,0,3,6,0,4,20],
+                [2,0,0,0,6,5,0]
+            ],
+            bondedTrainingGain: [
+                [12,0,5,0,0,4,24],
+                [0,12,0,7,0,4,25],
+                [0,5,13,0,0,4,25],
+                [4,0,3,10,0,4,25],
+                [3,0,0,0,10,5,0]
+            ],
+            summerTrainingGain: [
+                [13,0,6,0,0,4,25],
+                [0,13,0,8,0,4,26],
+                [0,6,14,0,0,4,26],
+                [4,0,4,11,0,4,26],
+                [4,0,0,0,11,5,0]
+            ],
+            umaBonus: [1.06,1.06,1.06,1.06,1.06,1],
+            multi: 1,
+            bonusSpec: 0,
+            motivation: 0.2,
+            scenarioLink: [
+                "マチカネフクキタル",
+                "ハルウララ",
+                "樫本理子",
+                "ライスシャワー",
+                "タイキシャトル"
+            ],
+            scenarioBonus: 40,
+            fanBonus: 0.05
+        },
+        speed: {
+            type: 0,
+            stats: [1,1.5,1.5,1,1,0.5,1],
+            cap:550,
+            minimum: 40,
+            prioritize: false,
+            onlySummer: false,
+        },
+        stamina: {
+            type: 1,
+            stats: [1,1.5,1.5,1.1,1,0.5,1],
+            cap:400,
+            minimum: 30,
+            prioritize: false,
+            onlySummer: false,
+        },
+        power: {
+            type: 2,
+            stats: [1,1.5,1.5,1,1,0.5,1],
+            cap:400,
+            minimum: 30,
+            prioritize: false,
+            onlySummer: false,
+        },
+        guts: {
+            type: 3,
+            stats: [2,1.5,2,1,1,0.5,1],
+            cap:500,
+            minimum: 40,
+            prioritize: false,
+            onlySummer: false,
+        },
+        wisdom: {
+            type: 4,
+            stats: [1.2,1,1,1,1.5,1,0.5],
+            cap:900,
+            minimum: 30,
+            prioritize: true,
+            onlySummer: false,
+        },
+        friend: {
+            type: 6,
+            stats: [1,1.5,1.5,1,1,0.5,0.5],
+            cap:500,
+            minimum: 40,
+        }
+    }
+}
+
 function defaultURAState() {
     return {
         version: 18,
@@ -285,7 +465,9 @@ class Weights extends React.Component {
         this.onMotivationChanged = this.onMotivationChanged.bind(this);
         this.onMANTReset = this.onMANTReset.bind(this);
         this.onURAReset = this.onURAReset.bind(this);
+        this.onAoharuReset = this.onAoharuReset.bind(this);
         this.onGLReset = this.onGLReset.bind(this);
+        this.onGMReset = this.onGMReset.bind(this);
 
         if(lsTest()) {
             let savedWeights = window.localStorage.getItem("weights");
@@ -298,7 +480,7 @@ class Weights extends React.Component {
             }
         }
 
-        this.state = defaultGLState();
+        this.state = defaultGMState();
         this.props.onChange(this.state[this.state.currentState], this.state.general);
     }
 
@@ -322,6 +504,18 @@ class Weights extends React.Component {
 
     onURAReset() {
         let newState = defaultURAState();
+        this.setState(newState);
+        this.props.onChange(newState[newState.currentState], newState.general);
+    }
+
+    onAoharuReset() {
+        let newState = defaultAoharuState();
+        this.setState(newState);
+        this.props.onChange(newState[newState.currentState], newState.general);
+    }
+
+    onGMReset() {
+        let newState = defaultGMState();
         this.setState(newState);
         this.props.onChange(newState[newState.currentState], newState.general);
     }
@@ -431,9 +625,16 @@ class Weights extends React.Component {
                     this.state.show &&
                     <>
                     <div className="weight-row">
-                    <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>GL Defaults</button>
-                    <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>MANT Defaults</button>
-                    <button id="reset-weights-URA" type="button" onClick={this.onURAReset}>URA Defaults</button>
+                        <div class="section-header">Scenario</div>
+                        <div class="section-explanation">
+                            Which scenario you're playing in.<br/>
+                            Changes the stat gains from trainings and some default values.
+                        </div>
+                        <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>GM</button>
+                        <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>GL</button>
+                        <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>MANT</button>
+                        <button id="reset-weights-URA" type="button" onClick={this.onAoharuReset}>Aoharu</button>
+                        <button id="reset-weights-URA" type="button" onClick={this.onURAReset}>URA</button>
                     </div>
                     <div className="weight-row">
                         <div class="section-header">Bond Rate</div>
@@ -501,7 +702,7 @@ class Weights extends React.Component {
                             This will cap the stat gain, penalizing cards that only raise one stat.<br/>
                             Lower this if you tend to cap your stats very early to strengthen cards that raise multiple.
                         </div>
-                        <input type="range" onChange={this.onCapChanged} min={200} max={700} step={10} value={this.state[this.state.currentState].cap} class="slider" id="cap"/>
+                        <input type="range" onChange={this.onCapChanged} min={300} max={1000} step={20} value={this.state[this.state.currentState].cap} class="slider" id="cap"/>
                         <label for="cap">{this.state[this.state.currentState].cap}</label>
                     </div>
                     <div className="weight-row">

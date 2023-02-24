@@ -278,6 +278,8 @@ with sqlite3.connect(dblocation) as conn:
                         current_card.tb += 0.15
                     elif type_0 == 115:
                         current_card.sb += 30
+                    elif type_0 == 116:
+                        current_card.fs_training += 0.16
                     else:
                         AddEffectToCard(current_card, type_0, int(unique[3 + u]))
             cards.append(current_card)
