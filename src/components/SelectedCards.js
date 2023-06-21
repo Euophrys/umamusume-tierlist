@@ -107,9 +107,9 @@ function SelectedCards(props) {
             </div>
             <div>
                 Presets:
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20033,20009,20003,30081])}>Speed/Power</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20008,30022,30067])}>Speed/Stamina</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20033,20012,20002,30081])}>Speed/Int</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20009,20003,30137])}>Speed/Power</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20008,30022,30137])}>Speed/Stamina</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20012,20002,30137])}>Speed/Int</button>
                 <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20048,20041,20012,20002])}>Guts/Int</button>
             </div>
             <div>

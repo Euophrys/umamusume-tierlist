@@ -206,6 +206,11 @@ with sqlite3.connect(dblocation) as conn:
             unique = cursor.fetchone()
             if unique is not None:
                 for u in range(0,10,6):
+                    if current_card.id == 30137:
+                        current_card.unique_fs_bonus += 0.1
+                        current_card.fs_stats[5] += 1
+                        current_card.fs_motivation += 0.15
+                        break
                     type_0 = int(unique[2 + u])
                     if type_0 == 1:
                         current_card.unique_fs_bonus += int(unique[3 + u]) / 100
@@ -279,7 +284,13 @@ with sqlite3.connect(dblocation) as conn:
                     elif type_0 == 115:
                         current_card.sb += 30
                     elif type_0 == 116:
-                        current_card.fs_training += 0.16
+                        if int(unique[4 + u]) == 4:
+                            current_card.stat_bonus[1] += 3
+                        else:
+                            current_card.fs_training += 0.2
+                    elif type_0 == 117:
+                        current_card.tb += 0.05
+                        current_card.fs_training += 0.10
                     else:
                         AddEffectToCard(current_card, type_0, int(unique[3 + u]))
             cards.append(current_card)

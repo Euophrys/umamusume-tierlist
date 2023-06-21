@@ -56,7 +56,7 @@ class App extends React.Component {
                 cards.find((c) => c.id === 20033 && c.limit_break === 4),
                 cards.find((c) => c.id === 20009 && c.limit_break === 4),
                 cards.find((c) => c.id === 30134 && c.limit_break === 4),
-                cards.find((c) => c.id === 30067 && c.limit_break === 0),
+                cards.find((c) => c.id === 30137 && c.limit_break === 0),
             ],
             availableCards: cards,
             label: "Ranking for the 4th Speed card in this deck:"
@@ -113,9 +113,8 @@ class App extends React.Component {
             <div className="App">
                 <h1>Uma Musume Support Card Tier List</h1>
                 <span class="section-explanation">
-                    Created by Erzzy from the UmaMusume EN Discord<br/>
                     For more game information, check the <a href="https://docs.google.com/document/d/1gNcV7XLmxx0OI2DEAR8gmKb8P9BBhcwGhlJOVbYaXeo/edit?usp=sharing">Uma Musume Reference</a><br/>
-                    This tier list defaults to the Grand Live Scenario and doesn't consider skills, only stats.<br/>
+                    This tier list defaults to the Grandmasters Scenario and doesn't consider skills, only stats.<br/>
                 </span>
                 <Weights
                     onChange={this.onWeightsChanged}

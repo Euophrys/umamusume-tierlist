@@ -10,88 +10,88 @@ import { lsTest } from '../utils';
 
 function defaultGMState() {
     return {
-        version: 20,
+        version: 26,
         currentState: "speed",
         show: false,
         general: {
             bondPerDay: 15,
-            races: [10,2,0,3],
+            races: [10,2,0,5],
             unbondedTrainingGain: [
-                [10,0,4,0,0,5,19],
+                [10,0,3,0,0,5,19],
                 [0,8,0,6,0,5,20],
                 [0,4,9,0,0,5,20],
                 [2,0,3,9,0,5,20],
                 [2,0,0,0,8,5,0]
             ],
             bondedTrainingGain: [
-                [13,0,5,0,0,5,23],
+                [13,0,4,0,0,5,23],
                 [0,9,0,6,0,5,21],
                 [0,4,10,0,0,5,21],
                 [3,0,3,12,0,5,24],
                 [3,0,0,0,11,5,0]
             ],
             summerTrainingGain: [
-                [14,0,6,0,0,5,24],
+                [14,0,5,0,0,5,24],
                 [0,12,0,8,0,5,25],
                 [0,6,13,0,0,5,25],
                 [4,0,4,13,0,5,25],
                 [4,0,0,0,12,5,0]
             ],
             umaBonus: [1.06,1.06,1.06,1.06,1.06,1],
-            multi: 1.2,
+            multi: 1.25,
             bonusSpec: 0,
             motivation: 0.2,
             scenarioLink: [
-
+                "ダーレーアラビアン"
             ],
-            scenarioBonus: 0,
+            scenarioBonus: 150,
             fanBonus: 0.1,
         },
         speed: {
             type: 0,
-            stats: [1.1,1,1.2,1,1,0.5,1.5],
+            stats: [1.1,1,2,1,1,2,1.5],
             cap:600,
-            minimum: 35,
+            minimum: 20,
             prioritize: true,
             onlySummer: false,
         },
         stamina: {
             type: 1,
-            stats: [1,1,1,1.1,1,0.5,1.5],
+            stats: [1,1,1,1.1,1,2,1.5],
             cap:550,
-            minimum: 35,
+            minimum: 20,
             prioritize: false,
             onlySummer: false,
         },
         power: {
             type: 2,
-            stats: [1,1.1,1,1,1,0.5,1.5],
+            stats: [1,1.1,1,1,1,2,1.5],
             cap:550,
-            minimum: 35,
+            minimum: 20,
             prioritize: false,
             onlySummer: false,
         },
         guts: {
             type: 3,
-            stats: [2,1,2,1,1,0.5,1.5],
+            stats: [2,1,2,1,1,2,1.5],
             cap:550,
-            minimum: 30,
+            minimum: 20,
             prioritize: true,
             onlySummer: false,
         },
         wisdom: {
             type: 4,
-            stats: [1.1,1,1,1,1.1,0.5,1],
+            stats: [1.1,1,1,1,1.1,2,1],
             cap:600,
-            minimum: 30,
+            minimum: 20,
             prioritize: true,
             onlySummer: false,
         },
         friend: {
             type: 6,
-            stats: [1,1,1,1,1,0.5,0.75],
+            stats: [1,1,1,1,1,2,0.75],
             cap:500,
-            minimum: 30,
+            minimum: 20,
         }
     }
 }
@@ -630,7 +630,7 @@ class Weights extends React.Component {
                             Which scenario you're playing in.<br/>
                             Changes the stat gains from trainings and some default values.
                         </div>
-                        <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>GM</button>
+                        <button id="reset-weights-GL" type="button" onClick={this.onGMReset}>GM</button>
                         <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>GL</button>
                         <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>MANT</button>
                         <button id="reset-weights-URA" type="button" onClick={this.onAoharuReset}>Aoharu</button>
