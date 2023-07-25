@@ -2,7 +2,8 @@ import sqlite3
 import json
 from json import JSONEncoder
 
-dblocation = 'C:\\Users\\Erzz\\AppData\\LocalLow\\Cygames\\umamusume\\master\\master.mdb'
+#dblocation = 'C:\\Users\\Erzz\\AppData\\LocalLow\\Cygames\\umamusume\\master\\master.mdb'
+dblocation = '/usr/home/peter/uma-tools/master.mdb'
 
 class Card():
     id = 0
@@ -284,8 +285,8 @@ with sqlite3.connect(dblocation) as conn:
                     elif type_0 == 115:
                         current_card.sb += 30
                     elif type_0 == 116:
-                        if int(unique[4 + u]) == 4:
-                            current_card.stat_bonus[1] += 3
+                        if int(unique[4 + u]) >= 3:
+                            current_card.stat_bonus[int(unique[4 + u]) - 3] += 3
                         else:
                             current_card.fs_training += 0.2
                     elif type_0 == 117:
