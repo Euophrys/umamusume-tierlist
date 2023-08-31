@@ -25,6 +25,10 @@ class Card():
     stat_bonus = []
     specialty_rate = 0
     unique_specialty = 1
+    # Normal cards have an equal 1/4 chance of appearing on any of their off-stat trainings if they don't roll
+    # their specialty stat; friend/group cards have a 1/5 chance of appearing on any training; Satake Mei's
+    # unique effect gives her a 2/5 chance of appearing on any training.
+    offstat_appearance_denominator = 4
     tb = 0
     fs_bonus = 0
     mb = 0
@@ -182,6 +186,7 @@ with sqlite3.connect(args.dblocation) as conn:
             current_card.sb = 0
             current_card.specialty_rate = 0
             current_card.unique_specialty = 1
+            current_card.offstat_appearance_denominator = 5 if current_card.type == 6 else 4
             current_card.tb = 1
             current_card.fs_bonus = 1
             current_card.mb = 1
@@ -250,6 +255,9 @@ with sqlite3.connect(args.dblocation) as conn:
                                 current_card.fs_stats[5] += bonus_value
                             elif bonus_type == 31:
                                 current_card.wisdom_recovery += bonus_value
+                            elif bonus_type == 41:
+                                for i in range(0,5):
+                                    current_card.fs_stats[i] += bonus_value
                             elif bonus_type > 0:
                                 print(f"WARN: unknown bonus type {bonus_type} on card id {current_card.id}")
                     elif type_0 == 106:
@@ -283,6 +291,8 @@ with sqlite3.connect(args.dblocation) as conn:
                     elif type_0 == 117:
                         current_card.tb += 0.05
                         current_card.fs_training += 0.10
+                    elif type_0 == 118:
+                        current_card.offstat_appearance_denominator = 2.5
                     else:
                         AddEffectToCard(current_card, type_0, int(unique[3 + u]))
             cards.append(current_card)

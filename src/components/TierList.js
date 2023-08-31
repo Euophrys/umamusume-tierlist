@@ -248,6 +248,7 @@ function processCards(cards, weights, selectedCards) {
         let specialty = (100 + card.specialty_rate + weights.bonusSpec) * card.unique_specialty * card.fs_specialty;
         let specialtyPercent = specialty / (450 + specialty);
         let otherPercent = 100 / (450 + specialty);
+        let offstatAppearanceDenominator = card.offstat_appearance_denominator;
         let daysPerTraining = [0,0,0,0,0];
         let bondedDaysPerTraining = [0,0,0,0,0];
         let rainbowTraining = 0;
@@ -272,8 +273,8 @@ function processCards(cards, weights, selectedCards) {
                 rainbowTraining = specialtyPercent * rainbowDays * rainbowOverride;
                 daysPerTraining[stat] = specialtyPercent * daysToBond;
             } else {
-                daysPerTraining[stat] = otherPercent / 4 * daysToBond;
-                bondedDaysPerTraining[stat] = otherPercent / 4 * rainbowDays;
+                daysPerTraining[stat] = otherPercent / offstatAppearanceDenominator * daysToBond;
+                bondedDaysPerTraining[stat] = otherPercent / offstatAppearanceDenominator * rainbowDays;
             }
         }
 
