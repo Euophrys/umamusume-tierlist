@@ -1,9 +1,11 @@
+import argparse
 import sqlite3
 import json
 from json import JSONEncoder
 
-#dblocation = 'C:\\Users\\Erzz\\AppData\\LocalLow\\Cygames\\umamusume\\master\\master.mdb'
-dblocation = '/usr/home/peter/uma-tools/master.mdb'
+parser = argparse.ArgumentParser(prog='db-convert.py')
+parser.add_argument('dblocation')
+args = parser.parse_args()
 
 class Card():
     id = 0
@@ -150,7 +152,7 @@ types = {
     106: 4
 }
 
-with sqlite3.connect(dblocation) as conn:
+with sqlite3.connect(args.dblocation) as conn:
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM support_card_data')
     card_data = cursor.fetchall()
