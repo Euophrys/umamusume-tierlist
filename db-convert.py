@@ -5,7 +5,10 @@ from json import JSONEncoder
 
 parser = argparse.ArgumentParser(prog='db-convert.py')
 parser.add_argument('dblocation')
+parser.add_argument('--dry-run', action='store_true')
 args = parser.parse_args()
+
+IGNORE_EFFECTS = [0, 16, 17, 112]
 
 class Card():
     id = 0
@@ -140,6 +143,8 @@ def AddEffectToCard(card, effect_type, effect_value):
         card.fan_bonus = 1
     elif effect_type == 110:
         card.crowd_bonus += 0.05
+    elif effect_type not in IGNORE_EFFECTS:
+        print(f"WARN: unknown effect type {effect_type} on card id {card.id}")
 
 cards = []
 
@@ -303,11 +308,12 @@ with sqlite3.connect(args.dblocation) as conn:
             if char_name is not None:
                 current_card.char_name = char_name[3]
 
-card_strings = []
-for card in cards:
-    card_strings.append(json.dumps(card.__dict__, ensure_ascii=False))
+if not args.dry_run:
+    card_strings = []
+    for card in cards:
+        card_strings.append(json.dumps(card.__dict__, ensure_ascii=False))
 
-json_string = 'const cards = [%s];\n\nexport default cards;' % ",".join(card_strings)
+    json_string = 'const cards = [%s];\n\nexport default cards;' % ",".join(card_strings)
 
-with open("./cards.js", "w", encoding="utf-8") as f:
-    f.write(json_string)
+    with open("./cards.js", "w", encoding="utf-8") as f:
+        f.write(json_string)
