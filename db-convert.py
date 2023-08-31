@@ -214,11 +214,6 @@ with sqlite3.connect(args.dblocation) as conn:
             unique = cursor.fetchone()
             if unique is not None:
                 for u in range(0,10,6):
-                    if current_card.id == 30137:
-                        current_card.unique_fs_bonus += 0.1
-                        current_card.fs_stats[5] += 1
-                        current_card.fs_motivation += 0.15
-                        break
                     type_0 = int(unique[2 + u])
                     if type_0 == 1:
                         current_card.unique_fs_bonus += int(unique[3 + u]) / 100
@@ -228,46 +223,35 @@ with sqlite3.connect(args.dblocation) as conn:
                         current_card.highlander_threshold = int(unique[3 + u])
                         current_card.highlander_training = int(unique[4 + u]) / 100
                     elif type_0 == 101:
-                        bonus_type = int(unique[4 + u])
-                        bonus_value = int(unique[5 + u])
-                        if bonus_type == 1:
-                            current_card.unique_fs_bonus += bonus_value / 100
-                        elif bonus_type == 2:
-                            current_card.fs_motivation += bonus_value / 100
-                        elif bonus_type == 3:
-                            if (bonus_value > 1):
+                        bonus_type_1 = int(unique[4 + u])
+                        bonus_type_2 = int(unique[6 + u])
+                        bonus_value_1 = int(unique[5 + u])
+                        bonus_value_2 = int(unique[7 + u])
+                        for (bonus_type, bonus_value) in zip([bonus_type_1, bonus_type_2], [bonus_value_1, bonus_value_2]):
+                            if bonus_type == 1:
+                                current_card.unique_fs_bonus += bonus_value / 100
+                            elif bonus_type == 2:
+                                current_card.fs_motivation += bonus_value / 100
+                            elif bonus_type == 3:
                                 current_card.fs_stats[0] += bonus_value
-                            else:
-                                current_card.fs_stats[0] += 1
-                                current_card.fs_stats[5] += 1
-                        elif bonus_type == 4:
-                            current_card.fs_stats[1] += bonus_value
-                        elif bonus_type == 5:
-                            if (bonus_value > 1):
+                            elif bonus_type == 4:
+                                current_card.fs_stats[1] += bonus_value
+                            elif bonus_type == 5:
                                 current_card.fs_stats[2] += bonus_value
-                            else:
-                                current_card.fs_stats[2] += 1
-                                current_card.fs_stats[5] += 1
-                        elif bonus_type == 6: 
-                            if (bonus_value > 1):
+                            elif bonus_type == 6:
                                 current_card.fs_stats[3] += bonus_value
-                            else:
-                                current_card.fs_stats[3] += 1
-                                current_card.fs_stats[5] += 1
-                        elif bonus_type == 7:
-                            if(bonus_value > 1):
+                            elif bonus_type == 7:
                                 current_card.fs_stats[4] += bonus_value
-                            else:
-                                current_card.fs_stats[4] += 1
-                                current_card.fs_stats[5] += 1
-                        elif bonus_type == 8:
-                            current_card.fs_training += bonus_value / 100
-                        elif bonus_type == 19:
-                            current_card.fs_specialty += bonus_value / 100
-                        elif bonus_type == 30:
-                            current_card.fs_stats[5] += 2
-                        elif bonus_type == 31:
-                            current_card.wisdom_recovery += bonus_value
+                            elif bonus_type == 8:
+                                current_card.fs_training += bonus_value / 100
+                            elif bonus_type == 19:
+                                current_card.fs_specialty += bonus_value / 100
+                            elif bonus_type == 30:
+                                current_card.fs_stats[5] += bonus_value
+                            elif bonus_type == 31:
+                                current_card.wisdom_recovery += bonus_value
+                            elif bonus_type > 0:
+                                print(f"WARN: unknown bonus type {bonus_type} on card id {current_card.id}")
                     elif type_0 == 106:
                         current_card.fs_ramp = [3,15]
                     elif type_0 == 105:
