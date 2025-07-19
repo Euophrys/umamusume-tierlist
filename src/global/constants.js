@@ -4,7 +4,7 @@ export const supportCardProperties = {
         shorthand: "RB"
     },
     tb: {
-        friendly_name: "Training Bonus",
+        friendly_name: "Training Effectiveness",
         shorthand: "TB"
     },
     fs_bonus: {
@@ -12,19 +12,19 @@ export const supportCardProperties = {
         shorthand: "FB"
     },
     mb: {
-        friendly_name: "Motivation Bonus",
+        friendly_name: "Mood Effect",
         shorthand: "MB"
     },
     sb: {
-        friendly_name: "Starting Bond",
-        shorthand: "SB"
+        friendly_name: "Initial Friendship Gauge",
+        shorthand: "FG"
     },
     specialty_rate: {
-        friendly_name: "Specialty Rate",
-        shorthand: "SR"
+        friendly_name: "Specialty Priority",
+        shorthand: "SP"
     },
     hint_rate: {
-        friendly_name: "Hint Rate",
-        shorthand: "HR"
+        friendly_name: "Hint Frequency",
+        shorthand: "HF"
     },
 }
