@@ -1,12 +1,12 @@
 import React from 'react';
 import NumericInput from 'react-numeric-input';
-import SpeedIcon from '../icons/utx_ico_obtain_00.png';
-import StaminaIcon from '../icons/utx_ico_obtain_01.png';
-import PowerIcon from '../icons/utx_ico_obtain_02.png';
-import GutsIcon from '../icons/utx_ico_obtain_03.png';
-import WisdomIcon from '../icons/utx_ico_obtain_04.png';
-import FriendIcon from '../icons/utx_ico_obtain_05.png';
-import { lsTest } from '../utils';
+import SpeedIcon from '../../icons/utx_ico_obtain_00.png';
+import StaminaIcon from '../../icons/utx_ico_obtain_01.png';
+import PowerIcon from '../../icons/utx_ico_obtain_02.png';
+import GutsIcon from '../../icons/utx_ico_obtain_03.png';
+import WisdomIcon from '../../icons/utx_ico_obtain_04.png';
+import FriendIcon from '../../icons/utx_ico_obtain_05.png';
+import { lsTest } from '../../utils';
 
 function defaultGMState() {
     return {
@@ -399,7 +399,7 @@ function defaultURAState() {
             multi: 1,
             bonusSpec: 0,
             motivation: 0.2,
-            scenarioLink: ["桐生院葵"],
+            scenarioLink: ["Aoi Kiryuin"],
             scenarioBonus: 16,
             fanBonus: 0.05
         },
@@ -480,7 +480,7 @@ class Weights extends React.Component {
             }
         }
 
-        this.state = defaultGMState();
+        this.state = defaultURAState();
         this.props.onChange(this.state[this.state.currentState], this.state.general);
     }
 

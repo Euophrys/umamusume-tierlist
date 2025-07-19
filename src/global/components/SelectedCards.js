@@ -1,10 +1,10 @@
 import React from 'react';
-import SpeedIcon from '../icons/utx_ico_obtain_00.png';
-import StaminaIcon from '../icons/utx_ico_obtain_01.png';
-import PowerIcon from '../icons/utx_ico_obtain_02.png';
-import GutsIcon from '../icons/utx_ico_obtain_03.png';
-import WisdomIcon from '../icons/utx_ico_obtain_04.png';
-import FriendIcon from '../icons/utx_ico_obtain_05.png';
+import SpeedIcon from '../../icons/utx_ico_obtain_00.png';
+import StaminaIcon from '../../icons/utx_ico_obtain_01.png';
+import PowerIcon from '../../icons/utx_ico_obtain_02.png';
+import GutsIcon from '../../icons/utx_ico_obtain_03.png';
+import WisdomIcon from '../../icons/utx_ico_obtain_04.png';
+import FriendIcon from '../../icons/utx_ico_obtain_05.png';
 import events from '../card-events';
 const raceRewards = [
     10,
@@ -104,15 +104,10 @@ function SelectedCards(props) {
             </div>
             <div>
                 Presets:
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20009,20003,30137])}>Speed/Power</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20008,30022,30137])}>Speed/Stamina</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20012,20002,30137])}>Speed/Int</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20048,20041,20012,20002])}>Guts/Int</button>
-            </div>
-            <div>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20012,20016,20025,20002,10060])}>Aoharu Parent</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20008,20009,30019,20012])}>Highlander</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20031,30074,20027,20012,30054])}>Race Bonus</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20023,20020,20009,20003])}>Speed/Power</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20023,20020,20008,30022])}>Speed/Stamina</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20023,20020,20012,20002])}>Speed/Int</button>
+                <button className="btn-preset" onClick={()=>props.onLoadPreset([30011,30030,30019,20012,20002])}>Guts/Int</button>
             </div>
         </div>
     );

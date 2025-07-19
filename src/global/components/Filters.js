@@ -1,6 +1,6 @@
 import React from 'react';
 import cards from '../cards';
-import { lsTest } from '../utils';
+import { lsTest } from '../../utils';
 
 class Filters extends React.Component {
     constructor(props) {
@@ -76,7 +76,7 @@ class Filters extends React.Component {
     render() {
         const rarities = ["ssr","sr","r"];
         let rows = [];
-        rows.push(<tr><th>SSR</th><th>SR</th><th>R</th></tr>);
+        rows.push(<tr key="c10"><th>SSR</th><th>SR</th><th>R</th></tr>);
         for (let i = 4; i >= 0; i--) {
             let data = [];
             let lit_up = "";
