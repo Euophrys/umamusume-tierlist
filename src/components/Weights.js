@@ -8,6 +8,92 @@ import WisdomIcon from '../icons/utx_ico_obtain_04.png';
 import FriendIcon from '../icons/utx_ico_obtain_05.png';
 import { lsTest } from '../utils';
 
+function defaultDYIState() {
+    return {
+        version: 30,
+        currentState: "speed",
+        show: false,
+        general: {
+            bondPerDay: 15,
+            races: [10,2,0,3],
+            unbondedTrainingGain: [
+                [12,0,1,0,0,6,20],
+                [0,9,0,5,0,6,20],
+                [0,3,11,0,0,6,20],
+                [2,0,2,10,0,6,20],
+                [2,0,0,0,8,5,0]
+            ],
+            bondedTrainingGain: [
+                [15,0,2,0,0,6,23],
+                [0,11,0,6,0,6,23],
+                [0,4,14,0,0,6,23],
+                [3,0,2,13,0,6,23],
+                [3,0,0,0,11,5,0]
+            ],
+            summerTrainingGain: [
+                [17,0,3,0,0,6,25],
+                [0,13,0,7,0,6,25],
+                [0,5,16,0,0,6,25],
+                [3,0,3,15,0,6,25],
+                [4,0,0,0,13,5,0]
+            ],
+            umaBonus: [1.06,1.06,1.06,1.06,1.06,1],
+            multi: 1,
+            bonusSpec: 20,
+            motivation: 0.2,
+            scenarioLink: ["タッカーブライン"],
+            scenarioBonus: 1000,
+            fanBonus: 0.05
+        },
+        speed: {
+            type: 0,
+            stats: [1,1.5,1.5,1,1,1,1],
+            cap:500,
+            minimum: 40,
+            prioritize: false,
+            onlySummer: false,
+        },
+        stamina: {
+            type: 1,
+            stats: [1,1.5,1.5,1.1,1,1,1],
+            cap:500,
+            minimum: 30,
+            prioritize: false,
+            onlySummer: false,
+        },
+        power: {
+            type: 2,
+            stats: [1,1.5,1.5,1,1,1,1],
+            cap:500,
+            minimum: 30,
+            prioritize: false,
+            onlySummer: false,
+        },
+        guts: {
+            type: 3,
+            stats: [2,1.5,2,1,1,1,1],
+            cap:400,
+            minimum: 40,
+            prioritize: true,
+            onlySummer: false,
+        },
+        wisdom: {
+            type: 4,
+            stats: [1.1,1.5,1.5,1,1,1,1],
+            cap:300,
+            minimum: 30,
+            prioritize: true,
+            onlySummer: false,
+        },
+        friend: {
+            type: 6,
+            stats: [1,1.5,1.5,1,1,1,0.5],
+            cap:500,
+            minimum: 40,
+        }
+    }
+}
+
 function defaultGMState() {
     return {
         version: 26,
@@ -473,14 +559,14 @@ class Weights extends React.Component {
             let savedWeights = window.localStorage.getItem("weights");
             if (savedWeights !== null) {
                 savedWeights = JSON.parse(savedWeights);
-                if (savedWeights.version == defaultMANTState().version) {
+                if (savedWeights.version == defaultDYIState().version) {
                     this.state = savedWeights;
                     return this.props.onChange(this.state[this.state.currentState], this.state.general);
                 }
             }
         }
 
-        this.state = defaultGMState();
+        this.state = defaultDYIState();
         this.props.onChange(this.state[this.state.currentState], this.state.general);
     }
 
@@ -488,6 +574,12 @@ class Weights extends React.Component {
         if(prevState && prevState !== this.state && lsTest()) {
             window.localStorage.setItem("weights", JSON.stringify(this.state));
         }
+    }
+
+    onDYIReset() {
+        let newState = defaultDYIState();
+        this.setState(newState);
+        this.props.onChange(newState[newState.currentState], newState.general);
     }
 
     onGLReset() {
@@ -630,10 +722,11 @@ class Weights extends React.Component {
                             Which scenario you're playing in.<br/>
                             Changes the stat gains from trainings and some default values.
                         </div>
-                        <button id="reset-weights-GL" type="button" onClick={this.onGMReset}>GM</button>
+                        <button id="reset-weights-DYI" type="button" onClick={this.onDYIReset}>DYI</button>
+                        <button id="reset-weights-GM" type="button" onClick={this.onGMReset}>GM</button>
                         <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>GL</button>
                         <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>MANT</button>
-                        <button id="reset-weights-URA" type="button" onClick={this.onAoharuReset}>Aoharu</button>
+                        <button id="reset-weights-Aoharu" type="button" onClick={this.onAoharuReset}>Aoharu</button>
                         <button id="reset-weights-URA" type="button" onClick={this.onURAReset}>URA</button>
                     </div>
                     <div className="weight-row">

@@ -115,7 +115,7 @@ class Global extends React.Component {
                 <h1>Uma Musume Support Card Tier List</h1>
                 <span className="section-explanation">
                     For more game information, check the <a href="https://docs.google.com/document/d/11X2P7pLuh-k9E7PhRiD20nDX22rNWtCpC1S4IMx_8pQ/edit?usp=sharing">Uma Musume Reference</a><br/>
-                    If you play on JP, use the <Link to="/uma-tiers">JP Tier List</Link><br/>
+                    If you play on JP, use the <Link to="/">JP Tier List</Link><br/>
                     This tier list defaults to the URA Scenario and doesn't consider skills, only stats.<br/>
                 </span>
                 <Weights

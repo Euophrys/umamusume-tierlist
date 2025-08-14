@@ -1,16 +1,15 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import JP from './JP';
 import Global from './global/Global';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<JP />} />
-        <Route path="/uma-tiers" element={<JP />} />
-        <Route path="/uma-tiers/global" element={<Global />} />
+        <Route path="global" element={<Global />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

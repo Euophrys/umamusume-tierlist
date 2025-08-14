@@ -14,7 +14,7 @@ function defaultGMState() {
         currentState: "speed",
         show: false,
         general: {
-            bondPerDay: 15,
+            bondPerDay: 10,
             races: [10,2,0,5],
             unbondedTrainingGain: [
                 [10,0,3,0,0,5,19],
@@ -102,7 +102,7 @@ function defaultGLState() {
         currentState: "speed",
         show: false,
         general: {
-            bondPerDay: 20,
+            bondPerDay: 10,
             races: [7,2,0,3],
             unbondedTrainingGain: [
                 [8,0,4,0,0,2,19],
@@ -194,7 +194,7 @@ function defaultMANTState() {
         currentState: "speed",
         show: false,
         general: {
-            bondPerDay: 20,
+            bondPerDay: 10,
             races: [15,10,2,3],
             unbondedTrainingGain: [
                 [8,0,4,0,0,2,19],
@@ -280,7 +280,7 @@ function defaultAoharuState() {
         currentState: "wisdom",
         show: false,
         general: {
-            bondPerDay: 20,
+            bondPerDay: 10,
             races: [7,2,0,3],
             unbondedTrainingGain: [
                 [8,0,4,0,0,4,19],
@@ -372,7 +372,7 @@ function defaultURAState() {
         currentState: "speed",
         show: false,
         general: {
-            bondPerDay: 20,
+            bondPerDay: 10,
             races: [7,2,0,3],
             unbondedTrainingGain: [
                 [11,0,6,0,0,4,21],

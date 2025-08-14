@@ -8,7 +8,7 @@ parser.add_argument('dblocation')
 parser.add_argument('--dry-run', action='store_true')
 args = parser.parse_args()
 
-IGNORE_EFFECTS = [0, 16, 17, 112]
+IGNORE_EFFECTS = [0, 16, 17, 112, 119, 121, 122]
 
 class Card():
     id = 0
@@ -135,6 +135,8 @@ def AddEffectToCard(card, effect_type, effect_value):
         card.stat_bonus[5] += effect_value
     elif effect_type == 31:
         card.wisdom_recovery += effect_value
+    elif effect_type == 32:
+        card.fs_motivation += effect_value / 100
     # The below unique effects are in a different column so they're hardcoded for now
     elif effect_type == 101:
         card.fs_stats[4] += 3
@@ -147,6 +149,14 @@ def AddEffectToCard(card, effect_type, effect_value):
         card.fan_bonus = 1
     elif effect_type == 110:
         card.crowd_bonus += 0.05
+    elif effect_type == 120:
+        # orfevre
+        card.fs_stats[0] += 2
+        card.fs_stats[1] += 1
+        card.fs_stats[2] += 1
+        card.fs_stats[3] += 1
+        card.fs_stats[4] += 2
+        card.fs_stats[5] += 1
     elif effect_type not in IGNORE_EFFECTS:
         print(f"WARN: unknown effect type {effect_type} on card id {card.id}")
 

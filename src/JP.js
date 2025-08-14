@@ -53,14 +53,14 @@ class JP extends React.Component {
                 onlySummer: false,
             },
             selectedCards: [
-                cards.find((c) => c.id === 20023 && c.limit_break === 4),
-                cards.find((c) => c.id === 20033 && c.limit_break === 4),
-                cards.find((c) => c.id === 20009 && c.limit_break === 4),
-                cards.find((c) => c.id === 30134 && c.limit_break === 4),
-                cards.find((c) => c.id === 30137 && c.limit_break === 0),
+                cards.find((c) => c.id === 30226 && c.limit_break === 4),
+                cards.find((c) => c.id === 30256 && c.limit_break === 4),
+                cards.find((c) => c.id === 30187 && c.limit_break === 4),
+                cards.find((c) => c.id === 30233 && c.limit_break === 4),
+                cards.find((c) => c.id === 30257 && c.limit_break === 4),
             ],
             availableCards: cards,
-            label: "Ranking for the 4th Speed card in this deck:"
+            label: "Ranking for the 2nd Speed card in this deck:"
         }
 
         this.onWeightsChanged = this.onWeightsChanged.bind(this);
@@ -115,7 +115,7 @@ class JP extends React.Component {
                 <h1>Uma Musume Support Card Tier List</h1>
                 <span className="section-explanation">
                     For more game information, check the <a href="https://docs.google.com/document/d/1gNcV7XLmxx0OI2DEAR8gmKb8P9BBhcwGhlJOVbYaXeo/edit?usp=sharing">Uma Musume Reference</a><br/>
-                    If you play on Global, use the <Link to="/uma-tiers/global">Global Tier List</Link><br/>
+                    If you play on Global, use the <Link to="global">Global Tier List</Link><br/>
                     This tier list defaults to the Grandmasters Scenario and doesn't consider skills, only stats.<br/>
                 </span>
                 <Weights
