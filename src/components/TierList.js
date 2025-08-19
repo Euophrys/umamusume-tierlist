@@ -125,7 +125,7 @@ const raceRewards = [
 
 function processCards(cards, weights, selectedCards) {
     let processedCards = [];
-    selectedCards = selectedCards.slice();
+    selectedCards = JSON.parse(JSON.stringify(selectedCards));
     
     // Calculate some stuff here so we don't have to do it a million times later
     let presentTypes = [false,false,false,false,false,false,false];
