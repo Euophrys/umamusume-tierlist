@@ -20,7 +20,7 @@ function SupportCard(props) {
         if (stat == "none") continue;
         let value = props.card[stat];
         if (stat == "fs_bonus") {
-            value *= props.card["unique_fs_bonus"];
+            value *= (value + 100) * props.card["unique_fs_bonus"] - 100;
         } else if (stat == "specialty_rate") {
             value = (value + 100) * props.card["unique_specialty"] * props.card["fs_specialty"] - 100;
         }
