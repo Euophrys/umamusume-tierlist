@@ -20,6 +20,19 @@ code {
     color: gray;
 }
 
+.dark-mode {
+    background-color: #222222;
+    color: #eeeeee
+}
+
+.dark-mode a {
+    color:#61dafb
+}
+
+.dark-mode a:visited {
+    color:orange
+}
+
 .support-card {
     position:relative;
     width: 100px;
@@ -110,7 +123,7 @@ code {
 }
 
 .tier:nth-child(odd) {
-    background-color: lightgray;
+    background-color: #999999;
 }
 
 .tier-letter {
@@ -210,6 +223,7 @@ label {
 .select {
     width:25%;
     flex:1;
+    color: black;
 }
 
 .selectLabel {

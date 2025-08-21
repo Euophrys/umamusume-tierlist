@@ -6,6 +6,7 @@ import SelectedCards from './components/SelectedCards';
 import Filters from './components/Filters';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import DarkModeToggle from './components/DarkModeButton';
 
 const ordinal = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th"];
 const type_names = ["Speed", "Stamina", "Power", "Guts", "Wisdom", "", "Friend"];
@@ -112,11 +113,12 @@ class JP extends React.Component {
     render() {
         return (
             <div className="App">
+                <DarkModeToggle />
                 <h1>Uma Musume Support Card Tier List</h1>
                 <span className="section-explanation">
                     For more game information, check the <a href="https://docs.google.com/document/d/1gNcV7XLmxx0OI2DEAR8gmKb8P9BBhcwGhlJOVbYaXeo/edit?usp=sharing">Uma Musume Reference</a><br/>
                     If you play on Global, use the <Link to="global">Global Tier List</Link><br/>
-                    This tier list defaults to the Grandmasters Scenario and doesn't consider skills, only stats.<br/>
+                    This tier list defaults to the DYI Scenario and doesn't consider skills, only stats.<br/>
                 </span>
                 <Weights
                     onChange={this.onWeightsChanged}
