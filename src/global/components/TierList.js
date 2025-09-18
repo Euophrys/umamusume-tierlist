@@ -1,6 +1,6 @@
 import React from 'react';
 import SupportCard from './SupportCard';
-import events from '../card-events';
+import events from '../../card-events';
 import { supportCardProperties } from '../constants';
 import Select from 'react-select';
 

@@ -55,7 +55,7 @@ def extract_events(html):
 
     return results
 
-for card_id in range(20068,20090):
+for card_id in range(30263,30270):
     url = BASE_URL.format(card_id)
     r = requests.get(url)
     r.encoding = r.apparent_encoding  # Ensure proper Japanese decoding

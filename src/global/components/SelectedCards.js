@@ -5,7 +5,7 @@ import PowerIcon from '../../icons/utx_ico_obtain_02.png';
 import GutsIcon from '../../icons/utx_ico_obtain_03.png';
 import WisdomIcon from '../../icons/utx_ico_obtain_04.png';
 import FriendIcon from '../../icons/utx_ico_obtain_05.png';
-import events from '../card-events';
+import events from '../../card-events';
 const raceRewards = [
     10,
     8,
