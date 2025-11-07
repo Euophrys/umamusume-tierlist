@@ -633,7 +633,7 @@ class Weights extends React.Component {
                         <button id="reset-weights-GL" type="button" onClick={this.onGMReset}>GM</button>
                         <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>GL</button>
                         <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>MANT</button>
-                        <button id="reset-weights-URA" type="button" onClick={this.onAoharuReset}>Aoharu</button>
+                        <button id="reset-weights-URA" type="button" onClick={this.onAoharuReset}>Unity</button>
                         <button id="reset-weights-URA" type="button" onClick={this.onURAReset}>URA</button>
                     </div>
                     <div className="weight-row">

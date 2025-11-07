@@ -97,7 +97,7 @@ function SelectedCards(props) {
             </div>
             {cards}
             <div>
-                Total Race Bonus: <b>{raceBonus}</b> <i>(aim for 35 for URA/Aoharu, 50 for MANT)</i>
+                Total Race Bonus: <b>{raceBonus}</b> <i>(aim for 35 for URA/Unity, 50 for MANT)</i>
             </div>
             <div className="link">
                 <a href={getEventHelperURL(props.selectedCards)} target="_blank">Open in Gametora Event Helper</a>
