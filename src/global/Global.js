@@ -19,30 +19,30 @@ class Global extends React.Component {
                 type: 0,
                 bondPerDay: 3.5,
                 trainingDays: 50,
-                races: [10,10,5,3],
+                races: [10, 10, 5, 3],
                 unbondedTrainingGain: [
-                    [8,0,4,0,0,2,19],
-                    [0,7,0,3,0,2,17],
-                    [0,4,6,0,0,2,18],
-                    [3,0,3,6,0,2,20],
-                    [2,0,0,0,6,3,0]
+                    [8, 0, 4, 0, 0, 2, 19],
+                    [0, 7, 0, 3, 0, 2, 17],
+                    [0, 4, 6, 0, 0, 2, 18],
+                    [3, 0, 3, 6, 0, 2, 20],
+                    [2, 0, 0, 0, 6, 3, 0]
                 ],
                 bondedTrainingGain: [
-                    [10,0,4,0,0,2,21],
-                    [0,8,0,3,0,2,18],
-                    [0,4,7,0,0,2,19],
-                    [4,0,3,9,0,2,24],
-                    [3,0,0,0,9,3,0]
+                    [10, 0, 4, 0, 0, 2, 21],
+                    [0, 8, 0, 3, 0, 2, 18],
+                    [0, 4, 7, 0, 0, 2, 19],
+                    [4, 0, 3, 9, 0, 2, 24],
+                    [3, 0, 0, 0, 9, 3, 0]
                 ],
                 summerTrainingGain: [
-                    [11,0,5,0,0,2,22],
-                    [0,9,0,6,0,2,21],
-                    [0,4,10,0,0,2,21],
-                    [3,0,2,10,0,2,24],
-                    [3,0,0,0,9,3,0]
+                    [11, 0, 5, 0, 0, 2, 22],
+                    [0, 9, 0, 6, 0, 2, 21],
+                    [0, 4, 10, 0, 0, 2, 21],
+                    [3, 0, 2, 10, 0, 2, 24],
+                    [3, 0, 0, 0, 9, 3, 0]
                 ],
-                umaBonus: [1,1,1,1,1,1],
-                stats: [1,1,1.1,1,1,0.5,1.5],
+                umaBonus: [1, 1, 1, 1, 1, 1],
+                stats: [1, 1, 1.1, 1, 1, 0.5, 1.5],
                 multi: 1,
                 bonusFS: 0,
                 bonusSpec: 0,
@@ -72,8 +72,8 @@ class Global extends React.Component {
     }
 
     onWeightsChanged(statWeights, generalWeights) {
-        let combinedWeights = {...statWeights, ...generalWeights};
-        this.setState({weights: combinedWeights});
+        let combinedWeights = { ...statWeights, ...generalWeights };
+        this.setState({ weights: combinedWeights });
     }
 
     onCardSelected(card) {
@@ -87,7 +87,7 @@ class Global extends React.Component {
             cards.push(card);
         }
 
-        this.setState({selectedCards:cards});
+        this.setState({ selectedCards: cards });
     }
 
     onCardRemoved(card) {
@@ -95,44 +95,44 @@ class Global extends React.Component {
         let cards = this.state.selectedCards.slice();
         let cardIndex = cards.findIndex((c) => c.id === card.id);
         cards.splice(cardIndex, 1);
-        this.setState({selectedCards:cards});
+        this.setState({ selectedCards: cards });
     }
 
     onCardsChanged(cards) {
-        this.setState({availableCards: cards});
+        this.setState({ availableCards: cards });
     }
 
     onLoadPreset(presetCards) {
         let selectedCards = [];
-        for(let i = 0; i < presetCards.length; i++) {
+        for (let i = 0; i < presetCards.length; i++) {
             selectedCards.push(cards.find((c) => c.id === presetCards[i] && c.limit_break === 4));
         }
-        this.setState({selectedCards:selectedCards});
+        this.setState({ selectedCards: selectedCards });
     }
 
     render() {
         return (
             <div className="App">
-                <DarkModeToggle/>
+                <DarkModeToggle />
                 <h1>Uma Musume Support Card Tier List</h1>
                 <span className="section-explanation">
-                    For more game information, check the <a href="https://docs.google.com/document/d/11X2P7pLuh-k9E7PhRiD20nDX22rNWtCpC1S4IMx_8pQ/edit?usp=sharing">Uma Musume Reference</a><br/>
-                    If you play on JP, use the <Link to="/">JP Tier List</Link><br/>
-                    This tier list defaults to the URA Scenario and doesn't consider skills, only stats.<br/>
+                    For more game information, check the <a href="https://docs.google.com/document/d/11X2P7pLuh-k9E7PhRiD20nDX22rNWtCpC1S4IMx_8pQ/edit?usp=sharing">Uma Musume Reference</a><br />
+                    If you play on JP, use the <Link to="/">JP Tier List</Link><br />
+                    This tier list defaults to the Unity Cup Scenario and doesn't consider skills, only stats.<br />
                 </span>
                 <Weights
                     onChange={this.onWeightsChanged}
-                    />
+                />
                 <SelectedCards
                     selectedCards={this.state.selectedCards}
                     onClick={this.onCardRemoved}
                     onLoadPreset={this.onLoadPreset}
                     weights={this.state.weights}
-                    />
+                />
                 <Filters
                     onCardsChanged={this.onCardsChanged}
-                    />
-                <TierList 
+                />
+                <TierList
                     cards={this.state.availableCards}
                     weights={this.state.weights}
                     selectedCards={this.state.selectedCards}
