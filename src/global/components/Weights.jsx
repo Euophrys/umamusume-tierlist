@@ -660,7 +660,7 @@ class Weights extends React.Component {
                         <div className="weight-row">
                             <div className="section-header">Scenario Specific</div>
                             <div className="section-explanation">
-                                Multiplier accounts for MANT items and GL friendship songs.<br />
+                                Multiplier accounts for TB items and GL friendship songs.<br />
                                 Bonus Specialty is for Grand Live song bonuses.
                             </div>
                             <label htmlFor="multi">Multiplier:</label>
