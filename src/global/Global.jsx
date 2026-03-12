@@ -54,11 +54,11 @@ class Global extends React.Component {
                 onlySummer: false,
             },
             selectedCards: [
-                cards.find((c) => c.id === 30028 && c.limit_break === 4),
-                cards.find((c) => c.id === 20023 && c.limit_break === 4),
-                cards.find((c) => c.id === 20020 && c.limit_break === 4),
-                cards.find((c) => c.id === 20009 && c.limit_break === 4),
-                cards.find((c) => c.id === 20003 && c.limit_break === 4),
+                cards.find((c) => c.id === 30078 && c.limit_break === 4),
+                cards.find((c) => c.id === 20027 && c.limit_break === 4),
+                cards.find((c) => c.id === 30074 && c.limit_break === 4),
+                cards.find((c) => c.id === 20012 && c.limit_break === 4),
+                cards.find((c) => c.id === 30041 && c.limit_break === 4),
             ],
             availableCards: cards,
             label: "Ranking for the 4th Speed card in this deck:"

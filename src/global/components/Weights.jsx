@@ -480,7 +480,7 @@ class Weights extends React.Component {
             }
         }
 
-        this.state = defaultAoharuState();
+        this.state = defaultMANTState();
         this.props.onChange(this.state[this.state.currentState], this.state.general);
     }
 
@@ -632,7 +632,7 @@ class Weights extends React.Component {
                             </div>
                             <button id="reset-weights-GL" type="button" onClick={this.onGMReset}>GM</button>
                             <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>GL</button>
-                            <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>MANT</button>
+                            <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>TB</button>
                             <button id="reset-weights-URA" type="button" onClick={this.onAoharuReset}>Unity</button>
                             <button id="reset-weights-URA" type="button" onClick={this.onURAReset}>URA</button>
                         </div>
