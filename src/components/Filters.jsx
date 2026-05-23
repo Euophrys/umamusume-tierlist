@@ -132,7 +132,7 @@ class Filters extends React.Component {
       rows.push(
         <tr
           key={"c" + i}
-          className="hover:bg-slate-50 dark:hover:bg-zinc-850/50 transition-colors"
+          className="hover:bg-slate-50 dark:hover:bg-zinc-850/50 "
         >
           {data}
         </tr>,

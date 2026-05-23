@@ -755,11 +755,10 @@ class Weights extends React.Component {
                   id={type}
                   type="button"
                   onClick={this.onTypeChanged}
-                  className={`flex flex-col items-center justify-center p-2 rounded-xl border text-center transition-all ${
-                    isActive
-                      ? "bg-slate-100 dark:bg-zinc-800 border-blue-500 text-blue-600 dark:text-blue-400 font-bold"
-                      : "bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-850 text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-905"
-                  }`}
+                  className={`flex flex-col items-center justify-center p-2 rounded-xl border text-center  ${isActive
+                    ? "bg-slate-100 dark:bg-zinc-800 border-blue-500 text-blue-600 dark:text-blue-400 font-bold"
+                    : "bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-850 text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-905"
+                    }`}
                 >
                   <img
                     src={icons[idx]}
@@ -780,7 +779,7 @@ class Weights extends React.Component {
             id="weights-toggle"
             type="button"
             onClick={this.onToggleWeights}
-            className="w-full text-center py-2 border border-slate-300 dark:border-zinc-700 rounded-lg text-xs font-bold text-slate-700 dark:text-zinc-300 bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-850 transition-colors shadow-sm focus:outline-none"
+            className="w-full text-center py-2 border border-slate-300 dark:border-zinc-700 rounded-lg text-xs font-bold text-slate-700 dark:text-zinc-300 bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-850  shadow-sm focus:outline-none"
           >
             {this.state.show ? "Hide Settings" : "Customize Settings"}
           </button>
@@ -804,7 +803,7 @@ class Weights extends React.Component {
                     id={scen.id}
                     type="button"
                     onClick={scen.handler}
-                    className="px-3 py-1 border border-slate-300 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-850 transition-colors cursor-pointer"
+                    className="px-3 py-1 border border-slate-300 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-850  cursor-pointer"
                   >
                     {scen.label}
                   </button>

@@ -38,7 +38,7 @@ export default function DarkModeToggle() {
     <button
       onClick={toggleDarkMode}
       type="button"
-      className="fixed top-3 left-3 z-50 w-11 h-11 flex items-center justify-center rounded-full border border-slate-300 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-900 text-lg hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none shadow-sm"
+      className="fixed top-3 left-3 z-50 w-11 h-11 flex items-center justify-center rounded-full border border-slate-300 dark:border-zinc-700 bg-slate-50 dark:bg-zinc-900 text-lg hover:bg-slate-100 dark:hover:bg-zinc-800  focus:outline-none shadow-sm"
       aria-label="Toggle Dark Mode"
     >
       {darkMode ? "☀️" : "🌙"}

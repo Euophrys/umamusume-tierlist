@@ -122,7 +122,7 @@ class JP extends React.Component {
 
   render() {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 font-sans pb-12 transition-colors">
+      <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 font-sans pb-12">
         <DarkModeToggle />
 
         <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6 border-b border-slate-200 dark:border-zinc-800">
@@ -141,13 +141,13 @@ class JP extends React.Component {
                 href="https://docs.google.com/document/d/1gNcV7XLmxx0OI2DEAR8gmKb8P9BBhcwGhlJOVbYaXeo/edit?usp=sharing"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center px-4 py-2 border border-slate-300 dark:border-zinc-700 rounded-md text-sm font-medium text-slate-700 dark:text-zinc-200 bg-white dark:bg-zinc-900 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
+                className="inline-flex items-center px-4 py-2 border border-slate-300 dark:border-zinc-700 rounded-md text-sm font-medium text-slate-700 dark:text-zinc-200 bg-white dark:bg-zinc-900 hover:bg-slate-100 dark:hover:bg-zinc-800  focus:outline-none"
               >
                 Reference Document
               </a>
               <Link
                 to="global"
-                className="inline-flex items-center px-4 py-2 border border-blue-600 dark:border-blue-500 rounded-md text-sm font-medium text-white bg-blue-600 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-700 transition-colors focus:outline-none"
+                className="inline-flex items-center px-4 py-2 border border-blue-600 dark:border-blue-500 rounded-md text-sm font-medium text-white bg-blue-600 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-700  focus:outline-none"
               >
                 Switch to Global
               </Link>

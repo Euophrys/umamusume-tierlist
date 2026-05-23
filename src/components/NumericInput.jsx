@@ -84,7 +84,7 @@ function NumericInput({
       <button
         type="button"
         onClick={handleDecrement}
-        className="w-10 h-10 flex items-center justify-center border border-slate-350 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 text-xl font-bold rounded-l-md hover:bg-slate-200 dark:hover:bg-zinc-700 active:bg-slate-300 dark:active:bg-zinc-600 transition-colors focus:outline-none"
+        className="w-10 h-10 flex items-center justify-center border border-slate-350 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 text-xl font-bold rounded-l-md hover:bg-slate-200 dark:hover:bg-zinc-700 active:bg-slate-300 dark:active:bg-zinc-600  focus:outline-none"
       >
         −
       </button>
@@ -99,7 +99,7 @@ function NumericInput({
       <button
         type="button"
         onClick={handleIncrement}
-        className="w-10 h-10 flex items-center justify-center border border-slate-350 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 text-xl font-bold rounded-r-md hover:bg-slate-200 dark:hover:bg-zinc-700 active:bg-slate-300 dark:active:bg-zinc-600 transition-colors focus:outline-none"
+        className="w-10 h-10 flex items-center justify-center border border-slate-350 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 text-xl font-bold rounded-r-md hover:bg-slate-200 dark:hover:bg-zinc-700 active:bg-slate-300 dark:active:bg-zinc-600  focus:outline-none"
       >
         +
       </button>

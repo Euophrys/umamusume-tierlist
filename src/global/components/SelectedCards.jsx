@@ -129,7 +129,7 @@ function SelectedCards(props) {
           href={getEventHelperURL(props.selectedCards)}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex w-full items-center justify-center px-4 py-2 border border-slate-300 dark:border-zinc-700 rounded-md text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-850 transition-colors shadow-sm"
+          className="inline-flex w-full items-center justify-center px-4 py-2 border border-slate-300 dark:border-zinc-700 rounded-md text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-850  shadow-sm"
         >
           Open in Gametora Event Helper ↗
         </a>
@@ -141,7 +141,7 @@ function SelectedCards(props) {
         </div>
         <div className="flex flex-wrap gap-1.5">
           <button
-            className="px-3 py-1 border border-slate-200 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+            className="px-3 py-1 border border-slate-200 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-800  cursor-pointer"
             onClick={() =>
               props.onLoadPreset([30028, 20023, 20020, 20009, 20003])
             }
@@ -149,7 +149,7 @@ function SelectedCards(props) {
             Speed/Power
           </button>
           <button
-            className="px-3 py-1 border border-slate-200 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-850 transition-colors cursor-pointer"
+            className="px-3 py-1 border border-slate-200 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-850  cursor-pointer"
             onClick={() =>
               props.onLoadPreset([30028, 20023, 20020, 20008, 30022])
             }
@@ -157,7 +157,7 @@ function SelectedCards(props) {
             Speed/Stamina
           </button>
           <button
-            className="px-3 py-1 border border-slate-200 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-850 transition-colors cursor-pointer"
+            className="px-3 py-1 border border-slate-200 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-850  cursor-pointer"
             onClick={() =>
               props.onLoadPreset([30028, 20023, 20020, 20012, 20002])
             }
@@ -165,7 +165,7 @@ function SelectedCards(props) {
             Speed/Wit
           </button>
           <button
-            className="px-3 py-1 border border-slate-200 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-850 transition-colors cursor-pointer"
+            className="px-3 py-1 border border-slate-200 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-850  cursor-pointer"
             onClick={() =>
               props.onLoadPreset([30011, 30030, 30019, 20012, 20002])
             }

@@ -128,7 +128,7 @@ class TierList extends React.Component {
           key={tierNames[i]}
         >
           <div
-            className={`w-16 md:w-20 flex items-center justify-center text-2xl md:text-3xl select-none ${tierColorMap[tierNames[i]]}`}
+            className={`w-12 flex items-center justify-center text-2xl md:text-3xl select-none ${tierColorMap[tierNames[i]]}`}
           >
             {tierNames[i]}
           </div>
@@ -548,11 +548,11 @@ function CalculateTrainingGain(
     }
     soloGain[stat] +=
       base *
-        trainingBonus *
-        (1 + weights.motivation * motivationBonus) *
-        fsBonus *
-        1.05 *
-        weights.umaBonus[stat] -
+      trainingBonus *
+      (1 + weights.motivation * motivationBonus) *
+      fsBonus *
+      1.05 *
+      weights.umaBonus[stat] -
       gains[stat];
   }
   if (GainsToScore(soloGain, weights) > weights.minimum) {
@@ -618,7 +618,7 @@ function CalculateTrainingGain(
         (combinationTrainingBonus + trainingBonus - 1) *
         (1 +
           weights.motivation *
-            (combinationMotivationBonus + motivationBonus - 1)) *
+          (combinationMotivationBonus + motivationBonus - 1)) *
         (combinationFriendshipBonus * fsBonus) *
         (1.05 * (combinations[i].length + 1)) *
         weights.umaBonus[stat];
@@ -715,7 +715,7 @@ function CalculateCrossTrainingGain(
           (combinationTrainingBonus + trainingBonus + card.fs_training - 1) *
           (1 +
             weights.motivation *
-              (combinationMotivationBonus + card.mb + card.fs_motivation - 1)) *
+            (combinationMotivationBonus + card.mb + card.fs_motivation - 1)) *
           (combinationFriendshipBonus * fsBonus) *
           (1.05 * (combination.length + 1)) *
           weights.umaBonus[stat];
