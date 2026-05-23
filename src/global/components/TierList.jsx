@@ -40,29 +40,33 @@ class TierList extends React.Component {
     render() {
         let cards = this.props.cards;
         let selectedNames = this.props.selectedCards.map(card => card.char_name);
-
-        if (this.props.weights.type > -1) {
+    
+        if(this.props.weights.type > -1) {
             cards = cards.filter(e => e.type === this.props.weights.type);
         }
-
+    
         let processedCards = processCards(cards, this.props.weights, this.props.selectedCards);
-
+    
         if (processedCards.length === 0) {
-            return <div className="tier-list"></div>;
+            return (
+                <div className="tier-list font-sans text-center p-8 border border-dashed border-slate-200 dark:border-zinc-800 rounded-xl text-slate-400 dark:text-zinc-500 italic">
+                    No cards matching the selected filters.
+                </div>
+            );
         }
-
+    
         let rows = [[]];
         let current_row = 0;
         let step = (processedCards[0].score - processedCards[processedCards.length - 1].score) / 7;
         let boundary = processedCards[0].score - step;
-
+    
         for (let i = 0; i < processedCards.length; i++) {
             while (processedCards[i].score < boundary - 1) {
                 rows.push([]);
                 current_row++;
                 boundary -= step;
             }
-
+    
             rows[current_row].push((
                 <SupportCard
                     id={processedCards[i].id}
@@ -78,38 +82,65 @@ class TierList extends React.Component {
                 />
             ));
         }
-
+    
         let tiers = [];
-
+        const tierColorMap = {
+            'S': 'bg-red-600 dark:bg-red-700 text-white font-black',
+            'A': 'bg-orange-500 dark:bg-orange-600 text-white font-black',
+            'B': 'bg-amber-400 dark:bg-amber-500 text-slate-900 font-black',
+            'C': 'bg-green-600 dark:bg-green-700 text-white font-black',
+            'D': 'bg-cyan-500 dark:bg-cyan-600 text-white font-black',
+            'E': 'bg-blue-600 dark:bg-blue-700 text-white font-black',
+            'F': 'bg-purple-600 dark:bg-purple-700 text-white font-black',
+        };
+    
         for (let i = 0; i < 7; i++) {
             tiers.push(
-                <div className="tier" key={tierNames[i]}>
-                    <div className="tier-letter">{tierNames[i]}</div>
-                    <div className="tier-images">{rows[i]}</div>
+                <div className="flex border-b border-slate-200 dark:border-zinc-800 last:border-b-0" key={tierNames[i]}>
+                    <div className={`w-16 md:w-20 flex items-center justify-center text-2xl md:text-3xl select-none ${tierColorMap[tierNames[i]]}`}>
+                        {tierNames[i]}
+                    </div>
+                    <div className="flex-1 p-2 bg-slate-50/50 dark:bg-zinc-900/40 flex flex-wrap content-start items-center gap-1 min-h-[100px] md:min-h-[108px]">
+                        {rows[i]}
+                    </div>
                 </div>
             )
         }
-
+    
         let count = this.props.selectedCards.filter((c) => c.type == this.props.weights.type).length;
-        let dropdownOptions = [{ value: "none", label: "None" }];
+        let dropdownOptions = [{value:"none", label:"None"}];
         let properties = Object.keys(supportCardProperties).sort();
         for (let i = 0; i < properties.length; i++) {
             dropdownOptions.push({
-                value: properties[i],
-                label: supportCardProperties[properties[i]].friendly_name
+                value:properties[i],
+                label:supportCardProperties[properties[i]].friendly_name
             });
         }
-
+    
         return (
-            <div className="tier-list">
-                <div className="selectors">
-                    <span className="selectLabel">Show Stats:</span>
-                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown1Changed} defaultValue={{ value: "race_bonus", label: "Race Bonus" }} />
-                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown2Changed} defaultValue={{ value: "none", label: "None" }} />
-                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown3Changed} defaultValue={{ value: "none", label: "None" }} />
+            <div className="tier-list font-sans">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-slate-100 dark:border-zinc-850 pb-4">
+                    <div className="text-left">
+                        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
+                            Tier List Results
+                        </h3>
+                        <span className="text-xs text-slate-500 dark:text-zinc-400 font-semibold block mt-1">
+                            Ranking for the {ordinal[count]} {type_names[this.props.weights.type]} card in this deck:
+                        </span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider">Show Stats:</span>
+                        <div className="flex gap-1.5 flex-wrap">
+                            <Select className="text-xs w-32 text-slate-900 dark:text-zinc-900" options={dropdownOptions} onChange={this.onDropdown1Changed} defaultValue={{ value: "race_bonus", label: "Race Bonus" }}/>
+                            <Select className="text-xs w-32 text-slate-900 dark:text-zinc-900" options={dropdownOptions} onChange={this.onDropdown2Changed} defaultValue={{value:"none", label:"None"}}/>
+                            <Select className="text-xs w-32 text-slate-900 dark:text-zinc-900" options={dropdownOptions} onChange={this.onDropdown3Changed} defaultValue={{value:"none", label:"None"}}/>
+                        </div>
+                    </div>
                 </div>
-                <span className="label">Ranking for the {ordinal[count]} {type_names[this.props.weights.type]} card in this deck:</span>
-                {tiers}
+                
+                <div className="border border-slate-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm flex flex-col">
+                    {tiers}
+                </div>
             </div>
         );
     }
