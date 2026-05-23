@@ -1,27 +1,19 @@
-import "./JP.css";
-import cards from "./cards";
-import TierList from "./components/TierList";
-import Weights from "./components/Weights";
-import SelectedCards from "./components/SelectedCards";
-import Filters from "./components/Filters";
-import React from "react";
-import { Link } from "react-router-dom";
-import DarkModeToggle from "./components/DarkModeButton";
+import "./JP.css"
+import cards from "./cards"
+import TierList from "./components/TierList"
+import Weights from "./components/Weights"
+import SelectedCards from "./components/SelectedCards"
+import Filters from "./components/Filters"
+import React from "react"
+import { Link } from "react-router-dom"
+import DarkModeToggle from "./components/DarkModeButton"
 
-const ordinal = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th"];
-const type_names = [
-  "Speed",
-  "Stamina",
-  "Power",
-  "Guts",
-  "Wisdom",
-  "",
-  "Friend",
-];
+const ordinal = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th"]
+const type_names = ["Speed", "Stamina", "Power", "Guts", "Wisdom", "", "Friend"]
 
 class JP extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       weights: {
         type: 0,
@@ -70,54 +62,54 @@ class JP extends React.Component {
       ],
       availableCards: cards,
       label: "Ranking for the 2nd Speed card in this deck:",
-    };
+    }
 
-    this.onWeightsChanged = this.onWeightsChanged.bind(this);
-    this.onCardSelected = this.onCardSelected.bind(this);
-    this.onCardRemoved = this.onCardRemoved.bind(this);
-    this.onCardsChanged = this.onCardsChanged.bind(this);
-    this.onLoadPreset = this.onLoadPreset.bind(this);
+    this.onWeightsChanged = this.onWeightsChanged.bind(this)
+    this.onCardSelected = this.onCardSelected.bind(this)
+    this.onCardRemoved = this.onCardRemoved.bind(this)
+    this.onCardsChanged = this.onCardsChanged.bind(this)
+    this.onLoadPreset = this.onLoadPreset.bind(this)
   }
 
   onWeightsChanged(statWeights, generalWeights) {
-    let combinedWeights = { ...statWeights, ...generalWeights };
-    this.setState({ weights: combinedWeights });
+    let combinedWeights = { ...statWeights, ...generalWeights }
+    this.setState({ weights: combinedWeights })
   }
 
   onCardSelected(card) {
-    if (this.state.selectedCards.length > 5) return;
-    let cards = this.state.selectedCards.slice();
-    let index = this.state.selectedCards.findIndex((c) => c.id === card.id);
+    if (this.state.selectedCards.length > 5) return
+    let cards = this.state.selectedCards.slice()
+    let index = this.state.selectedCards.findIndex((c) => c.id === card.id)
 
     if (index > -1) {
-      cards[index] = card;
+      cards[index] = card
     } else {
-      cards.push(card);
+      cards.push(card)
     }
 
-    this.setState({ selectedCards: cards });
+    this.setState({ selectedCards: cards })
   }
 
   onCardRemoved(card) {
-    if (this.state.selectedCards.length === 1) return;
-    let cards = this.state.selectedCards.slice();
-    let cardIndex = cards.findIndex((c) => c.id === card.id);
-    cards.splice(cardIndex, 1);
-    this.setState({ selectedCards: cards });
+    if (this.state.selectedCards.length === 1) return
+    let cards = this.state.selectedCards.slice()
+    let cardIndex = cards.findIndex((c) => c.id === card.id)
+    cards.splice(cardIndex, 1)
+    this.setState({ selectedCards: cards })
   }
 
   onCardsChanged(cards) {
-    this.setState({ availableCards: cards });
+    this.setState({ availableCards: cards })
   }
 
   onLoadPreset(presetCards) {
-    let selectedCards = [];
+    let selectedCards = []
     for (let i = 0; i < presetCards.length; i++) {
       selectedCards.push(
-        cards.find((c) => c.id === presetCards[i] && c.limit_break === 4),
-      );
+        cards.find((c) => c.id === presetCards[i] && c.limit_break === 4)
+      )
     }
-    this.setState({ selectedCards: selectedCards });
+    this.setState({ selectedCards: selectedCards })
   }
 
   render() {
@@ -127,7 +119,7 @@ class JP extends React.Component {
 
         <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6 border-b border-slate-200 dark:border-zinc-800">
           <div className="md:flex md:items-center md:justify-between">
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 pl-5">
               <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
                 Uma Musume Support Card Tier List
               </h1>
@@ -189,8 +181,8 @@ class JP extends React.Component {
           </div>
         </main>
       </div>
-    );
+    )
   }
 }
 
-export default JP;
+export default JP

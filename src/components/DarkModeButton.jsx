@@ -1,38 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
 export default function DarkModeToggle() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
     // Check browser preference on startup
     const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
-    setDarkMode(prefersDark);
+      "(prefers-color-scheme: dark)"
+    ).matches
+    setDarkMode(prefersDark)
 
     // Apply the class to body and HTML (for Tailwind dark: variant)
     if (prefersDark) {
-      document.body.classList.add("dark-mode");
-      document.documentElement.classList.add("dark");
+      document.body.classList.add("dark-mode")
+      document.documentElement.classList.add("dark")
     } else {
-      document.body.classList.remove("dark-mode");
-      document.documentElement.classList.remove("dark");
+      document.body.classList.remove("dark-mode")
+      document.documentElement.classList.remove("dark")
     }
-  }, []);
+  }, [])
 
   const toggleDarkMode = () => {
     setDarkMode((prev) => {
-      const newMode = !prev;
+      const newMode = !prev
       if (newMode) {
-        document.body.classList.add("dark-mode");
-        document.documentElement.classList.add("dark");
+        document.body.classList.add("dark-mode")
+        document.documentElement.classList.add("dark")
       } else {
-        document.body.classList.remove("dark-mode");
-        document.documentElement.classList.remove("dark");
+        document.body.classList.remove("dark-mode")
+        document.documentElement.classList.remove("dark")
       }
-      return newMode;
-    });
-  };
+      return newMode
+    })
+  }
 
   return (
     <button
@@ -43,5 +43,5 @@ export default function DarkModeToggle() {
     >
       {darkMode ? "☀️" : "🌙"}
     </button>
-  );
+  )
 }

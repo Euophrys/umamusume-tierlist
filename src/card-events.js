@@ -365,6 +365,6 @@ const events = {
   30267: [80, 0, 0, 0, 0, 0, 0, 25],
   30268: [0, 0, 0, 0, 50, 20, 0, 20],
   30269: [30, 0, 0, 0, 0, 5, 0, 15],
-};
+}
 
-export default events;
+export default events

@@ -10,13 +10,13 @@
     <link rel="manifest" href="/manifest.json" />
     <title>Uma Musume Tier List</title>
     <script>
-      (function () {
-        const redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
+      ;(function () {
+        const redirect = sessionStorage.redirect
+        delete sessionStorage.redirect
         if (redirect && redirect !== location.pathname) {
-          window.history.replaceState(null, null, redirect);
+          window.history.replaceState(null, null, redirect)
         }
-      })();
+      })()
     </script>
   </head>
   <body>

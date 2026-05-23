@@ -1,81 +1,81 @@
-import React from "react";
-import cards from "../cards";
-import { lsTest } from "../utils";
+import React from "react"
+import cards from "../cards"
+import { lsTest } from "../utils"
 
 class Filters extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       ssr: [true, false, false, false, false],
       sr: [true, false, false, false, false],
       r: [false, false, false, false, false],
-    };
+    }
 
-    this.onSettingChanged = this.onSettingChanged.bind(this);
+    this.onSettingChanged = this.onSettingChanged.bind(this)
 
     if (lsTest()) {
-      let savedFilters = window.localStorage.getItem("filters");
+      let savedFilters = window.localStorage.getItem("filters")
       if (savedFilters !== null) {
-        savedFilters = JSON.parse(savedFilters);
-        this.state = savedFilters;
+        savedFilters = JSON.parse(savedFilters)
+        this.state = savedFilters
       }
     }
 
     let availableCards = cards.filter((c) => {
       if (c.rarity === 1) {
-        return this.state.r[c.limit_break];
+        return this.state.r[c.limit_break]
       } else if (c.rarity === 2) {
-        return this.state.sr[c.limit_break];
+        return this.state.sr[c.limit_break]
       } else {
-        return this.state.ssr[c.limit_break];
+        return this.state.ssr[c.limit_break]
       }
-    });
-    this.props.onCardsChanged(availableCards);
+    })
+    this.props.onCardsChanged(availableCards)
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState && prevState !== this.state && lsTest()) {
-      window.localStorage.setItem("filters", JSON.stringify(this.state));
+      window.localStorage.setItem("filters", JSON.stringify(this.state))
     }
   }
 
   onSettingChanged(event, numberString, numberInput) {
-    if (!event) return;
+    if (!event) return
 
-    let settings = { ...this.state };
+    let settings = { ...this.state }
 
     if (event.target.id.indexOf(".") > 0) {
-      let split = event.target.id.split(".");
-      settings[split[0]][split[1]] = !settings[split[0]][split[1]];
+      let split = event.target.id.split(".")
+      settings[split[0]][split[1]] = !settings[split[0]][split[1]]
     } else {
-      settings[event.target.id] = !settings[event.target.id];
+      settings[event.target.id] = !settings[event.target.id]
     }
 
-    this.setState(settings);
+    this.setState(settings)
 
     let availableCards = cards.filter((c) => {
       if (c.rarity === 1) {
-        return this.state.r[c.limit_break];
+        return this.state.r[c.limit_break]
       } else if (c.rarity === 2) {
-        return this.state.sr[c.limit_break];
+        return this.state.sr[c.limit_break]
       } else {
-        return this.state.ssr[c.limit_break];
+        return this.state.ssr[c.limit_break]
       }
-    });
-    this.props.onCardsChanged(availableCards);
+    })
+    this.props.onCardsChanged(availableCards)
   }
 
   onTypeChanged(event) {
     this.setState({
       currentState: event.target.id,
-    });
+    })
 
-    this.props.onChange(this.state[event.target.id]);
+    this.props.onChange(this.state[event.target.id])
   }
 
   render() {
-    const rarities = ["ssr", "sr", "r"];
-    let rows = [];
+    const rarities = ["ssr", "sr", "r"]
+    let rows = []
     rows.push(
       <tr
         key="header"
@@ -90,17 +90,17 @@ class Filters extends React.Component {
         <th className="px-2 py-3 text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider text-center">
           R
         </th>
-      </tr>,
-    );
+      </tr>
+    )
     for (let i = 4; i >= 0; i--) {
-      let data = [];
-      let lit_up = "";
-      let dark = "";
+      let data = []
+      let lit_up = ""
+      let dark = ""
       for (let j = 0; j < 4; j++) {
         if (j < i) {
-          lit_up += "◆";
+          lit_up += "◆"
         } else {
-          dark += "◆";
+          dark += "◆"
         }
       }
       for (let r = 0; r < 3; r++) {
@@ -126,8 +126,8 @@ class Filters extends React.Component {
                 className="h-4 w-4 text-blue-600 border-slate-300 dark:border-zinc-700 rounded focus:ring-blue-500 dark:bg-zinc-950 cursor-pointer"
               />
             </div>
-          </td>,
-        );
+          </td>
+        )
       }
       rows.push(
         <tr
@@ -135,8 +135,8 @@ class Filters extends React.Component {
           className="hover:bg-slate-50 dark:hover:bg-zinc-850/50 "
         >
           {data}
-        </tr>,
-      );
+        </tr>
+      )
     }
 
     return (
@@ -155,8 +155,8 @@ class Filters extends React.Component {
           </table>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Filters;
+export default Filters

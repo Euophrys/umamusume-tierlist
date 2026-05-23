@@ -1,12 +1,12 @@
-import React from "react";
-import NumericInput from "./NumericInput";
-import SpeedIcon from "../icons/utx_ico_obtain_00.png";
-import StaminaIcon from "../icons/utx_ico_obtain_01.png";
-import PowerIcon from "../icons/utx_ico_obtain_02.png";
-import GutsIcon from "../icons/utx_ico_obtain_03.png";
-import WisdomIcon from "../icons/utx_ico_obtain_04.png";
-import FriendIcon from "../icons/utx_ico_obtain_05.png";
-import { lsTest } from "../utils";
+import React from "react"
+import NumericInput from "./NumericInput"
+import SpeedIcon from "../icons/utx_ico_obtain_00.png"
+import StaminaIcon from "../icons/utx_ico_obtain_01.png"
+import PowerIcon from "../icons/utx_ico_obtain_02.png"
+import GutsIcon from "../icons/utx_ico_obtain_03.png"
+import WisdomIcon from "../icons/utx_ico_obtain_04.png"
+import FriendIcon from "../icons/utx_ico_obtain_05.png"
+import { lsTest } from "../utils"
 
 function defaultDYIState() {
   return {
@@ -91,7 +91,7 @@ function defaultDYIState() {
       cap: 500,
       minimum: 40,
     },
-  };
+  }
 }
 
 function defaultGMState() {
@@ -177,7 +177,7 @@ function defaultGMState() {
       cap: 500,
       minimum: 20,
     },
-  };
+  }
 }
 
 function defaultGLState() {
@@ -269,7 +269,7 @@ function defaultGLState() {
       cap: 500,
       minimum: 30,
     },
-  };
+  }
 }
 
 function defaultMANTState() {
@@ -355,7 +355,7 @@ function defaultMANTState() {
       cap: 350,
       minimum: 40,
     },
-  };
+  }
 }
 
 function defaultAoharuState() {
@@ -447,7 +447,7 @@ function defaultAoharuState() {
       cap: 500,
       minimum: 40,
     },
-  };
+  }
 }
 
 function defaultURAState() {
@@ -533,172 +533,169 @@ function defaultURAState() {
       cap: 500,
       minimum: 40,
     },
-  };
+  }
 }
 
 class Weights extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.onSettingChanged = this.onSettingChanged.bind(this);
-    this.onGeneralSettingChanged = this.onGeneralSettingChanged.bind(this);
-    this.onTypeChanged = this.onTypeChanged.bind(this);
-    this.onCapChanged = this.onCapChanged.bind(this);
-    this.onMinimumChanged = this.onMinimumChanged.bind(this);
-    this.onToggleWeights = this.onToggleWeights.bind(this);
-    this.onMotivationChanged = this.onMotivationChanged.bind(this);
-    this.onMANTReset = this.onMANTReset.bind(this);
-    this.onURAReset = this.onURAReset.bind(this);
-    this.onAoharuReset = this.onAoharuReset.bind(this);
-    this.onGLReset = this.onGLReset.bind(this);
-    this.onGMReset = this.onGMReset.bind(this);
+    this.onSettingChanged = this.onSettingChanged.bind(this)
+    this.onGeneralSettingChanged = this.onGeneralSettingChanged.bind(this)
+    this.onTypeChanged = this.onTypeChanged.bind(this)
+    this.onCapChanged = this.onCapChanged.bind(this)
+    this.onMinimumChanged = this.onMinimumChanged.bind(this)
+    this.onToggleWeights = this.onToggleWeights.bind(this)
+    this.onMotivationChanged = this.onMotivationChanged.bind(this)
+    this.onMANTReset = this.onMANTReset.bind(this)
+    this.onURAReset = this.onURAReset.bind(this)
+    this.onAoharuReset = this.onAoharuReset.bind(this)
+    this.onGLReset = this.onGLReset.bind(this)
+    this.onGMReset = this.onGMReset.bind(this)
 
     if (lsTest()) {
-      let savedWeights = window.localStorage.getItem("weights");
+      let savedWeights = window.localStorage.getItem("weights")
       if (savedWeights !== null) {
-        savedWeights = JSON.parse(savedWeights);
+        savedWeights = JSON.parse(savedWeights)
         if (savedWeights.version == defaultDYIState().version) {
-          this.state = savedWeights;
+          this.state = savedWeights
           return this.props.onChange(
             this.state[this.state.currentState],
-            this.state.general,
-          );
+            this.state.general
+          )
         }
       }
     }
 
-    this.state = defaultDYIState();
-    this.props.onChange(
-      this.state[this.state.currentState],
-      this.state.general,
-    );
+    this.state = defaultDYIState()
+    this.props.onChange(this.state[this.state.currentState], this.state.general)
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState && prevState !== this.state && lsTest()) {
-      window.localStorage.setItem("weights", JSON.stringify(this.state));
+      window.localStorage.setItem("weights", JSON.stringify(this.state))
     }
   }
 
   onDYIReset() {
-    let newState = defaultDYIState();
-    this.setState(newState);
-    this.props.onChange(newState[newState.currentState], newState.general);
+    let newState = defaultDYIState()
+    this.setState(newState)
+    this.props.onChange(newState[newState.currentState], newState.general)
   }
 
   onGLReset() {
-    let newState = defaultGLState();
-    this.setState(newState);
-    this.props.onChange(newState[newState.currentState], newState.general);
+    let newState = defaultGLState()
+    this.setState(newState)
+    this.props.onChange(newState[newState.currentState], newState.general)
   }
 
   onMANTReset() {
-    let newState = defaultMANTState();
-    this.setState(newState);
-    this.props.onChange(newState[newState.currentState], newState.general);
+    let newState = defaultMANTState()
+    this.setState(newState)
+    this.props.onChange(newState[newState.currentState], newState.general)
   }
 
   onURAReset() {
-    let newState = defaultURAState();
-    this.setState(newState);
-    this.props.onChange(newState[newState.currentState], newState.general);
+    let newState = defaultURAState()
+    this.setState(newState)
+    this.props.onChange(newState[newState.currentState], newState.general)
   }
 
   onAoharuReset() {
-    let newState = defaultAoharuState();
-    this.setState(newState);
-    this.props.onChange(newState[newState.currentState], newState.general);
+    let newState = defaultAoharuState()
+    this.setState(newState)
+    this.props.onChange(newState[newState.currentState], newState.general)
   }
 
   onGMReset() {
-    let newState = defaultGMState();
-    this.setState(newState);
-    this.props.onChange(newState[newState.currentState], newState.general);
+    let newState = defaultGMState()
+    this.setState(newState)
+    this.props.onChange(newState[newState.currentState], newState.general)
   }
 
   onSettingChanged(event, numberString, numberInput) {
-    if (!event) return;
+    if (!event) return
 
-    let settings = this.state[this.state.currentState];
+    let settings = this.state[this.state.currentState]
 
     if (typeof event === "number") {
       if (numberInput.id.indexOf(".") > 0) {
-        let split = numberInput.id.split(".");
-        settings[split[0]][split[1]] = event;
+        let split = numberInput.id.split(".")
+        settings[split[0]][split[1]] = event
       } else {
-        settings[numberInput.id] = event;
+        settings[numberInput.id] = event
       }
     } else {
-      settings[event.target.id] = !settings[event.target.id];
+      settings[event.target.id] = !settings[event.target.id]
     }
 
-    let newSettings = {};
-    newSettings[this.state.currentState] = settings;
-    this.setState(newSettings);
+    let newSettings = {}
+    newSettings[this.state.currentState] = settings
+    this.setState(newSettings)
 
-    this.props.onChange(settings, this.state.general);
+    this.props.onChange(settings, this.state.general)
   }
 
   onGeneralSettingChanged(event, numberString, numberInput) {
-    if (!event) return;
+    if (!event) return
 
-    let settings = this.state.general;
+    let settings = this.state.general
 
     if (typeof event === "number") {
       if (numberInput.id.indexOf(".") > 0) {
-        let split = numberInput.id.split(".");
-        settings[split[0]][split[1]] = event;
+        let split = numberInput.id.split(".")
+        settings[split[0]][split[1]] = event
       } else {
-        settings[numberInput.id] = event;
+        settings[numberInput.id] = event
       }
     } else {
-      settings[event.target.id] = !settings[event.target.id];
+      settings[event.target.id] = !settings[event.target.id]
     }
 
-    let newSettings = {};
-    newSettings.general = settings;
-    this.setState(newSettings);
+    let newSettings = {}
+    newSettings.general = settings
+    this.setState(newSettings)
 
-    this.props.onChange(this.state[this.state.currentState], settings);
+    this.props.onChange(this.state[this.state.currentState], settings)
   }
 
   onMotivationChanged(event) {
-    let settings = this.state.general;
-    settings.motivation = event.target.value;
-    let newSettings = {};
-    newSettings.general = settings;
-    this.setState(newSettings);
-    this.props.onChange(this.state[this.state.currentState], settings);
+    let settings = this.state.general
+    settings.motivation = event.target.value
+    let newSettings = {}
+    newSettings.general = settings
+    this.setState(newSettings)
+    this.props.onChange(this.state[this.state.currentState], settings)
   }
 
   onTypeChanged(event) {
     this.setState({
       currentState: event.target.id,
-    });
+    })
 
-    this.props.onChange(this.state[event.target.id], this.state.general);
+    this.props.onChange(this.state[event.target.id], this.state.general)
   }
 
   onCapChanged(event) {
-    let settings = this.state[this.state.currentState];
-    settings.cap = event.target.value;
-    let newSettings = {};
-    newSettings[this.state.currentState] = settings;
-    this.setState(newSettings);
-    this.props.onChange(settings, this.state.general);
+    let settings = this.state[this.state.currentState]
+    settings.cap = event.target.value
+    let newSettings = {}
+    newSettings[this.state.currentState] = settings
+    this.setState(newSettings)
+    this.props.onChange(settings, this.state.general)
   }
 
   onMinimumChanged(event) {
-    let settings = this.state[this.state.currentState];
-    settings.minimum = event.target.value;
-    let newSettings = {};
-    newSettings[this.state.currentState] = settings;
-    this.setState(newSettings);
-    this.props.onChange(settings, this.state.general);
+    let settings = this.state[this.state.currentState]
+    settings.minimum = event.target.value
+    let newSettings = {}
+    newSettings[this.state.currentState] = settings
+    this.setState(newSettings)
+    this.props.onChange(settings, this.state.general)
   }
 
   onToggleWeights(event) {
-    this.setState({ show: !this.state.show });
+    this.setState({ show: !this.state.show })
   }
 
   render() {
@@ -708,8 +705,16 @@ class Weights extends React.Component {
         label: "DYI",
         handler: () => this.onDYIReset(),
       },
-      { id: "reset-weights-GM", label: "GM", handler: () => this.onGMReset() },
-      { id: "reset-weights-GL", label: "GL", handler: () => this.onGLReset() },
+      {
+        id: "reset-weights-GM",
+        label: "GM",
+        handler: () => this.onGMReset(),
+      },
+      {
+        id: "reset-weights-GL",
+        label: "GL",
+        handler: () => this.onGLReset(),
+      },
       {
         id: "reset-weights-MANT",
         label: "MANT",
@@ -725,7 +730,7 @@ class Weights extends React.Component {
         label: "URA",
         handler: () => this.onURAReset(),
       },
-    ];
+    ]
 
     return (
       <div className="weights font-sans text-left">
@@ -746,19 +751,20 @@ class Weights extends React.Component {
                 GutsIcon,
                 WisdomIcon,
                 FriendIcon,
-              ];
-              const label = type.charAt(0).toUpperCase() + type.slice(1);
-              const isActive = this.state.currentState === type;
+              ]
+              const label = type.charAt(0).toUpperCase() + type.slice(1)
+              const isActive = this.state.currentState === type
               return (
                 <button
                   key={type}
                   id={type}
                   type="button"
                   onClick={this.onTypeChanged}
-                  className={`flex flex-col items-center justify-center p-2 rounded-xl border text-center  ${isActive
-                    ? "bg-slate-100 dark:bg-zinc-800 border-blue-500 text-blue-600 dark:text-blue-400 font-bold"
-                    : "bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-850 text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-905"
-                    }`}
+                  className={`flex flex-col items-center justify-center p-2 rounded-xl border text-center  ${
+                    isActive
+                      ? "bg-slate-100 dark:bg-zinc-800 border-blue-500 text-blue-600 dark:text-blue-400 font-bold"
+                      : "bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-850 text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-905"
+                  }`}
                 >
                   <img
                     src={icons[idx]}
@@ -769,8 +775,8 @@ class Weights extends React.Component {
                     {label}
                   </span>
                 </button>
-              );
-            },
+              )
+            }
           )}
         </div>
 
@@ -1235,8 +1241,8 @@ class Weights extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Weights;
+export default Weights

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
 
 function NumericInput({
   value,
@@ -9,75 +9,75 @@ function NumericInput({
   id,
   onChange,
 }) {
-  const [inputValue, setInputValue] = useState(value);
+  const [inputValue, setInputValue] = useState(value)
 
   useEffect(() => {
-    setInputValue(value);
-  }, [value]);
+    setInputValue(value)
+  }, [value])
 
   const getPrecision = () => {
-    if (precision !== undefined) return precision;
-    const stepStr = step.toString();
+    if (precision !== undefined) return precision
+    const stepStr = step.toString()
     if (stepStr.indexOf(".") >= 0) {
-      return stepStr.split(".")[1].length;
+      return stepStr.split(".")[1].length
     }
-    return 0;
-  };
+    return 0
+  }
 
   const handleIncrement = () => {
-    const prec = getPrecision();
-    let newValue = parseFloat((inputValue + step).toFixed(prec));
-    if (newValue > max) newValue = max;
-    newValue = parseFloat(newValue.toFixed(prec));
-    setInputValue(newValue);
+    const prec = getPrecision()
+    let newValue = parseFloat((inputValue + step).toFixed(prec))
+    if (newValue > max) newValue = max
+    newValue = parseFloat(newValue.toFixed(prec))
+    setInputValue(newValue)
     if (onChange) {
-      onChange(newValue, newValue.toString(), { id });
+      onChange(newValue, newValue.toString(), { id })
     }
-  };
+  }
 
   const handleDecrement = () => {
-    const prec = getPrecision();
-    let newValue = parseFloat((inputValue - step).toFixed(prec));
-    if (newValue < min) newValue = min;
-    newValue = parseFloat(newValue.toFixed(prec));
-    setInputValue(newValue);
+    const prec = getPrecision()
+    let newValue = parseFloat((inputValue - step).toFixed(prec))
+    if (newValue < min) newValue = min
+    newValue = parseFloat(newValue.toFixed(prec))
+    setInputValue(newValue)
     if (onChange) {
-      onChange(newValue, newValue.toString(), { id });
+      onChange(newValue, newValue.toString(), { id })
     }
-  };
+  }
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
+    setInputValue(e.target.value)
+  }
 
   const handleBlur = () => {
-    let parsed = parseFloat(inputValue);
+    let parsed = parseFloat(inputValue)
     if (isNaN(parsed)) {
-      parsed = min !== -Infinity ? min : 0;
+      parsed = min !== -Infinity ? min : 0
     }
-    if (parsed < min) parsed = min;
-    if (parsed > max) parsed = max;
+    if (parsed < min) parsed = min
+    if (parsed > max) parsed = max
 
-    const prec = getPrecision();
-    parsed = parseFloat(parsed.toFixed(prec));
+    const prec = getPrecision()
+    parsed = parseFloat(parsed.toFixed(prec))
 
-    setInputValue(parsed);
+    setInputValue(parsed)
     if (onChange) {
-      onChange(parsed, parsed.toString(), { id });
+      onChange(parsed, parsed.toString(), { id })
     }
-  };
+  }
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      handleBlur();
+      handleBlur()
     } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      handleIncrement();
+      e.preventDefault()
+      handleIncrement()
     } else if (e.key === "ArrowDown") {
-      e.preventDefault();
-      handleDecrement();
+      e.preventDefault()
+      handleDecrement()
     }
-  };
+  }
 
   return (
     <div className="inline-flex items-center select-none font-sans my-1">
@@ -104,7 +104,7 @@ function NumericInput({
         +
       </button>
     </div>
-  );
+  )
 }
 
-export default NumericInput;
+export default NumericInput

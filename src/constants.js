@@ -27,4 +27,4 @@ export const supportCardProperties = {
     friendly_name: "Hint Rate",
     shorthand: "HR",
   },
-};
+}

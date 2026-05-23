@@ -87659,6 +87659,6 @@ const cards = [
     char_name: "ダンツフレーム",
     fan_bonus: 0,
   },
-];
+]
 
-export default cards;
+export default cards
