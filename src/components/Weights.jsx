@@ -1,5 +1,5 @@
 import React from 'react';
-import NumericInput from 'react-numeric-input';
+import NumericInput from './NumericInput';
 import SpeedIcon from '../icons/utx_ico_obtain_00.png';
 import StaminaIcon from '../icons/utx_ico_obtain_01.png';
 import PowerIcon from '../icons/utx_ico_obtain_02.png';
@@ -700,149 +700,293 @@ class Weights extends React.Component {
     }
 
     render() {
+        const resetScenarios = [
+            { id: 'reset-weights-DYI', label: 'DYI', handler: () => this.onDYIReset() },
+            { id: 'reset-weights-GM', label: 'GM', handler: () => this.onGMReset() },
+            { id: 'reset-weights-GL', label: 'GL', handler: () => this.onGLReset() },
+            { id: 'reset-weights-MANT', label: 'MANT', handler: () => this.onMANTReset() },
+            { id: 'reset-weights-Aoharu', label: 'Aoharu', handler: () => this.onAoharuReset() },
+            { id: 'reset-weights-URA', label: 'URA', handler: () => this.onURAReset() },
+        ];
+
         return (
-            <div className="weights">
-                <div className="weight-row">
-                    <input id="speed" type="image" className={this.state.currentState == "speed" ? "image-btn selected" : "image-btn"} src={SpeedIcon} onClick={this.onTypeChanged} alt="Speed"/>
-                    <input id="stamina" type="image" className={this.state.currentState == "stamina" ? "image-btn selected" : "image-btn"} src={StaminaIcon} onClick={this.onTypeChanged} alt="Stamina"/>
-                    <input id="power" type="image" className={this.state.currentState == "power" ? "image-btn selected" : "image-btn"} src={PowerIcon} onClick={this.onTypeChanged} alt="Power"/>
-                    <input id="guts" type="image" className={this.state.currentState == "guts" ? "image-btn selected" : "image-btn"} src={GutsIcon} onClick={this.onTypeChanged} alt="Guts"/>
-                    <input id="wisdom" type="image" className={this.state.currentState == "wisdom" ? "image-btn selected" : "image-btn"} src={WisdomIcon} onClick={this.onTypeChanged} alt="Wisdom"/>
-                    <input id="friend" type="image" className={this.state.currentState == "friend" ? "image-btn selected" : "image-btn"} src={FriendIcon} onClick={this.onTypeChanged} alt="Friend"/>
+            <div className="weights font-sans text-left">
+                {/* Type Tab Selector Row */}
+                <div className="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-zinc-850 pb-2">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
+                        Select Stat Type
+                    </h3>
                 </div>
-                <div className="weight-row">
-                    <button id="weights-toggle" type="button" onClick={this.onToggleWeights}>{this.state.show ? "Hide Settings" : "Customize Settings"}</button>
+
+                <div className="grid grid-cols-6 gap-1.5 mb-5">
+                    {['speed', 'stamina', 'power', 'guts', 'wisdom', 'friend'].map((type, idx) => {
+                        const icons = [SpeedIcon, StaminaIcon, PowerIcon, GutsIcon, WisdomIcon, FriendIcon];
+                        const label = type.charAt(0).toUpperCase() + type.slice(1);
+                        const isActive = this.state.currentState === type;
+                        return (
+                            <button
+                                key={type}
+                                id={type}
+                                type="button"
+                                onClick={this.onTypeChanged}
+                                className={`flex flex-col items-center justify-center p-2 rounded-xl border text-center transition-all ${
+                                    isActive
+                                        ? 'bg-slate-100 dark:bg-zinc-800 border-blue-500 text-blue-600 dark:text-blue-400 font-bold'
+                                        : 'bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-850 text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-905'
+                                }`}
+                            >
+                                <img src={icons[idx]} className="w-8 h-8 object-contain pointer-events-none" alt={label} />
+                                <span className="text-[10px] mt-1.5 font-semibold pointer-events-none">{label}</span>
+                            </button>
+                        );
+                    })}
                 </div>
-                {
-                    this.state.show &&
-                    <>
-                    <div className="weight-row">
-                        <div className="section-header">Scenario</div>
-                        <div className="section-explanation">
-                            Which scenario you're playing in.<br/>
-                            Changes the stat gains from trainings and some default values.
-                        </div>
-                        <button id="reset-weights-DYI" type="button" onClick={this.onDYIReset}>DYI</button>
-                        <button id="reset-weights-GM" type="button" onClick={this.onGMReset}>GM</button>
-                        <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>GL</button>
-                        <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>MANT</button>
-                        <button id="reset-weights-Aoharu" type="button" onClick={this.onAoharuReset}>Aoharu</button>
-                        <button id="reset-weights-URA" type="button" onClick={this.onURAReset}>URA</button>
-                    </div>
-                    <div className="weight-row">
-                        <div className="section-header">Bond Rate</div>
-                        <div className="section-explanation">
-                            The fewer bond per turn, the more Starting Bond matters.<br/>
-                            This is the bond over every card, so 14 = two cards per day, etc.
-                        </div>
-                        <label htmlFor="bondPerDay">Bond Gained per Turn:</label>
-                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="bondPerDay" value={this.state.general.bondPerDay} min={1} max={50} step={0.1}/>
-                    </div>
-                    <div className="weight-row">
-                        <div className="section-header">Optional Races</div>
-                        <div className="section-explanation">
-                            How many of each optional race class you do, for calculating Race Bonus points.
-                        </div>
-                        <label htmlFor="races.0">G1</label>
-                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="races.0" value={this.state.general.races[0]} min={0} max={30} step={1}/>
-                        <label htmlFor="races.1">G2/G3</label>
-                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="races.1" value={this.state.general.races[1]} min={0} max={30} step={1}/>
-                        <label htmlFor="races.2">OP/Pre-OP</label>
-                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="races.2" value={this.state.general.races[2]} min={0} max={30} step={1}/>
-                    </div>
-                    <div className="weight-row">
-                        <div className="section-header">Scenario Specific</div>
-                        <div className="section-explanation">
-                            Multiplier accounts for MANT items and GL friendship songs.<br/>
-                            Bonus Specialty is for Grand Live song bonuses.
-                        </div>
-                        <label htmlFor="multi">Multiplier:</label>
-                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="multi" value={this.state.general.multi} min={1} max={2.2} step={0.05}/>
-                        <label htmlFor="bonusSpec">Bonus Specialty:</label>
-                        <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="bonusSpec" value={this.state.general.bonusSpec} min={-1} max={95} step={5}/>
-                    </div>
-                    <div className="weight-row">
-                        <div className="section-header">Stat Weights</div>
-                        <div className="section-explanation">
-                            How much score each point of the given stat/resource gives.
-                        </div>
-                        <label htmlFor="stats.0">Speed</label>
-                        <NumericInput onChange={this.onSettingChanged} type="number" id="stats.0" value={this.state[this.state.currentState].stats[0]} min={0} max={3} step={0.1}/>
-                        <label htmlFor="stats.1">Stamina</label>
-                        <NumericInput onChange={this.onSettingChanged} type="number" id="stats.1" value={this.state[this.state.currentState].stats[1]} min={0} max={3} step={0.1}/>
-                        <label htmlFor="stats.2">Power</label>
-                        <NumericInput onChange={this.onSettingChanged} type="number" id="stats.2" value={this.state[this.state.currentState].stats[2]} min={0} max={3} step={0.1}/>
-                        <label htmlFor="stats.3">Guts</label>
-                        <NumericInput onChange={this.onSettingChanged} type="number" id="stats.3" value={this.state[this.state.currentState].stats[3]} min={0} max={3} step={0.1}/>
-                        <label htmlFor="stats.4">Wisdom</label>
-                        <NumericInput onChange={this.onSettingChanged} type="number" id="stats.4" value={this.state[this.state.currentState].stats[4]} min={0} max={3} step={0.1}/>
-                        <br/><br/><label htmlFor="stats.5">Skill Points</label>
-                        <NumericInput onChange={this.onSettingChanged} type="number" id="stats.5" value={this.state[this.state.currentState].stats[5]} min={0} max={3} step={0.1}/>
-                        <label htmlFor="stats.6">Energy</label>
-                        <NumericInput onChange={this.onSettingChanged} type="number" id="stats.6" value={this.state[this.state.currentState].stats[6]} min={0} max={3} step={0.1}/>
-                    </div>
-                    <div className="weight-row">
-                        <div className="section-header">Average Motivation</div>
-                        <div className="section-explanation">
-                            You get 10% per motivation stage. This affects Motivation Bonus.
-                        </div>
-                        <input type="range" onChange={this.onMotivationChanged} min={-0.2} max={0.2} step={0.05} value={this.state.general.motivation} className="slider" id="motivation"/>
-                        <label htmlFor="minimum">{this.state.general.motivation * 100}%</label>
-                    </div>
-                    <div className="weight-row">
-                        <div className="section-header">Stat Cap</div>
-                        <div className="section-explanation">
-                            This will cap the stat gain, penalizing cards that only raise one stat.<br/>
-                            Lower this if you tend to cap your stats very early to strengthen cards that raise multiple.
-                        </div>
-                        <input type="range" onChange={this.onCapChanged} min={300} max={1000} step={20} value={this.state[this.state.currentState].cap} className="slider" id="cap"/>
-                        <label htmlFor="cap">{this.state[this.state.currentState].cap}</label>
-                    </div>
-                    <div className="weight-row">
-                        <div className="section-header">Minimum Training Value</div>
-                        <div className="section-explanation">
-                            Any training combination that gives less than this will be ignored.<br/>
-                            Increase this to ignore trainings you wouldn't do, such as lone rainbows.<br/>
-                            Solo MLB Kitasan rainbow is about 40, depending on the weights, for reference.
-                        </div>
-                        <input type="range" onChange={this.onMinimumChanged} min={20} max={100} step={5} value={this.state[this.state.currentState].minimum} className="slider" id="minimum"/>
-                        <label htmlFor="minimum">{this.state[this.state.currentState].minimum}</label>
-                    </div>
-                    {this.state.currentState !== "friend" &&
-                        <div className="weight-row">
-                            <div className="section-header">Rainbow Rate Alterations</div>
-                            <div className="section-explanation">
-                                If this option is disabled, then single rainbows in this stat<br/>
-                                will be ignored if any other stat is rainbowing at the same time.
+
+                <div className="mb-4">
+                    <button
+                        id="weights-toggle"
+                        type="button"
+                        onClick={this.onToggleWeights}
+                        className="w-full text-center py-2 border border-slate-300 dark:border-zinc-700 rounded-lg text-xs font-bold text-slate-700 dark:text-zinc-300 bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-850 transition-colors shadow-sm focus:outline-none"
+                    >
+                        {this.state.show ? "Hide Settings" : "Customize Settings"}
+                    </button>
+                </div>
+
+                {this.state.show && (
+                    <div className="space-y-5">
+                        {/* Scenario reset card */}
+                        <div className="p-3.5 bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-850 rounded-xl">
+                            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400 mb-1">
+                                Scenario Presets
+                            </h4>
+                            <p className="text-[10px] text-slate-400 dark:text-zinc-500 mb-3 leading-relaxed">
+                                Swaps training gains and multipliers to match specific game scenarios.
+                            </p>
+                            <div className="flex flex-wrap gap-1.5">
+                                {resetScenarios.map((scen) => (
+                                    <button
+                                        key={scen.id}
+                                        id={scen.id}
+                                        type="button"
+                                        onClick={scen.handler}
+                                        className="px-3 py-1 border border-slate-300 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-850 transition-colors cursor-pointer"
+                                    >
+                                        {scen.label}
+                                    </button>
+                                ))}
                             </div>
-                            <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].prioritize} id="prioritize"/>
-                            <label htmlFor="prioritize">Prioritize This Stat</label>
-                            <div className="section-explanation">
-                                If this option is enabled, then all rainbows will be ignored<br/>
-                                in this stat unless it's summer. Assumes 8 summer turns. Sorry Bakushin.
-                            </div>
-                            <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].onlySummer} id="onlySummer"/>
-                            <label htmlFor="onlySummer">Only Train In Summer</label>
                         </div>
-                    }
-                    </>
-                }
-                <div className="weight-row">
-                    <div className="section-header">Uma's Bonuses</div>
-                    <div className="section-explanation">
-                        The percentages on the uma's stat screen, converted to decimal. <br/>
-                        For example, 10% is 1.1, and 15% is 1.15.
+
+                        {/* General controls section */}
+                        <div className="space-y-4">
+                            {/* Bond Rate */}
+                            <div className="p-3.5 border border-slate-200 dark:border-zinc-850 rounded-xl flex items-center justify-between">
+                                <div className="mr-4">
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400">
+                                        Bond Rate
+                                    </h4>
+                                    <p className="text-[10px] text-slate-400 dark:text-zinc-500 leading-normal mt-0.5">
+                                        Average bond gained per turn.
+                                    </p>
+                                </div>
+                                <NumericInput onChange={this.onGeneralSettingChanged} id="bondPerDay" value={this.state.general.bondPerDay} min={1} max={50} step={0.1}/>
+                            </div>
+
+                            {/* Optional Races */}
+                            <div className="p-3.5 border border-slate-200 dark:border-zinc-850 rounded-xl space-y-3">
+                                <div>
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400">
+                                        Optional Races
+                                    </h4>
+                                    <p className="text-[10px] text-slate-400 dark:text-zinc-500 leading-normal mt-0.5">
+                                        Counts of G1, G2/G3, and OP races run for calculating Race Bonus points.
+                                    </p>
+                                </div>
+                                <div className="grid grid-cols-3 gap-2">
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">G1</span>
+                                        <NumericInput onChange={this.onGeneralSettingChanged} id="races.0" value={this.state.general.races[0]} min={0} max={30} step={1}/>
+                                    </div>
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">G2/G3</span>
+                                        <NumericInput onChange={this.onGeneralSettingChanged} id="races.1" value={this.state.general.races[1]} min={0} max={30} step={1}/>
+                                    </div>
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">OP</span>
+                                        <NumericInput onChange={this.onGeneralSettingChanged} id="races.2" value={this.state.general.races[2]} min={0} max={30} step={1}/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Scenario Specific */}
+                            <div className="p-3.5 border border-slate-200 dark:border-zinc-850 rounded-xl space-y-3">
+                                <div>
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400">
+                                        Scenario Modifiers
+                                    </h4>
+                                    <p className="text-[10px] text-slate-400 dark:text-zinc-500 leading-normal mt-0.5">
+                                        Vite/MANT items or GL song bonuses.
+                                    </p>
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">Multiplier</span>
+                                        <NumericInput onChange={this.onGeneralSettingChanged} id="multi" value={this.state.general.multi} min={1} max={2.2} step={0.05}/>
+                                    </div>
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">Spec. Bonus</span>
+                                        <NumericInput onChange={this.onGeneralSettingChanged} id="bonusSpec" value={this.state.general.bonusSpec} min={-1} max={95} step={5}/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Stat Weights */}
+                            <div className="p-3.5 border border-slate-200 dark:border-zinc-850 rounded-xl space-y-3">
+                                <div>
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400">
+                                        Stat Weights
+                                    </h4>
+                                    <p className="text-[10px] text-slate-400 dark:text-zinc-500 leading-normal mt-0.5">
+                                        Multiplier values assigned to each specific training stat.
+                                    </p>
+                                </div>
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">Speed</span>
+                                        <NumericInput onChange={this.onSettingChanged} id="stats.0" value={this.state[this.state.currentState].stats[0]} min={0} max={3} step={0.1}/>
+                                    </div>
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">Stamina</span>
+                                        <NumericInput onChange={this.onSettingChanged} id="stats.1" value={this.state[this.state.currentState].stats[1]} min={0} max={3} step={0.1}/>
+                                    </div>
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">Power</span>
+                                        <NumericInput onChange={this.onSettingChanged} id="stats.2" value={this.state[this.state.currentState].stats[2]} min={0} max={3} step={0.1}/>
+                                    </div>
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">Guts</span>
+                                        <NumericInput onChange={this.onSettingChanged} id="stats.3" value={this.state[this.state.currentState].stats[3]} min={0} max={3} step={0.1}/>
+                                    </div>
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">Wisdom</span>
+                                        <NumericInput onChange={this.onSettingChanged} id="stats.4" value={this.state[this.state.currentState].stats[4]} min={0} max={3} step={0.1}/>
+                                    </div>
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">Skill Pts</span>
+                                        <NumericInput onChange={this.onSettingChanged} id="stats.5" value={this.state[this.state.currentState].stats[5]} min={0} max={3} step={0.1}/>
+                                    </div>
+                                    <div className="flex flex-col space-y-1">
+                                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold">Energy</span>
+                                        <NumericInput onChange={this.onSettingChanged} id="stats.6" value={this.state[this.state.currentState].stats[6]} min={0} max={3} step={0.1}/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Sliders & Caps */}
+                            <div className="p-3.5 border border-slate-200 dark:border-zinc-850 rounded-xl space-y-4">
+                                <div className="space-y-2">
+                                    <div className="flex justify-between items-center text-xs">
+                                        <span className="font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400">Motivation</span>
+                                        <span className="text-slate-900 dark:text-white font-bold bg-slate-200 dark:bg-zinc-800 px-2 py-0.5 rounded text-[11px]">
+                                            {this.state.general.motivation * 100}%
+                                        </span>
+                                    </div>
+                                    <input type="range" onChange={this.onMotivationChanged} min={-0.2} max={0.2} step={0.05} value={this.state.general.motivation} className="w-full accent-blue-600 cursor-pointer h-1.5 bg-slate-200 dark:bg-zinc-800 rounded-lg appearance-none"/>
+                                </div>
+
+                                <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-zinc-850">
+                                    <div className="flex justify-between items-center text-xs">
+                                        <span className="font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400">Stat Cap</span>
+                                        <span className="text-slate-900 dark:text-white font-bold bg-slate-200 dark:bg-zinc-800 px-2 py-0.5 rounded text-[11px]">
+                                            {this.state[this.state.currentState].cap}
+                                        </span>
+                                    </div>
+                                    <input type="range" onChange={this.onCapChanged} min={300} max={1000} step={20} value={this.state[this.state.currentState].cap} className="w-full accent-blue-600 cursor-pointer h-1.5 bg-slate-200 dark:bg-zinc-800 rounded-lg appearance-none"/>
+                                </div>
+
+                                <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-zinc-850">
+                                    <div className="flex justify-between items-center text-xs">
+                                        <span className="font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400">Min Train Score</span>
+                                        <span className="text-slate-900 dark:text-white font-bold bg-slate-200 dark:bg-zinc-800 px-2 py-0.5 rounded text-[11px]">
+                                            {this.state[this.state.currentState].minimum}
+                                        </span>
+                                    </div>
+                                    <input type="range" onChange={this.onMinimumChanged} min={20} max={100} step={5} value={this.state[this.state.currentState].minimum} className="w-full accent-blue-600 cursor-pointer h-1.5 bg-slate-200 dark:bg-zinc-800 rounded-lg appearance-none"/>
+                                </div>
+                            </div>
+
+                            {/* Rainbow Alterations */}
+                            {this.state.currentState !== "friend" && (
+                                <div className="p-3.5 border border-slate-200 dark:border-zinc-850 rounded-xl space-y-3">
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400">
+                                        Rainbow Rate Alterations
+                                    </h4>
+                                    <div className="space-y-3 text-xs">
+                                        <div className="flex items-start">
+                                            <input 
+                                                type="checkbox" 
+                                                onChange={this.onSettingChanged} 
+                                                checked={this.state[this.state.currentState].prioritize} 
+                                                id="prioritize"
+                                                className="h-4 w-4 text-blue-600 border-slate-300 dark:border-zinc-700 rounded focus:ring-blue-500 dark:bg-zinc-950 cursor-pointer mt-0.5"
+                                            />
+                                            <div className="ml-2.5 text-slate-500 dark:text-zinc-400">
+                                                <label htmlFor="prioritize" className="font-semibold text-slate-700 dark:text-zinc-300 block cursor-pointer">Prioritize This Stat</label>
+                                                <span className="text-[10px] block leading-normal mt-0.5">Ignore single rainbows in this stat if other stats are rainbowing.</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-start pt-2.5 border-t border-slate-100 dark:border-zinc-850">
+                                            <input 
+                                                type="checkbox" 
+                                                onChange={this.onSettingChanged} 
+                                                checked={this.state[this.state.currentState].onlySummer} 
+                                                id="onlySummer"
+                                                className="h-4 w-4 text-blue-600 border-slate-300 dark:border-zinc-700 rounded focus:ring-blue-500 dark:bg-zinc-950 cursor-pointer mt-0.5"
+                                            />
+                                            <div className="ml-2.5 text-slate-500 dark:text-zinc-400">
+                                                <label htmlFor="onlySummer" className="font-semibold text-slate-700 dark:text-zinc-300 block cursor-pointer">Only Train In Summer</label>
+                                                <span className="text-[10px] block leading-normal mt-0.5">All rainbows will be ignored in this stat except in summer.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                    <label htmlFor="umaBonus.0">Speed</label>
-                    <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="umaBonus.0" value={this.state.general.umaBonus[0]} min={0.7} max={1.3} step={0.01} precision={2}/>
-                    <label htmlFor="umaBonus.1">Stamina</label>
-                    <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="umaBonus.1" value={this.state.general.umaBonus[1]} min={0.7} max={1.3} step={0.01} precision={2}/>
-                    <label htmlFor="umaBonus.2">Power</label>
-                    <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="umaBonus.2" value={this.state.general.umaBonus[2]} min={0.7} max={1.3} step={0.01} precision={2}/>
-                    <label htmlFor="umaBonus.3">Guts</label>
-                    <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="umaBonus.3" value={this.state.general.umaBonus[3]} min={0.7} max={1.3} step={0.01} precision={2}/>
-                    <label htmlFor="umaBonus.4">Wisdom</label>
-                    <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="umaBonus.4" value={this.state.general.umaBonus[4]} min={0.7} max={1.3} step={0.01} precision={2}/>
+                )}
+
+                {/* Uma's Bonuses */}
+                <div className="mt-5 pt-4 border-t border-slate-100 dark:border-zinc-800">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300 mb-1">
+                        Uma's Bonuses
+                    </h4>
+                    <p className="text-[10px] text-slate-400 dark:text-zinc-500 mb-3 leading-relaxed">
+                        Percentages on your Uma's stat screen in decimals (e.g. 10% is 1.1, 15% is 1.15).
+                    </p>
+                    <div className="grid grid-cols-5 gap-2">
+                        <div className="flex flex-col space-y-1">
+                            <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold text-center">Spd</span>
+                            <NumericInput onChange={this.onGeneralSettingChanged} id="umaBonus.0" value={this.state.general.umaBonus[0]} min={0.7} max={1.3} step={0.01} precision={2}/>
+                        </div>
+                        <div className="flex flex-col space-y-1">
+                            <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold text-center">Stm</span>
+                            <NumericInput onChange={this.onGeneralSettingChanged} id="umaBonus.1" value={this.state.general.umaBonus[1]} min={0.7} max={1.3} step={0.01} precision={2}/>
+                        </div>
+                        <div className="flex flex-col space-y-1">
+                            <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold text-center">Pow</span>
+                            <NumericInput onChange={this.onGeneralSettingChanged} id="umaBonus.2" value={this.state.general.umaBonus[2]} min={0.7} max={1.3} step={0.01} precision={2}/>
+                        </div>
+                        <div className="flex flex-col space-y-1">
+                            <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold text-center">Gut</span>
+                            <NumericInput onChange={this.onGeneralSettingChanged} id="umaBonus.3" value={this.state.general.umaBonus[3]} min={0.7} max={1.3} step={0.01} precision={2}/>
+                        </div>
+                        <div className="flex flex-col space-y-1">
+                            <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold text-center">Wis</span>
+                            <NumericInput onChange={this.onGeneralSettingChanged} id="umaBonus.4" value={this.state.general.umaBonus[4]} min={0.7} max={1.3} step={0.01} precision={2}/>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

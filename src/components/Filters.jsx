@@ -76,7 +76,13 @@ class Filters extends React.Component {
     render() {
         const rarities = ["ssr","sr","r"];
         let rows = [];
-        rows.push(<tr><th>SSR</th><th>SR</th><th>R</th></tr>);
+        rows.push(
+            <tr key="header" className="border-b border-slate-200 dark:border-zinc-800">
+                <th className="px-2 py-3 text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider text-center">SSR</th>
+                <th className="px-2 py-3 text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider text-center">SR</th>
+                <th className="px-2 py-3 text-xs font-semibold text-slate-500 dark:text-zinc-400 uppercase tracking-wider text-center">R</th>
+            </tr>
+        );
         for (let i = 4; i >= 0; i--) {
             let data = [];
             let lit_up = "";
@@ -89,20 +95,41 @@ class Filters extends React.Component {
                 }
             }
             for (let r = 0; r < 3; r++) {
-                data.push(<td key={"r" + r}>
-                    <span className="lb-yes">{lit_up}</span><span className="lb-no">{dark}</span>
-                    <input type="checkbox" checked={this.state[rarities[r]][i]} id={rarities[r] + "." + i} onChange={this.onSettingChanged}/>
-                </td>);
+                data.push(
+                    <td key={"r" + r} className="px-2 py-2 whitespace-nowrap align-middle">
+                        <div className="inline-flex items-center justify-center space-x-1.5">
+                            <span className="font-mono text-xs tracking-tight">
+                                <span className="text-cyan-500 font-bold dark:text-cyan-400">{lit_up}</span>
+                                <span className="text-slate-300 dark:text-zinc-700">{dark}</span>
+                            </span>
+                            <input 
+                                type="checkbox" 
+                                checked={this.state[rarities[r]][i]} 
+                                id={rarities[r] + "." + i} 
+                                onChange={this.onSettingChanged}
+                                className="h-4 w-4 text-blue-600 border-slate-300 dark:border-zinc-700 rounded focus:ring-blue-500 dark:bg-zinc-950 cursor-pointer"
+                            />
+                        </div>
+                    </td>
+                );
             }
-            rows.push(<tr key={"c"+i}>{data}</tr>);
+            rows.push(<tr key={"c"+i} className="hover:bg-slate-50 dark:hover:bg-zinc-850/50 transition-colors">{data}</tr>);
         }
         
         return (
-            <div className="filters">
-                <div className="general-filters">
-                    <table><tbody>
-                        {rows}
-                    </tbody></table>
+            <div className="filters font-sans">
+                <div className="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-zinc-800 pb-2">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
+                        Card Filters
+                    </h3>
+                    <span className="text-xs text-slate-400 dark:text-zinc-500">Rarity & Limit Break</span>
+                </div>
+                <div className="overflow-x-auto w-full">
+                    <table className="min-w-full text-center divide-y divide-slate-100 dark:divide-zinc-800">
+                        <tbody>
+                            {rows}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         );
