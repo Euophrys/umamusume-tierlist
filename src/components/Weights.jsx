@@ -760,11 +760,10 @@ class Weights extends React.Component {
                   id={type}
                   type="button"
                   onClick={this.onTypeChanged}
-                  className={`flex flex-col items-center justify-center p-2 rounded-xl border text-center  ${
-                    isActive
-                      ? "bg-slate-100 dark:bg-zinc-800 border-blue-500 text-blue-600 dark:text-blue-400 font-bold"
-                      : "bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-850 text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-905"
-                  }`}
+                  className={`flex flex-col items-center justify-center p-2 rounded-xl border text-center  ${isActive
+                    ? "bg-slate-100 dark:bg-zinc-800 border-blue-500 text-blue-600 dark:text-blue-400 font-bold"
+                    : "bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-850 text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-905"
+                    }`}
                 >
                   <img
                     src={icons[idx]}
@@ -1167,10 +1166,10 @@ class Weights extends React.Component {
             Percentages on your Uma's stat screen in decimals (e.g. 10% is 1.1,
             15% is 1.15).
           </p>
-          <div className="grid grid-cols-5 gap-2">
+          <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
             <div className="flex flex-col space-y-1">
               <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold text-center">
-                Spd
+                Speed
               </span>
               <NumericInput
                 onChange={this.onGeneralSettingChanged}
@@ -1184,7 +1183,7 @@ class Weights extends React.Component {
             </div>
             <div className="flex flex-col space-y-1">
               <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold text-center">
-                Stm
+                Stamina
               </span>
               <NumericInput
                 onChange={this.onGeneralSettingChanged}
@@ -1198,7 +1197,7 @@ class Weights extends React.Component {
             </div>
             <div className="flex flex-col space-y-1">
               <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold text-center">
-                Pow
+                Power
               </span>
               <NumericInput
                 onChange={this.onGeneralSettingChanged}
@@ -1212,7 +1211,7 @@ class Weights extends React.Component {
             </div>
             <div className="flex flex-col space-y-1">
               <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold text-center">
-                Gut
+                Guts
               </span>
               <NumericInput
                 onChange={this.onGeneralSettingChanged}
@@ -1226,7 +1225,7 @@ class Weights extends React.Component {
             </div>
             <div className="flex flex-col space-y-1">
               <span className="text-[10px] text-slate-500 dark:text-zinc-400 uppercase font-semibold text-center">
-                Wis
+                Wisdom
               </span>
               <NumericInput
                 onChange={this.onGeneralSettingChanged}
