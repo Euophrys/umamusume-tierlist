@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
@@ -8,8 +8,8 @@ export default defineConfig({
     open: true,
   },
   build: {
-    outDir: 'build',
+    outDir: "build",
     sourcemap: false,
   },
-  base: '/uma-tiers/',
-})
+  base: "/uma-tiers/",
+});

@@ -5,7 +5,9 @@ export default function DarkModeToggle() {
 
   useEffect(() => {
     // Check browser preference on startup
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
     setDarkMode(prefersDark);
 
     // Apply the class to body and HTML (for Tailwind dark: variant)

@@ -1,6 +1,6 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import JP from './JP';
-import Global from './global/Global';
+import { HashRouter, Routes, Route } from "react-router-dom";
+import JP from "./JP";
+import Global from "./global/Global";
 
 function App() {
   return (
