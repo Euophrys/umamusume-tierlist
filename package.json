@@ -8,7 +8,6 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-numeric-input": "^2.2.3",
-    "react-router-dom": "^6.30.1",
     "react-select": "^5.10.2",
     "web-vitals": "^1.1.2"
   },

@@ -1,51 +1,63 @@
 import React from "react"
-import cards from "../cards"
+import { AppContext } from "../i18n/context"
 import { lsTest } from "../utils"
 
 class Filters extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      ssr: [true, false, false, false, false],
-      sr: [true, false, false, false, false],
-      r: [false, false, false, false, false],
-    }
+  static contextType = AppContext
+
+  constructor(props, context) {
+    super(props, context)
+
+    // Default filter selection comes from the active server's config so the
+    // initial card visibility matches what each server prefers.
+    this.state = context.serverConfig.defaultFilters
 
     this.onSettingChanged = this.onSettingChanged.bind(this)
 
     if (lsTest()) {
-      let savedFilters = window.localStorage.getItem("filters")
+      // Filters are persisted per-server so toggling between servers doesn't
+      // bleed selections that don't make sense on the other game version.
+      let savedFilters = window.localStorage.getItem(
+        "filters." + context.server
+      )
       if (savedFilters !== null) {
         savedFilters = JSON.parse(savedFilters)
         this.state = savedFilters
       }
     }
 
-    let availableCards = cards.filter((c) => {
+    this.props.onCardsChanged(this.filterCards(this.state, context.cards))
+  }
+
+  filterCards(state, cards) {
+    return cards.filter((c) => {
       if (c.rarity === 1) {
-        return this.state.r[c.limit_break]
+        return state.r[c.limit_break]
       } else if (c.rarity === 2) {
-        return this.state.sr[c.limit_break]
+        return state.sr[c.limit_break]
       } else {
-        return this.state.ssr[c.limit_break]
+        return state.ssr[c.limit_break]
       }
     })
-    this.props.onCardsChanged(availableCards)
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState && prevState !== this.state && lsTest()) {
-      window.localStorage.setItem("filters", JSON.stringify(this.state))
+      window.localStorage.setItem(
+        "filters." + this.context.server,
+        JSON.stringify(this.state)
+      )
     }
   }
 
-  onSettingChanged(event, numberString, numberInput) {
+  onSettingChanged(event) {
     if (!event) return
 
     let settings = { ...this.state }
 
     if (event.target.id.indexOf(".") > 0) {
       let split = event.target.id.split(".")
+      settings[split[0]] = settings[split[0]].slice()
       settings[split[0]][split[1]] = !settings[split[0]][split[1]]
     } else {
       settings[event.target.id] = !settings[event.target.id]
@@ -53,27 +65,11 @@ class Filters extends React.Component {
 
     this.setState(settings)
 
-    let availableCards = cards.filter((c) => {
-      if (c.rarity === 1) {
-        return this.state.r[c.limit_break]
-      } else if (c.rarity === 2) {
-        return this.state.sr[c.limit_break]
-      } else {
-        return this.state.ssr[c.limit_break]
-      }
-    })
-    this.props.onCardsChanged(availableCards)
-  }
-
-  onTypeChanged(event) {
-    this.setState({
-      currentState: event.target.id,
-    })
-
-    this.props.onChange(this.state[event.target.id])
+    this.props.onCardsChanged(this.filterCards(settings, this.context.cards))
   }
 
   render() {
+    const { t } = this.context
     const rarities = ["ssr", "sr", "r"]
     let rows = []
     rows.push(
@@ -143,10 +139,10 @@ class Filters extends React.Component {
       <div className="filters font-sans">
         <div className="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-zinc-800 pb-2">
           <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
-            Card Filters
+            {t.cardFilters}
           </h3>
           <span className="text-xs text-slate-400 dark:text-zinc-500">
-            Rarity & Limit Break
+            {t.rarityLimitBreak}
           </span>
         </div>
         <div className="overflow-x-auto w-full">

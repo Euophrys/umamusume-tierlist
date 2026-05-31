@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import "./index.css"
-import App from "./App.jsx"
+import App from "./Main.jsx"
 
 try {
   // try to detect if we're in a cross-domain iframe by deliberately triggering a CORS violation (we can't inspect any
