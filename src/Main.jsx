@@ -62,6 +62,10 @@ class Main extends React.Component {
             weights: this.makeInitialWeights(),
             selectedCards: this.makeInitialSelectedCards(cards, serverConfig),
             availableCards: cards,
+            // Imported Gametora collection. When non-null, the tier list is
+            // restricted to the owned cards (matching id + limit_break). Cleared
+            // automatically on server change.
+            collection: null,
         }
 
         this.onWeightsChanged = this.onWeightsChanged.bind(this)
@@ -71,6 +75,16 @@ class Main extends React.Component {
         this.onLoadPreset = this.onLoadPreset.bind(this)
         this.onServerChanged = this.onServerChanged.bind(this)
         this.onLocaleChanged = this.onLocaleChanged.bind(this)
+        this.onCollectionLoaded = this.onCollectionLoaded.bind(this)
+        this.onCollectionCleared = this.onCollectionCleared.bind(this)
+    }
+
+    onCollectionLoaded(collection) {
+        this.setState({ collection })
+    }
+
+    onCollectionCleared() {
+        this.setState({ collection: null })
     }
 
     makeInitialWeights() {
@@ -183,6 +197,9 @@ class Main extends React.Component {
             server,
             availableCards: cards,
             selectedCards: this.makeInitialSelectedCards(cards, serverConfig),
+            // Different servers have different card pools, so an imported
+            // collection is discarded whenever the user switches servers.
+            collection: null,
         })
     }
 
@@ -287,6 +304,9 @@ class Main extends React.Component {
                                     <Filters
                                         key={server}
                                         onCardsChanged={this.onCardsChanged}
+                                        collection={this.state.collection}
+                                        onCollectionLoaded={this.onCollectionLoaded}
+                                        onCollectionCleared={this.onCollectionCleared}
                                     />
                                 </div>
                             </div>

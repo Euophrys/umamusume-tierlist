@@ -45,6 +45,23 @@ const locale = {
         // Filters panel
         cardFilters: "Card Filters",
         rarityLimitBreak: "Rarity & Limit Break",
+        importCollection: "Import Collection",
+        importCollectionHelp:
+            "Paste a Gametora collection export to restrict the tier list to cards you own.",
+        importCollectionPlaceholder:
+            'Paste the JSON exported from Gametora here…',
+        importCollectionSource: "Collection server",
+        importCollectionSourceJp: "JP",
+        importCollectionSourceGl: "Global",
+        importButton: "Import",
+        cancel: "Cancel",
+        collectionLoaded: (n) => `Collection loaded — ${n} card${n === 1 ? "" : "s"}.`,
+        collectionLoadedFiltered: (shown, total) =>
+            `Showing ${shown} of ${total} owned card${total === 1 ? "" : "s"} for this server.`,
+        discardCollection: "Discard collection",
+        importErrorInvalidJson: "Could not parse JSON. Make sure you pasted the whole export.",
+        importErrorNoSupports: "No supports found in the selected server's data.",
+        importErrorEmpty: "Paste your Gametora export first.",
 
         // Selected cards panel
         supportDeck: "Support Deck",
