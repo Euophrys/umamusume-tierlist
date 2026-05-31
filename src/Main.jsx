@@ -9,7 +9,7 @@ import {
     AppContext,
     buildContextValue,
 } from "./i18n/context"
-import { LOCALE_OPTIONS } from "./i18n/locales"
+import { LOCALE_OPTIONS, isKnownLocaleKey, normalizeLocaleKey } from "./i18n/locales"
 import { getCards } from "./cards"
 import { getServerConfig } from "./scenarios"
 import { lsTest } from "./utils"
@@ -37,9 +37,12 @@ function detectInitialServer() {
 function detectInitialLocale(server) {
     if (lsTest()) {
         const saved = window.localStorage.getItem("locale")
-        if (saved === "jp" || saved === "gl") return saved
+        if (isKnownLocaleKey(saved)) {
+            // Migrates legacy ids like "jp"/"gl" to the current scheme.
+            return normalizeLocaleKey(saved)
+        }
     }
-    return getServerConfig(server).defaultLocale
+    return normalizeLocaleKey(getServerConfig(server).defaultLocale)
 }
 
 class Main extends React.Component {
@@ -184,7 +187,7 @@ class Main extends React.Component {
     }
 
     onLocaleChanged(event) {
-        const localeKey = event.target.value
+        const localeKey = normalizeLocaleKey(event.target.value)
         if (lsTest()) {
             window.localStorage.setItem("locale", localeKey)
         }

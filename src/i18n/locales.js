@@ -1,169 +1,111 @@
-// Localization strings for the tier list UI.
+// Locale registry.
 //
-// Two locales are supported, each representing the terminology used on a
-// particular server. Players are free to mix the locale with either server's
-// data set (e.g. browse the Global tier list using JP terms or vice versa).
+// Each locale lives in its own file under ./locales/ and is registered
+// below. See ./locales/README.md for the full contributor guide.
 //
-// Each locale is a flat object so components can access keys directly.
+// A locale module default-exports an object of the form:
+//
+//   {
+//       id: "en-jp",            // unique identifier
+//       label: "English (JP terms)",
+//       language: "English",    // human-readable language name
+//       terminology: "jp",      // "jp" or "gl" — which server vocab is used
+//       extends: null,          // id of parent locale to inherit from
+//       strings: { ... },       // partial or full string bundle
+//   }
+//
+// Resolved string bundles are computed lazily by walking the `extends`
+// chain and deep-merging child overrides on top of inherited values.
 
-const jp = {
-    // App header
-    appTitle: "Uma Musume Support Card Tier List",
-    serverShort: { jp: "JP", gl: "Global" },
-    referenceDoc: "Reference Document",
-    serverLabel: "Server",
-    localeLabel: "Terminology",
+import enJp from "./locales/en-jp"
+import enGl from "./locales/en-gl"
 
-    // Stat names
-    speed: "Speed",
-    stamina: "Stamina",
-    power: "Power",
-    guts: "Guts",
-    wisdom: "Wisdom",
-    friend: "Friend",
-    motivation: "Motivation",
-    skillPts: "Skill Pts",
-    energy: "Energy",
+// Order here controls the order shown in the locale picker.
+const REGISTERED_LOCALES = [enJp, enGl]
 
-    // Tier list panel
-    tierListResults: "Tier List Results",
-    rankingFor: (ordinal, type) =>
-        `Ranking for the ${ordinal} ${type} card in this deck:`,
-    showStats: "Show Stats:",
-    none: "None",
-    noCards: "No cards matching the selected filters.",
+// The locale used when nothing else is available (and the implicit root
+// for any locale whose `extends` chain doesn't terminate at a registered
+// parent).
+const FALLBACK_LOCALE_ID = "en-jp"
 
-    // Filters panel
-    cardFilters: "Card Filters",
-    rarityLimitBreak: "Rarity & Limit Break",
-
-    // Selected cards panel
-    supportDeck: "Support Deck",
-    cardsCount: (n) => `${n} / 6 Cards`,
-    deckHelp:
-        "Click a card below to remove it, or click a card in the tier list to add it. The tier list score is for adding the card to this deck.",
-    totalRaceBonus: "Total Race Bonus:",
-    raceBonusAim: "Aim for",
-    raceBonusFirstScenarios: "(URA/Aoharu)",
-    raceBonusSecondScenarios: "(MANT)",
-    eventHelperLink: "Open in Gametora Event Helper ↗",
-    presets: "Presets",
-
-    // Weights panel
-    selectStatType: "Select Stat Type",
-    hideSettings: "Hide Settings",
-    customizeSettings: "Customize Settings",
-    scenarioPresets: "Scenario Presets",
-    scenarioPresetsHelp:
-        "Swaps training gains and multipliers to match specific game scenarios.",
-    bondRate: "Bond Rate",
-    bondRateHelp: "Average bond gained per turn.",
-    optionalRaces: "Optional Races",
-    optionalRacesHelp:
-        "Counts of G1, G2/G3, and OP races run for calculating Race Bonus points.",
-    scenarioModifiers: "Scenario Modifiers",
-    scenarioModifiersHelp: "Like MANT items or GL song bonuses.",
-    multiplier: "Multiplier",
-    specBonus: "Spec. Bonus",
-    statWeights: "Stat Weights",
-    statWeightsHelp: "Multiplier values assigned to each specific training stat.",
-    statCap: "Stat Cap",
-    minTrainScore: "Min Train Score",
-    rainbowAlterations: "Rainbow Rate Alterations",
-    prioritizeStat: "Prioritize This Stat",
-    prioritizeStatHelp:
-        "If unchecked, ignore single rainbows in this stat if other stats are rainbowing.",
-    onlySummer: "Only Train In Summer",
-    onlySummerHelp:
-        "All rainbows will be ignored in this stat except in summer.",
-    umaBonuses: "Uma's Bonuses",
-    umaBonusesHelp:
-        "Percentages on your Uma's stat screen in decimals (e.g. 10% is 1.1, 15% is 1.15).",
-
-    // Support card properties (displayed in TierList "Show Stats" dropdowns)
-    supportCardProperties: {
-        race_bonus: { friendly_name: "Race Bonus", shorthand: "RB" },
-        tb: { friendly_name: "Training Bonus", shorthand: "TB" },
-        fs_bonus: { friendly_name: "Friendship Bonus", shorthand: "FB" },
-        mb: { friendly_name: "Motivation Bonus", shorthand: "MB" },
-        sb: { friendly_name: "Starting Bond", shorthand: "SB" },
-        specialty_rate: { friendly_name: "Specialty Rate", shorthand: "SR" },
-        hint_rate: { friendly_name: "Hint Rate", shorthand: "HR" },
-    },
-
-    // Scenario short labels (used by Weights preset buttons)
-    scenarioLabels: {
-        DYI: "DYI",
-        GM: "GM",
-        GL: "GL",
-        MANT: "MANT",
-        Aoharu: "Aoharu",
-        URA: "URA",
-    },
-
-    // Built-in deck presets
-    presetLabels: {
-        "speed-power": "Speed/Power",
-        "speed-stamina": "Speed/Stamina",
-        "speed-int": "Speed/Int",
-        "guts-int": "Guts/Int",
-        "aoharu-parent": "Aoharu Parent",
-        highlander: "Highlander",
-        "race-bonus": "Race Bonus",
-    },
+// Locale ids that older builds saved to localStorage. Map them onto the
+// current ids so returning users keep their preference.
+const LEGACY_ID_ALIASES = {
+    jp: "en-jp",
+    gl: "en-gl",
 }
 
-const gl = {
-    ...jp,
-    // Stat / mechanic name overrides
-    wisdom: "Wit",
-    friend: "Pal",
-    motivation: "Mood Effect",
+const LOCALE_MODULES = Object.fromEntries(
+    REGISTERED_LOCALES.map((mod) => [mod.id, mod])
+)
 
-    // Tier list panel uses translated type names through the `wisdom`/`friend` keys above.
-
-    // Selected cards panel: the scenarios are renamed on the Global server.
-    bondRateHelp: "Average bond points gained per turn.",
-    raceBonusFirstScenarios: "(URA/Unity)",
-    raceBonusSecondScenarios: "(TB)",
-    scenarioModifiersHelp:
-        "Like TB items or GL friendship song multipliers.",
-
-    supportCardProperties: {
-        race_bonus: { friendly_name: "Race Bonus", shorthand: "RB" },
-        tb: { friendly_name: "Training Effectiveness", shorthand: "TB" },
-        fs_bonus: { friendly_name: "Friendship Bonus", shorthand: "FB" },
-        mb: { friendly_name: "Mood Effect", shorthand: "MB" },
-        sb: { friendly_name: "Initial Friendship Gauge", shorthand: "FG" },
-        specialty_rate: { friendly_name: "Specialty Priority", shorthand: "SP" },
-        hint_rate: { friendly_name: "Hint Frequency", shorthand: "HF" },
-    },
-
-    scenarioLabels: {
-        DYI: "DYI",
-        GM: "GM",
-        GL: "GL",
-        MANT: "TB",
-        Aoharu: "Unity",
-        URA: "URA",
-    },
-
-    presetLabels: {
-        ...jp.presetLabels,
-        "speed-int": "Speed/Wit",
-        "guts-int": "Guts/Wit",
-    },
+function isPlainObject(value) {
+    return (
+        value !== null &&
+        typeof value === "object" &&
+        !Array.isArray(value) &&
+        typeof value !== "function"
+    )
 }
 
-export const LOCALES = { jp, gl }
+// Deep-merge `override` on top of `base`. Functions and arrays in
+// `override` replace their counterparts wholesale; nested plain objects
+// are merged key by key.
+function deepMerge(base, override) {
+    if (!isPlainObject(base)) return override
+    if (!isPlainObject(override)) return override
+    const out = { ...base }
+    for (const key of Object.keys(override)) {
+        out[key] = deepMerge(base[key], override[key])
+    }
+    return out
+}
 
-export const LOCALE_OPTIONS = [
-    { value: "jp", label: "JP terminology" },
-    { value: "gl", label: "Global terminology" },
-]
+// Walk a locale's `extends` chain to produce the fully-resolved string
+// bundle. Cycles or missing parents fall back to an empty object so the
+// app keeps rendering even with a malformed contribution.
+const resolvedCache = new Map()
+
+function resolveStrings(id, seen = new Set()) {
+    if (resolvedCache.has(id)) return resolvedCache.get(id)
+    if (seen.has(id)) return {}
+    const mod = LOCALE_MODULES[id]
+    if (!mod) return {}
+    seen.add(id)
+    const parentStrings = mod.extends
+        ? resolveStrings(mod.extends, seen)
+        : {}
+    const merged = deepMerge(parentStrings, mod.strings || {})
+    resolvedCache.set(id, merged)
+    return merged
+}
+
+// Map of resolved locales keyed by id. Each entry is the merged strings
+// bundle, so components can read `t.someKey` directly.
+export const LOCALES = Object.fromEntries(
+    REGISTERED_LOCALES.map((mod) => [mod.id, resolveStrings(mod.id)])
+)
+
+// Option list for <select>-style locale pickers.
+export const LOCALE_OPTIONS = REGISTERED_LOCALES.map((mod) => ({
+    value: mod.id,
+    label: mod.label,
+}))
+
+// Normalize a raw locale identifier (possibly a legacy alias or unknown
+// string) to a registered locale id, falling back to FALLBACK_LOCALE_ID.
+export function normalizeLocaleKey(key) {
+    if (key && LOCALE_MODULES[key]) return key
+    if (key && LEGACY_ID_ALIASES[key]) return LEGACY_ID_ALIASES[key]
+    return FALLBACK_LOCALE_ID
+}
+
+export function isKnownLocaleKey(key) {
+    return Boolean(key && (LOCALE_MODULES[key] || LEGACY_ID_ALIASES[key]))
+}
 
 export function getLocale(key) {
-    return LOCALES[key] || LOCALES.jp
+    return LOCALES[normalizeLocaleKey(key)]
 }
 
 // Helper that returns the 7-slot type_names array used throughout the app
@@ -179,3 +121,5 @@ export function getTypeNames(locale) {
         locale.friend,
     ]
 }
+
+export { FALLBACK_LOCALE_ID }

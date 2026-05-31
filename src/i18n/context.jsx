@@ -1,5 +1,5 @@
 import React from "react"
-import { getLocale } from "./locales"
+import { FALLBACK_LOCALE_ID, getLocale } from "./locales"
 import { getCards } from "../cards"
 import { getServerConfig } from "../scenarios"
 
@@ -10,10 +10,11 @@ import { getServerConfig } from "../scenarios"
 // Global tier list using JP terminology).
 
 const defaultServer = "jp"
+const defaultLocaleKey = FALLBACK_LOCALE_ID
 const defaultValue = {
     server: defaultServer,
-    localeKey: defaultServer,
-    t: getLocale(defaultServer),
+    localeKey: defaultLocaleKey,
+    t: getLocale(defaultLocaleKey),
     cards: getCards(defaultServer),
     serverConfig: getServerConfig(defaultServer),
 }

@@ -305,7 +305,7 @@ export const SERVER_CONFIG = {
         defaultScenario: "DYI",
         referenceDocUrl:
             "https://docs.google.com/document/d/1gNcV7XLmxx0OI2DEAR8gmKb8P9BBhcwGhlJOVbYaXeo/edit?usp=sharing",
-        defaultLocale: "jp",
+        defaultLocale: "en-jp",
         defaultPresetCards: [30226, 30256, 30187, 30233, 30257],
         defaultFilters: {
             ssr: [true, false, false, false, false],
@@ -332,7 +332,7 @@ export const SERVER_CONFIG = {
         defaultScenario: "MANT",
         referenceDocUrl:
             "https://docs.google.com/document/d/11X2P7pLuh-k9E7PhRiD20nDX22rNWtCpC1S4IMx_8pQ/edit?usp=sharing",
-        defaultLocale: "gl",
+        defaultLocale: "en-gl",
         defaultPresetCards: [30078, 20027, 20041, 20012, 20015],
         defaultFilters: {
             ssr: [true, false, true, false, true],
