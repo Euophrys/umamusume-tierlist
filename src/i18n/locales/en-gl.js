@@ -7,8 +7,6 @@
 const locale = {
     id: "en-gl",
     label: "English (Global terms)",
-    language: "English",
-    terminology: "gl",
     extends: "en-jp",
     strings: {
         // Stat / mechanic name overrides

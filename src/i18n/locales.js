@@ -7,9 +7,7 @@
 //
 //   {
 //       id: "en-jp",            // unique identifier
-//       label: "English (JP terms)",
-//       language: "English",    // human-readable language name
-//       terminology: "jp",      // "jp" or "gl" — which server vocab is used
+//       label: "English (JP terms)", // displayed name
 //       extends: null,          // id of parent locale to inherit from
 //       strings: { ... },       // partial or full string bundle
 //   }

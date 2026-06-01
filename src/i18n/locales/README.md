@@ -16,15 +16,12 @@ provides.
      translation mirrors (`jp` or `gl`), in case fan translations
      differ from official ones, as in English.
 
-2. Copy `en-jp.js` (or `en-gl.js` if you want to inherit Global terminology)
-   as a starting point. Set the metadata at the top:
+2. Copy `en-jp.js` as a starting point. Set the metadata at the top:
 
    ```js
    const locale = {
        id: "fr-jp",
        label: "Français (termes JP)",
-       language: "Français",
-       terminology: "jp",
        extends: "en-jp", // any registered locale, or null for a root locale
        strings: {
            // Only the keys you want to override. Anything you omit is

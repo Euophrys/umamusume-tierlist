@@ -7,11 +7,6 @@
 const locale = {
     id: "en-jp",
     label: "English (JP terms)",
-    // Human-readable language name; used to group locales in the UI.
-    language: "English",
-    // Terminology dialect: which server's vocabulary this locale uses.
-    // ("jp" = JP server terms, "gl" = Global server terms.)
-    terminology: "jp",
     // No `extends`: this locale is the root that other locales inherit from
     // when they only need to override a handful of strings.
     extends: null,
