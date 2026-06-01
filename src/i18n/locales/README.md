@@ -13,8 +13,8 @@ provides.
    - `language` is the lowercase ISO 639-1 code of the UI language
      (`en`, `fr`, `ja`, `zh`, ...).
    - `terminology` indicates which server's in-game vocabulary the
-     translation mirrors (`jp` or `gl`). This lets players combine, for
-     example, French UI text with JP scenario / stat names.
+     translation mirrors (`jp` or `gl`), in case fan translations
+     differ from official ones, as in English.
 
 2. Copy `en-jp.js` (or `en-gl.js` if you want to inherit Global terminology)
    as a starting point. Set the metadata at the top:

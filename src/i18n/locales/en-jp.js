@@ -19,7 +19,7 @@ const locale = {
         // App header
         appTitle: "Uma Musume Support Card Tier List",
         serverShort: { jp: "JP", gl: "Global" },
-        referenceDoc: "Reference Document",
+        referenceDoc: "Ref Doc",
         serverLabel: "Server",
         localeLabel: "Language",
 
