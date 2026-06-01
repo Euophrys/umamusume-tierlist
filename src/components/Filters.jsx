@@ -235,7 +235,9 @@ class Filters extends React.Component {
           )}
         </div>
 
-        {hasCollection ? this.renderCollectionBanner() : this.renderRarityTable()}
+        {hasCollection
+          ? this.renderCollectionBanner()
+          : this.renderRarityTable()}
 
         <div className="mt-4 pt-3 border-t border-slate-100 dark:border-zinc-800 flex justify-end">
           <button

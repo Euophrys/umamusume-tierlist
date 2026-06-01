@@ -12,29 +12,29 @@ import { getServerConfig } from "../scenarios"
 const defaultServer = "jp"
 const defaultLocaleKey = FALLBACK_LOCALE_ID
 const defaultValue = {
-    server: defaultServer,
-    localeKey: defaultLocaleKey,
-    t: getLocale(defaultLocaleKey),
-    cards: getCards(defaultServer),
-    serverConfig: getServerConfig(defaultServer),
+  server: defaultServer,
+  localeKey: defaultLocaleKey,
+  t: getLocale(defaultLocaleKey),
+  cards: getCards(defaultServer),
+  serverConfig: getServerConfig(defaultServer),
 }
 
 export const AppContext = React.createContext(defaultValue)
 
 export function useApp() {
-    return React.useContext(AppContext)
+  return React.useContext(AppContext)
 }
 
 export function useLocale() {
-    return React.useContext(AppContext).t
+  return React.useContext(AppContext).t
 }
 
 export function buildContextValue(server, localeKey) {
-    return {
-        server,
-        localeKey,
-        t: getLocale(localeKey),
-        cards: getCards(server),
-        serverConfig: getServerConfig(server),
-    }
+  return {
+    server,
+    localeKey,
+    t: getLocale(localeKey),
+    cards: getCards(server),
+    serverConfig: getServerConfig(server),
+  }
 }

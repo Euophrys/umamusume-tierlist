@@ -20,14 +20,14 @@ provides.
 
    ```js
    const locale = {
-       id: "fr-jp",
-       label: "Français (termes JP)",
-       extends: "en-jp", // any registered locale, or null for a root locale
-       strings: {
-           // Only the keys you want to override. Anything you omit is
-           // resolved from the locale named in `extends` (recursively),
-           // eventually falling back to `en-jp`.
-       },
+     id: "fr-jp",
+     label: "Français (termes JP)",
+     extends: "en-jp", // any registered locale, or null for a root locale
+     strings: {
+       // Only the keys you want to override. Anything you omit is
+       // resolved from the locale named in `extends` (recursively),
+       // eventually falling back to `en-jp`.
+     },
    }
 
    export default locale
