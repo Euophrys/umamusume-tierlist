@@ -24,6 +24,10 @@ Your app is ready to be deployed!
 
 Preview the production build locally before deployment.
 
+## Adding Localization
+
+If you'd like to provide translations for your own language, see `src/i18n/locales/README.md`. I take no responsibility for anything present in translations. I may do a brief check for bad words, but if anything's incorrect or offensive, blame the translator and make a request to update it.
+
 ## Updating the Global Tier List
 
 - Open a terminal/powershell/etc window in the root
