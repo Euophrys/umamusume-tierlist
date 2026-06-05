@@ -1,0 +1,8 @@
+Export cards:
+{"app":"gametora","game":"umamusume","type":"collection","version":4,"timestamp":"2026-05-31T22:49:06.047Z","servers":{"ja":{"supports":{"39":3,"3J":1,"3I":1,"7G":1,"7T":0,"6b":0,"1t":2,"7Y":4,"4S":2}}}}
+
+Export everything:
+{"app":"gametora","game":"umamusume","type":"collection","version":4,"timestamp":"2026-05-31T22:48:48.407Z","servers":{"ja":{"charCards":{"15":3,"p":3,"y":1,"2J":3,"o":3},"supports":{"39":3,"3J":1,"3I":1,"7G":1,"7T":0,"6b":0,"1t":2,"7Y":4,"4S":2},"veterans":{}}}}
+
+Export multiple servers:
+{"app":"gametora","game":"umamusume","type":"collection","version":4,"timestamp":"2026-05-31T22:48:12.184Z","servers":{"ja":{"charCards":{"15":3,"p":3,"y":1,"2J":3,"o":3},"supports":{"39":3,"3J":1,"3I":1,"7G":1,"7T":0,"6b":0,"1t":2,"7Y":4,"4S":2},"veterans":{}},"en":{"charCards":{},"supports":{"4S":2,"p":0,"z":0,"o":0,"g":0,"3V":3,"5b":4,"4j":0},"veterans":{}}}}

@@ -1,134 +1,174 @@
-import React from 'react';
-import SpeedIcon from '../icons/utx_ico_obtain_00.png';
-import StaminaIcon from '../icons/utx_ico_obtain_01.png';
-import PowerIcon from '../icons/utx_ico_obtain_02.png';
-import GutsIcon from '../icons/utx_ico_obtain_03.png';
-import WisdomIcon from '../icons/utx_ico_obtain_04.png';
-import FriendIcon from '../icons/utx_ico_obtain_05.png';
-import events from '../card-events';
-const raceRewards = [
-    10,
-    8,
-    5
-]
+import React from "react"
+import SpeedIcon from "../icons/utx_ico_obtain_00.png"
+import StaminaIcon from "../icons/utx_ico_obtain_01.png"
+import PowerIcon from "../icons/utx_ico_obtain_02.png"
+import GutsIcon from "../icons/utx_ico_obtain_03.png"
+import WisdomIcon from "../icons/utx_ico_obtain_04.png"
+import FriendIcon from "../icons/utx_ico_obtain_05.png"
+import events from "../card-events"
+import { useApp } from "../i18n/context"
+
+const raceRewards = [10, 8, 5]
 
 const type_to_icon = [
-    SpeedIcon,
-    StaminaIcon,
-    PowerIcon,
-    GutsIcon,
-    WisdomIcon,
-    "",
-    FriendIcon,
+  SpeedIcon,
+  StaminaIcon,
+  PowerIcon,
+  GutsIcon,
+  WisdomIcon,
+  "",
+  FriendIcon,
 ]
 
 function SelectedCards(props) {
-    let cards = [];
-    let raceBonus = 0;
-    let statsNoTraining = [120,120,120,120,120];
-    
-    for (let i = 0; i < props.selectedCards.length; i++) {
-        let lit_up = "";
-        let dark = "";
-        let card = props.selectedCards[i];
-        raceBonus += card.race_bonus;
+  const { t, serverConfig } = useApp()
 
-        for(let j = 0; j < 4; j++) {
-            if (j < card.limit_break) {
-                lit_up += "◆";
-            } else {
-                dark += "◆";
-            }
-        }
+  let cards = []
+  let raceBonus = 0
+  let statsNoTraining = [120, 120, 120, 120, 120]
 
-        for (let stat = 0; stat < 5; stat++) {
-            if (events[card.id]) {
-                statsNoTraining[stat] += events[card.id][stat] * card.effect_size_up;
-            }
-            statsNoTraining[stat] += card.starting_stats[stat];
-        }
+  for (let i = 0; i < props.selectedCards.length; i++) {
+    let lit_up = ""
+    let dark = ""
+    let card = props.selectedCards[i]
+    raceBonus += card.race_bonus
 
-        cards.push(
-            <div className="support-card" key={"selected-" + i}>
-                <img
-                    className="support-card-image"
-                    name={card.id}
-                    src={"./cardImages/support_card_s_" + card.id + ".png"}
-                    title={card.id}
-                    alt={card.id}
-                    onClick={() => props.onClick(card)}
-                />
-                <img
-                    className="type-icon"
-                    name="type icon"
-                    src={type_to_icon[card.type]}
-                    title="type"
-                    alt="card type"
-                    onClick={() => props.onClick(card)}
-                />
-                <span className="limit-breaks">
-                    <span className="lb-yes">{lit_up}</span>
-                    <span className="lb-no">{dark}</span>
-                </span>
-            </div>
-        );
-    }
-
-    let raceMultiplier = 1 + (raceBonus / 100);
-    for (let i = 0; i < 3; i++) {
-        let raceGain = Math.floor(raceRewards[i] * raceMultiplier);
-        raceGain = raceGain * props.weights.races[i];
-        for (let stat = 0; stat < 5; stat++) {
-            statsNoTraining[stat] += raceGain / 5;
-        }
+    for (let j = 0; j < 4; j++) {
+      if (j < card.limit_break) {
+        lit_up += "◆"
+      } else {
+        dark += "◆"
+      }
     }
 
     for (let stat = 0; stat < 5; stat++) {
-        statsNoTraining[stat] += Math.floor(13.5 * raceMultiplier) * 3;
-        statsNoTraining[stat] = Math.round(statsNoTraining[stat]);
+      if (events[card.id]) {
+        statsNoTraining[stat] += events[card.id][stat] * card.effect_size_up
+      }
+      statsNoTraining[stat] += card.starting_stats[stat]
     }
 
-    return (
-        <div className="selected-cards">
-            <div className="section-header">Support Deck</div>
-            <div className="section-explanation">
-                The cards you're using. Click one to remove it, and click one in the tier list to add it.<br/>
-                The score will consider the stats gained when training with these cards.
-            </div>
-            {cards}
-            <div>
-                Total Race Bonus: <b>{raceBonus}</b> <i>(aim for 35 for URA/Aoharu, 50 for MANT)</i>
-            </div>
-            <div className="link">
-                <a href={getEventHelperURL(props.selectedCards)} target="_blank">Open in Gametora Event Helper</a>
-            </div>
-            <div>
-                Presets:
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20009,20003,30137])}>Speed/Power</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20008,30022,30137])}>Speed/Stamina</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20012,20002,30137])}>Speed/Int</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20048,20041,20012,20002])}>Guts/Int</button>
-            </div>
-            <div>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20012,20016,20025,20002,10060])}>Aoharu Parent</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20008,20009,30019,20012])}>Highlander</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20031,30074,20027,20012,30054])}>Race Bonus</button>
-            </div>
+    cards.push(
+      <div className="support-card" key={"selected-" + i}>
+        <img
+          className="support-card-image"
+          name={card.id}
+          src={"./cardImages/support_card_s_" + card.id + ".png"}
+          title={card.id}
+          alt={card.id}
+          onClick={() => props.onClick(card)}
+        />
+        <img
+          className="type-icon"
+          name="type icon"
+          src={type_to_icon[card.type]}
+          title="type"
+          alt="card type"
+          onClick={() => props.onClick(card)}
+        />
+        <span className="limit-breaks">
+          <span className="lb-yes">{lit_up}</span>
+          <span className="lb-no">{dark}</span>
+        </span>
+      </div>
+    )
+  }
+
+  let raceMultiplier = 1 + raceBonus / 100
+  for (let i = 0; i < 3; i++) {
+    let raceGain = Math.floor(raceRewards[i] * raceMultiplier)
+    raceGain = raceGain * props.weights.races[i]
+    for (let stat = 0; stat < 5; stat++) {
+      statsNoTraining[stat] += raceGain / 5
+    }
+  }
+
+  for (let stat = 0; stat < 5; stat++) {
+    statsNoTraining[stat] += Math.floor(13.5 * raceMultiplier) * 3
+    statsNoTraining[stat] = Math.round(statsNoTraining[stat])
+  }
+
+  return (
+    <div className="selected-cards font-sans text-left">
+      <div className="flex items-center justify-between mb-2 border-b border-slate-100 dark:border-zinc-800 pb-2">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
+          {t.supportDeck}
+        </h3>
+        <span className="text-xs text-slate-400 dark:text-zinc-500">
+          {t.cardsCount(props.selectedCards.length)}
+        </span>
+      </div>
+
+      <p className="text-xs text-slate-500 dark:text-zinc-400 mb-4 italic leading-relaxed">
+        {t.deckHelp}
+      </p>
+
+      <div className="flex flex-wrap gap-2 justify-start mb-4">{cards}</div>
+
+      <div className="mt-3 p-3 bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-850 rounded-lg space-y-2">
+        <div className="flex justify-between items-center text-xs">
+          <span className="text-slate-500 dark:text-zinc-400 font-medium">
+            {t.totalRaceBonus}
+          </span>
+          <span className="text-slate-900 dark:text-white font-bold text-sm bg-slate-200 dark:bg-zinc-800 px-2 py-0.5 rounded">
+            {raceBonus}%
+          </span>
         </div>
-    );
+        <div className="text-[10px] text-slate-400 dark:text-zinc-500 leading-tight">
+          {t.raceBonusAim}{" "}
+          <span className="font-semibold text-slate-600 dark:text-zinc-400">
+            35%
+          </span>{" "}
+          {t.raceBonusFirstScenarios} or{" "}
+          <span className="font-semibold text-slate-600 dark:text-zinc-400">
+            50%
+          </span>{" "}
+          {t.raceBonusSecondScenarios}.
+        </div>
+      </div>
+
+      <div className="mt-4">
+        <a
+          href={getEventHelperURL(props.selectedCards)}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex w-full items-center justify-center px-4 py-2 border border-slate-300 dark:border-zinc-700 rounded-md text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-850  shadow-sm"
+        >
+          {t.eventHelperLink}
+        </a>
+      </div>
+
+      <div className="mt-6 pt-4 border-t border-slate-100 dark:border-zinc-800">
+        <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400 mb-2">
+          {t.presets}
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          {serverConfig.deckPresets.map((preset) => (
+            <button
+              key={preset.key}
+              className="px-3 py-1 border border-slate-200 dark:border-zinc-800 rounded-full text-xs font-semibold bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-800  cursor-pointer"
+              onClick={() => props.onLoadPreset(preset.cards)}
+            >
+              {t.presetLabels[preset.key] || preset.key}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 function getEventHelperURL(selectedCards) {
-    let url = "https://gametora.com/umamusume/training-event-helper?deck=mp4y-";
+  let url = "https://gametora.com/umamusume/training-event-helper?deck=mp4y-"
 
-    let ids = selectedCards.map(c => c.id);
-    while (ids.length < 6) ids.push(10000)
+  let ids = selectedCards.map((c) => c.id)
+  while (ids.length < 6) ids.push(10000)
 
-    url += parseInt(`${ids[0]}${ids[1]}${ids[2]}`, 10).toString(36);
-    url += "-";
-    url += parseInt(`${ids[3]}${ids[4]}${ids[5]}`, 10).toString(36);
+  url += parseInt(`${ids[0]}${ids[1]}${ids[2]}`, 10).toString(36)
+  url += "-"
+  url += parseInt(`${ids[3]}${ids[4]}${ids[5]}`, 10).toString(36)
 
-    return url;
+  return url
 }
 
-export default SelectedCards;
+export default SelectedCards
