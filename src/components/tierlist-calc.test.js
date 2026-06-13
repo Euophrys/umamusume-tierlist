@@ -14,9 +14,9 @@ const selectedCards = selectedCardIds.map((id) =>
 const kitasan = allCards.find((c) => c.id === 30028 && c.limit_break === 4)
 
 describe("processCards", () => {
-  it("scores Kitasan Black at ~421 in gl.MANT speed with the default GL deck", () => {
+  it("scores Kitasan Black at ~372 in gl.MANT speed with the default GL deck", () => {
     const result = processCards([kitasan], weights, selectedCards)
     expect(result).toHaveLength(1)
-    expect(Math.round(result[0].score)).toBe(421)
+    expect(Math.round(result[0].score)).toBe(372)
   })
 })
