@@ -14,6 +14,7 @@ import {
 import { getCards } from "./cards"
 import { getServerConfig } from "./scenarios"
 import { lsTest } from "./utils"
+import ChangeBanner from "./components/ChangeBanner"
 
 const SERVER_OPTIONS = [
   { value: "jp", label: "JP" },
@@ -284,6 +285,8 @@ class Main extends React.Component {
               </div>
             </div>
           </header>
+
+          <ChangeBanner />
 
           <main className="mx-auto px-4 mt-2 space-y-8">
             <div className="grid grid-cols-1 lg:grid-cols-[36rem_minmax(0,1fr)] gap-4 items-start">

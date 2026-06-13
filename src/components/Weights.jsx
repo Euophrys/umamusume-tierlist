@@ -190,11 +190,10 @@ class Weights extends React.Component {
                   id={type}
                   type="button"
                   onClick={this.onTypeChanged}
-                  className={`flex flex-col items-center justify-center p-2 rounded-xl border text-center  ${
-                    isActive
-                      ? "bg-slate-100 dark:bg-zinc-800 border-blue-500 text-blue-600 dark:text-blue-400 font-bold"
-                      : "bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-850 text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-905"
-                  }`}
+                  className={`flex flex-col items-center justify-center p-2 rounded-xl border text-center  ${isActive
+                    ? "bg-slate-100 dark:bg-zinc-800 border-blue-500 text-blue-600 dark:text-blue-400 font-bold"
+                    : "bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-850 text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-905"
+                    }`}
                 >
                   <img
                     src={icons[idx]}
@@ -263,8 +262,8 @@ class Weights extends React.Component {
                   id="bondPerDay"
                   value={this.state.general.bondPerDay}
                   min={1}
-                  max={50}
-                  step={0.1}
+                  max={40}
+                  step={0.5}
                 />
               </div>
 
@@ -452,9 +451,9 @@ class Weights extends React.Component {
                   <input
                     type="range"
                     onChange={this.onMinimumChanged}
-                    min={20}
-                    max={100}
-                    step={5}
+                    min={0}
+                    max={50}
+                    step={1}
                     value={this.state[this.state.currentState].minimum}
                     className="w-full accent-blue-600 cursor-pointer h-1.5 bg-slate-200 dark:bg-zinc-800 rounded-lg appearance-none"
                   />
