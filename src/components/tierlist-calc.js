@@ -38,7 +38,7 @@ const GROUP_BOND = 55
 const NORMAL_BOND = 75
 
 // Each support card sharing a training adds 5% output: factor (1 + 0.05·N).
-const CARD_BONUS = 1.05
+const CARD_BONUS = 0.05
 
 const SUMMER_RAINBOW_DAYS = 8
 
@@ -433,7 +433,7 @@ export function CalculateTrainingGain(
       trainingBonus *
       (1 + weights.motivation * motivationBonus) *
       fsBonus *
-      CARD_BONUS *
+      (1 + CARD_BONUS) *
       weights.umaBonus[stat] -
       gains[stat]
   }
@@ -479,7 +479,7 @@ export function CalculateTrainingGain(
         combinationTrainingBonus *
         (1 + weights.motivation * combinationMotivationBonus) *
         combinationFriendshipBonus *
-        (CARD_BONUS * combination.length) *
+        (1 + CARD_BONUS * combination.length) *
         weights.umaBonus[stat]
 
       withCandidate[stat] +=
@@ -489,7 +489,7 @@ export function CalculateTrainingGain(
           weights.motivation *
           (combinationMotivationBonus + motivationBonus - 1)) *
         (combinationFriendshipBonus * fsBonus) *
-        (CARD_BONUS * (combination.length + 1)) *
+        (1 + CARD_BONUS * (combination.length + 1)) *
         weights.umaBonus[stat]
     }
 
@@ -564,7 +564,7 @@ export function CalculateCrossTrainingGain(
         combinationTrainingBonus *
         (1 + weights.motivation * combinationMotivationBonus) *
         combinationFriendshipBonus *
-        (CARD_BONUS * combination.length) *
+        (1 + CARD_BONUS * combination.length) *
         weights.umaBonus[stat]
 
       if (bonded) {
@@ -578,7 +578,7 @@ export function CalculateCrossTrainingGain(
             weights.motivation *
             (combinationMotivationBonus + card.mb + card.fs_motivation - 1)) *
           (combinationFriendshipBonus * fsBonus) *
-          (CARD_BONUS * (combination.length + 1)) *
+          (1 + CARD_BONUS * (combination.length + 1)) *
           weights.umaBonus[stat]
       } else {
         withCandidate[stat] +=
@@ -586,7 +586,7 @@ export function CalculateCrossTrainingGain(
           (combinationTrainingBonus + selfTrainingBonus - 1) *
           (1 +
             weights.motivation * (combinationMotivationBonus + card.mb - 1)) *
-          (CARD_BONUS * (combination.length + 1)) *
+          (1 + CARD_BONUS * (combination.length + 1)) *
           weights.umaBonus[stat]
       }
     }
