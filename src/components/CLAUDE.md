@@ -1,27 +1,41 @@
-This is a tier list about ranking support cards. If you'll be touching the tier list code, you must understand them.
+# Support Card Tier List — Codebase Context
+
+This tier list ranks Umamusume support cards. Read this before touching tier list logic.
 
 ## Game Mechanics
 
-Players can build decks of 6 support cards. In a run, each turn the player has 5 ways to train their uma, and support cards will be randomly distributed among these 5 rooms. Speed, Stamina, Power, Guts, and Wit. (There are other options outside of training too, but not covered in depth in this tier list)
+Players build decks of 6 support cards. Each turn, the player chooses from 5 training rooms — Speed, Stamina, Power, Guts, Wit — and cards are randomly distributed among them.
 
-Each training has base benefits for how much stats it gives.
+### Stat Calculation
 
-Each card has stats that affect the increase that training gives.
+```
+(BaseValue + Sum of StatBonus)
+  * (1 + MoodMultiplier * Sum of MoodEffect)
+  * Sum of TrainingBonus
+  * PRODUCT of FriendshipBonus
+  * (1 + 0.05 * NumberOfSupportCards)
+```
 
-Mood (Motivation) - The uma's mood affects how well she trains, giving her +/- 10% per stage. Generally they are assumed to be at max mood, +20%.
+**Mood (Motivation):** Affects training output by ±10% per stage. Max mood = +20%, assumed by default.
 
-The function for calculating the stat given is: `(BaseValue + Sum of StatBonus) * (1 + MoodMultiplier * (Sum of MoodEffect)) * (Sum of TrainingBonus) * (PRODUCT of FriendshipBonus) * (1 + 0.05 * NumberOfSupportCards)`
+**FriendshipBonus:** Multiplicative. Only applies when a card is on its preferred training type with high bond. This causes a rainbow border — referred to as the card "rainbowing" throughout the code.
 
-For determining if a card appears on a training, each training has a weighting of 100, with a weight of 50 for showing up on no trainings at all. So, each defaults to 100/550.
+### Appearance Rate
 
-Specialty Priority is a stat that increases how often the card will land on its preferred training. Specialty adds to the weight, while specialty from the uniques multiplies it as if a percent, the same way Friendship Bonus works. For Kitasan, she has 80 base, so 100 + 80 = 180, then she has unique specialty, so 180 * 1.2 = 216, which is the same as having 116 base. Her Speed appearance rate would be 216/666, or 32.4%.
+Each training slot has a base weight of 100; there's also a weight-50 "no training" option, giving a default appearance rate of 100/550 per card.
 
-Only up to 5 cards can appear on the same training, and NPCs sometimes take up slots, but calculating that is beyond the scope of this so we allow all 6 to appear on the same training. It is a rare event anyway.
+**Specialty Priority** increases how often a card lands on its preferred training:
+- Base specialty adds directly to the weight
+- Unique specialty multiplies the total weight (like FriendshipBonus)
 
-Other stats of note:
+Example — Kitasan: 100 (base) + 80 (specialty) = 180, then × 1.2 (unique) = 216. Speed appearance rate: 216/666 = **32.4%**.
 
-Initial <Stat>: Self explanatory. The card gives that many stats when the run starts.
+Up to 5 cards can appear on the same training (NPCs can take slots), but the calculator allows all 6 for simplicity — it's a rare edge case.
 
-Wit Friendship Recovery: Only found on Wit and Group cards. Basically Stat Bonus for energy when doing Wit training.
+### Other Stats
 
-Race Bonus - increases the amount of stats and skill points you gain from finishing a race. No rounding, if you want to go from +3 all to +4 all you need 34% Race Bonus. On most umas, going from 33% to 34% would be +10 all stats.
+| Stat | Description |
+|------|-------------|
+| Initial `<Stat>` | Bonus stats granted at the start of the run |
+| Wit Friendship Recovery | Wit/Group cards only. Acts as StatBonus for energy during Wit training |
+| Race Bonus | % increase to stats and skill points gained from races. No rounding — going from +3 to +4 all stats requires 34% Race Bonus |
