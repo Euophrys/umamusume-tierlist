@@ -14,6 +14,7 @@ class Filters extends React.Component {
     this.state = {
       ...context.serverConfig.defaultFilters,
       importOpen: false,
+      showAllMLBSSR: false
     }
 
     this.onSettingChanged = this.onSettingChanged.bind(this)
@@ -44,7 +45,11 @@ class Filters extends React.Component {
   // bypassed. Otherwise the standard rarity/limit-break grid applies.
   filterCards(state, cards, collection) {
     if (collection && collection.ids) {
-      return cards.filter((c) => collection.ids[c.id] === c.limit_break)
+      return cards.filter(
+        (c) =>
+          collection.ids[c.id] === c.limit_break ||
+          (state.showAllMLBSSR && c.rarity === 3 && c.limit_break === 4)
+      )
     }
     return cards.filter((c) => {
       if (c.rarity === 1) {
@@ -207,6 +212,18 @@ class Filters extends React.Component {
             {t.collectionLoadedFiltered(shown, total)}
           </p>
         )}
+        <label className="mt-2 flex items-center justify-center space-x-2 cursor-pointer mb-4">
+          <input
+            type="checkbox"
+            checked={!!this.state.showAllMLBSSR}
+            id="showAllMLBSSR"
+            onChange={this.onSettingChanged}
+            className="h-4 w-4 text-blue-600 border-slate-300 dark:border-zinc-700 rounded focus:ring-blue-500 dark:bg-zinc-950 cursor-pointer"
+          />
+          <span className="text-xs font-medium text-blue-800 dark:text-blue-200">
+            Show All MLB SSRs (rentals)
+          </span>
+        </label>
         <button
           type="button"
           onClick={this.onDiscardCollection}
