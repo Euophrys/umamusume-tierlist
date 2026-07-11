@@ -30,8 +30,10 @@ If you'd like to provide translations for your own language, see `src/i18n/local
 
 ## Updating the Global Tier List
 
+- [Install python](https://www.python.org/downloads/) if needed
 - Open a terminal/powershell/etc window in the root
 - Run `db-convert.py` with the path to your master.db. On Windows, this is typically in `C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`
+  - `python db-convert.py C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`; might need to use `python3`
 - Move the generated cards.js file from the root into `src/cards` and rename it to `gl.js`.
 - The events and images are already present from the Japanese server, so there is no need to do anything else.
 - Run `npm install` and `npm run start` to confirm that the new card is present.
@@ -39,8 +41,10 @@ If you'd like to provide translations for your own language, see `src/i18n/local
 
 ## Updating the JP Tier List
 
+- [Install python](https://www.python.org/downloads/) if needed
 - Open a terminal/powershell/etc window in the root
 - Run `db-convert.py` with the path to your master.db. On Windows, this is typically in `C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`
+  - `python db-convert.py C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`; might need to use `python3`
 - If there are any warnings thrown, it means one of the new cards has a new effect.
   - Open the `db-convert.py` file and add support for the new effect. If possible, convert it to an existing effect so you don't have to change the actual tier list code.
   - If you do have to change the actual tier list code, it's in `src/components/TierList.jsx` and I wish you luck
