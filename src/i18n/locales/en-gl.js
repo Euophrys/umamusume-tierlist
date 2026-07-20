@@ -18,7 +18,7 @@ const locale = {
     bondRateHelp: "Average bond points gained per turn.",
     raceBonusFirstScenarios: "(URA/Unity)",
     raceBonusSecondScenarios: "(TB)",
-    scenarioModifiersHelp: "Like TB items or GL friendship song multipliers.",
+    scenarioModifiersHelp: "Like TB items or GC friendship song multipliers.",
 
     supportCardProperties: {
       race_bonus: { friendly_name: "Race Bonus", shorthand: "RB" },
@@ -33,7 +33,7 @@ const locale = {
     scenarioLabels: {
       DYI: "DYI",
       GM: "GM",
-      GL: "GL",
+      GL: "GC",
       MANT: "TB",
       Aoharu: "Unity",
       URA: "URA",
