@@ -208,17 +208,22 @@ const jp = {
       motivation: 0.2,
       scenarioLink: [
         "ミホノブルボン",
+        "Mihono Bourbon",
         "ライトハロー",
+        "Light Hello",
         "スマートファルコン",
+        "Smart Falcon",
         "アグネスタキオン",
+        "Agnes Tachyon",
         "サイレンススズカ",
+        "Silence Suzuka"
       ],
       scenarioBonus: 75,
       fanBonus: 0.05,
     },
     speed: {
       type: 0,
-      stats: [2, 0.5, 2.5, 0.5, 0.5, 1, 1],
+      stats: [2, 0.5, 2.5, 0.5, 0.5, 0.5, 1],
       cap: 500,
       minimum: 0,
       prioritize: true,
@@ -250,7 +255,7 @@ const jp = {
     },
     wisdom: {
       type: 4,
-      stats: [1.5, 1.5, 1.5, 1, 2, 1, 1],
+      stats: [1.5, 1.5, 1.5, 1, 2, 0.5, 1],
       cap: 300,
       minimum: 0,
       prioritize: true,
@@ -568,12 +573,12 @@ export const SERVER_CONFIG = {
     ],
   },
   gl: {
-    availableScenarios: ["GM", "GL", "MANT", "Aoharu", "URA"],
-    defaultScenario: "MANT",
+    availableScenarios: ["DYI", "GM", "GL", "MANT", "Aoharu", "URA"],
+    defaultScenario: "GL",
     referenceDocUrl:
       "https://docs.google.com/document/d/11X2P7pLuh-k9E7PhRiD20nDX22rNWtCpC1S4IMx_8pQ/edit?usp=sharing",
     defaultLocale: "en-gl",
-    defaultPresetCards: [30078, 20027, 20041, 20012, 20015],
+    defaultPresetCards: [20031, 20033, 20012, 20015, 30052],
     defaultFilters: {
       ssr: [true, false, true, false, true],
       sr: [true, false, true, false, true],
@@ -582,10 +587,11 @@ export const SERVER_CONFIG = {
     defaultTierListDropdown: "race_bonus",
     useLegacyFsBonusDisplay: false,
     deckPresets: [
-      { key: "speed-power", cards: [30028, 20023, 20020, 20009, 20003] },
-      { key: "speed-stamina", cards: [30028, 20023, 20020, 20008, 30022] },
-      { key: "speed-int", cards: [30028, 20023, 20020, 20012, 20002] },
+      { key: "speed-power", cards: [30028, 20031, 20033, 20009, 20003] },
+      { key: "speed-stamina", cards: [30028, 20031, 20033, 20008, 30022] },
+      { key: "speed-int", cards: [30028, 20031, 20033, 20012, 20002] },
       { key: "guts-int", cards: [30011, 30030, 30019, 20012, 20002] },
+      { key: "race-bonus", cards: [20031, 30074, 20027, 20012, 30054] },
     ],
   },
 }
