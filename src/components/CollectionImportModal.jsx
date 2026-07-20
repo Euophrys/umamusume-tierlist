@@ -74,7 +74,7 @@ class CollectionImportModal extends React.Component {
     for (const key of Object.keys(supports)) {
       const numericId = gametoraConversion[key]
       if (numericId === undefined) continue
-      ids[numericId] = supports[key]
+      ids[numericId] = Math.max(supports[key])
       count++
     }
 
