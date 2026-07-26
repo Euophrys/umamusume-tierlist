@@ -2,61 +2,63 @@
 
 ## CollectionImportModal.jsx - Drag & Drop JSON Upload (July 25, 2026)
 
-Added drag-and-drop JSON file upload functionality to the Collection Import Modal without modifying HTML structure:
+Added drag-and-drop JSON upload to the Collection Import modal without modifying HTML structure.
 
 ### Changes Made
-- Added drag-and-drop handler: Added `onDrop` event handler to the existing textarea element
-- File validation: The handler checks for .json extension and validates JSON content
-- Content loading: When a valid JSON file is dropped, its contents are placed in the textarea (same as pasting)
-- Error handling: Uses existing `importErrorInvalidJson` message for invalid files
-- Preserved all existing functionality: Pasting JSON, source selection, and form submission work unchanged
+- Added `onDrop` event handler to the existing textarea element
+- Handler validates dropped files have `.json` extension and contain valid JSON
+- Valid files load their contents into the textarea (same as pasting JSON)
+- Invalid files trigger existing `importErrorInvalidJson` error
+- All existing functionality preserved (pasting JSON, source selection, form submission)
 
-### Key Features
-- **No HTML Structure Changes**: Only added event handler to existing textarea element (line 76 in CollectionImportModal.jsx)
-- **Full Compatibility**: Preserves all existing functionality (pasting JSON, source selection, validation, submission)
-- **File Validation**: 
-  - Only accepts files with `.json` extension (case-insensitive check on line 51)
-  - Validates JSON content using JSON.parse() before accepting (lines 57-65)
-- **Consistent Error Handling**: Uses existing error messages (`importErrorInvalidJson`)
-- **Backend Ready**: Core file reading/validation logic implemented in `onDrop` method (lines 44-71)
+### Key Points
+- **No HTML structure changes**: Only added event handler to existing textarea (line 76)
+- **Full compatibility**: All existing features work unchanged
+- **File validation**: 
+  - Accepts only `.json` extension (case-insensitive check on line 51)
+  - Validates JSON content using `JSON.parse()` before acceptance (lines 57-65)
+- **Error handling**: Uses existing `importErrorInvalidJson` messages from i18n/locales
+- **Backend implementation**: File reading/validation in `onDrop` method (lines 44-71)
 
-### Exact Line Changes Made to CollectionImportModal.jsx:
+### Exact Line Changes in CollectionImportModal.jsx
 1. **Added method**: `onDrop(event)` (lines 44-71)
-2. **Modified textarea element**: Added `onDrop={this.onDrop}` attribute (line 76)
+2. **Modified textarea**: Added `onDrop={this.onDrop}` attribute (line 76)
 
 ### Implementation Details
-- **File validation logic**: 
-  - Line 51: `if (!file.name.toLowerCase().endsWith('.json'))` - checks file extension
-  - Lines 57-65: FileReader reads file, validates JSON with `JSON.parse(content)`, sets textarea content if valid
-  - Lines 67-69: Handles file read errors
-- **Content handling**: On valid JSON, line 62: `this.setState({ text: content, error: null })` - puts file contents in textarea
-- **Error handling**: Lines 53, 64, 68: Sets `this.context.t.importErrorInvalidJson` for any validation failure
+- **File validation** (line 51): `if (!file.name.toLowerCase().endsWith('.json'))`
+- **Reading & validation** (lines 57-65): FileReader reads file as text, validates with `JSON.parse()`, sets textarea content if valid
+- **Read errors** (lines 67-69): File read errors trigger JSON error message
+- **Success handling** (line 62): `this.setState({ text: content, error: null })` loads file contents into textarea
+- **Failure handling** (lines 53, 64, 68): Validation failures set error state to `this.context.t.importErrorInvalidJson`
 
-### What Was NOT Changed
-- ❌ No changes to HTML/JSX structure or element hierarchy
-- ❌ No visual drag-over indicators (no border changes, no hover effects)
-- ❌ No modifications to claude.md (left unchanged as requested)
-- ❌ No changes to submission logic or data processing (`onSubmit` unchanged)
-- ❌ No changes to existing paste functionality (`onTextChanged` unchanged)
-- ❌ No changes to source selection (JP/GL radio buttons unchanged)
-- ❌ Removed unused `dragOver` state and related handlers to fix lint warnings
+### What Wasn't Changed:
+- No modifications to JSX structure or element hierarchy
+- No visual drag-over indicators (border changes, hover effects)
+- No modifications to submission logic (`onSubmit`)
+- No changes to paste functionality (`onTextChanged`)
+- No changes to source selection (JP/GL radio buttons)
+- Removed unused `dragOver` state and handlers to fix lint warnings
 
-### Verification
-- **All existing functionality preserved**:
-  - Pasting JSON text works exactly as before
-  - Source selection (JP/GL) works unchanged
-  - Form submission and validation work unchanged
+### Verification Results
+- **Existing functionality confirmed working:**:
+  - Pasting JSON text works identically
+  - Source selection (JP/Global) unchanged
+  - Form submission and validation unchanged
   - Error messages remain consistent
-- **New functionality verified**:
-  - Drag .json file onto textarea → contents loaded and validated (same as pasting)
-  - Drag non-.json file → shows importErrorInvalidJson
-  - Drag .json file with invalid JSON → shows importErrorInvalidJson
+  - Importing works with both JP and Global .json collection files
+  
+- **New functionality tested by me**:
+  - Dragging a `.json` file onto the text area results in file contents being loaded and validated (same as pasting)
+  - Dragging a non-`.json` file → `importErrorInvalidJson` 
+  - Dragging invalid `.json` file → `importErrorInvalidJson` 
+  - Dragging a JP collection file when Global is selected → `importErrorNoSupports`
+  - Dragging a Global collection file when JP is selected → `importErrorNoSupports`
 
 ### Files Created
-- `CHANGES.md` - This documentation file
+- No new code files added; this document records the changes.
 
 ### Important Notes
-The drag-and-drop functionality is now fully implemented and operational in the backend. The feature works immediately but without any visual feedback indicators (per specific requirements). To make it visually apparent in the future, one could add drag-over state tracking and visual indicators, but per the request, no visual feedback has been implemented - the functionality exists purely as backend capability that works when users drag files onto the textarea area.
+Drag-and-drop functionality is fully implemented and operational in the backend. The feature works immediately but without visual feedback indicators (per requirements). To make it visually apparent later, you could add drag-over state tracking and visual indicators, but currently, no visual feedback has been implemented. The functionality exists as backend capability that works when users drag files onto the text area.
 
 ---
-*Documentation updated: 2026-07-25*
+*Updated: 2026-07-25 - Work completed by Claude, tested by me.*
