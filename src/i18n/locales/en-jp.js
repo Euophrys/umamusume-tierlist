@@ -42,8 +42,8 @@ const locale = {
     rarityLimitBreak: "Rarity & Limit Break",
     importCollection: "Import Collection",
     importCollectionHelp:
-      "Paste a Gametora collection export to restrict the tier list to cards you own.",
-    importCollectionPlaceholder: "Paste the JSON exported from Gametora here…",
+      "Load a Gametora collection export to restrict the tier list to cards you own.",
+    importCollectionPlaceholder: "Paste or drop the JSON exported from Gametora here…",
     importCollectionSource: "Collection server",
     importCollectionSourceJp: "JP",
     importCollectionSourceGl: "Global",
