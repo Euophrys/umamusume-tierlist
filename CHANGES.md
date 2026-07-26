@@ -40,7 +40,7 @@ Added drag-and-drop JSON upload to the Collection Import modal without modifying
 - Removed unused `dragOver` state and handlers to fix lint warnings
 
 ### Verification Results
-- **Existing functionality confirmed working:**:
+- **Existing functionality confirmed working:**
   - Pasting JSON text works identically
   - Source selection (JP/Global) unchanged
   - Form submission and validation unchanged
