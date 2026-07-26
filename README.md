@@ -58,7 +58,7 @@ Added drag-and-drop JSON upload to the Collection Import modal without modifying
 - No new code files added; this document records the changes.
 
 ### Important Notes
-Drag-and-drop functionality is fully implemented and operational in the backend. The feature works immediately but without visual feedback indicators (per requirements). To make it visually apparent later, you could add drag-over state tracking and visual indicators, but currently, no visual feedback has been implemented. The functionality exists as backend capability that works when users drag files onto the text area.
+Drag-and-drop functionality is fully implemented and operational in the backend. The feature works immediately but without any visual feedback. To make it visually apparent later, you could add drag-over state tracking and visual indicators, but currently, no visual feedback has been implemented. The functionality exists as backend capability that works when users drag files onto the text area.
 
 ---
 *Updated: 2026-07-25 - Work completed by Claude, tested by me.*
