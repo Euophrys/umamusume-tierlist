@@ -1,64 +1,66 @@
-# Changes Made to Project
+# For Developers / Maintainers
 
-## CollectionImportModal.jsx - Drag & Drop JSON Upload (July 25, 2026)
+## Available Scripts
 
-Added drag-and-drop JSON upload to the Collection Import modal without modifying HTML structure.
+In the project directory, you can run:
 
-### Changes Made
-- Added `onDrop` event handler to the existing textarea element
-- Handler validates dropped files have `.json` extension and contain valid JSON
-- Valid files load their contents into the textarea (same as pasting JSON)
-- Invalid files trigger existing `importErrorInvalidJson` error
-- All existing functionality preserved (pasting JSON, source selection, form submission)
+### `npm start`
 
-### Key Points
-- **No HTML structure changes**: Only added event handler to existing textarea (line 76)
-- **Full compatibility**: All existing features work unchanged
-- **File validation**: 
-  - Accepts only `.json` extension (case-insensitive check on line 51)
-  - Validates JSON content using `JSON.parse()` before acceptance (lines 57-65)
-- **Error handling**: Uses existing `importErrorInvalidJson` messages from i18n/locales
-- **Backend implementation**: File reading/validation in `onDrop` method (lines 44-71)
+Runs the app in development mode using Vite.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### Exact Line Changes in CollectionImportModal.jsx
-1. **Added method**: `onDrop(event)` (lines 44-71)
-2. **Modified textarea**: Added `onDrop={this.onDrop}` attribute (line 76)
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-### Implementation Details
-- **File validation** (line 51): `if (!file.name.toLowerCase().endsWith('.json'))`
-- **Reading & validation** (lines 57-65): FileReader reads file as text, validates with `JSON.parse()`, sets textarea content if valid
-- **Read errors** (lines 67-69): File read errors trigger JSON error message
-- **Success handling** (line 62): `this.setState({ text: content, error: null })` loads file contents into textarea
-- **Failure handling** (lines 53, 64, 68): Validation failures set error state to `this.context.t.importErrorInvalidJson`
+### `npm run build`
 
-### What Wasn't Changed:
-- No modifications to JSX structure or element hierarchy
-- No visual drag-over indicators (border changes, hover effects)
-- No modifications to submission logic (`onSubmit`)
-- No changes to paste functionality (`onTextChanged`)
-- No changes to source selection (JP/GL radio buttons)
-- Removed unused `dragOver` state and handlers to fix lint warnings
+Builds the app for production to the `build` folder using Vite.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### Verification Results
-- **Existing functionality confirmed working:**:
-  - Pasting JSON text works identically
-  - Source selection (JP/Global) unchanged
-  - Form submission and validation unchanged
-  - Error messages remain consistent
-  - Importing works with both JP and Global .json collection files
-  
-- **New functionality tested by me**:
-  - Dragging a `.json` file onto the text area results in file contents being loaded and validated (same as pasting)
-  - Dragging a non-`.json` file → `importErrorInvalidJson` 
-  - Dragging invalid `.json` file → `importErrorInvalidJson` 
-  - Dragging a JP collection file when Global is selected → `importErrorNoSupports`
-  - Dragging a Global collection file when JP is selected → `importErrorNoSupports`
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-### Files Created
-- No new code files added; this document records the changes.
+### `npm run preview`
 
-### Important Notes
-Drag-and-drop functionality is fully implemented and operational in the backend. The feature works immediately but without any visual feedback. To make it visually apparent later, you could add drag-over state tracking and visual indicators, but currently, no visual feedback has been implemented. The functionality exists as backend capability that works when users drag files onto the text area.
+Preview the production build locally before deployment.
 
----
-*Updated: 2026-07-25 - Work completed by Claude, tested by me.*
+## Adding Localization
+
+If you'd like to provide translations for your own language, see `src/i18n/locales/README.md`. I take no responsibility for anything present in translations. I may do a brief check for bad words, but if anything's incorrect or offensive, blame the translator and make a request to update it.
+
+## Updating the Global Tier List
+
+- [Install python](https://www.python.org/downloads/) if needed
+- Open a terminal/powershell/etc window in the root
+- Run `db-convert.py` with the path to your master.db. On Windows, this is typically in `C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`
+  - `python db-convert.py C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`; might need to use `python3`
+- Move the generated cards.js file from the root into `src/cards` and rename it to `gl.js`.
+- The events and images are already present from the Japanese server, so there is no need to do anything else.
+- Run `npm install` and `npm run start` to confirm that the new card is present.
+- Make a pull request with the updated file
+
+## Updating the JP Tier List
+
+- [Install python](https://www.python.org/downloads/) if needed
+- Open a terminal/powershell/etc window in the root
+- Run `db-convert.py` with the path to your master.db. On Windows, this is typically in `C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`
+  - `python db-convert.py C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`; might need to use `python3`
+- If there are any warnings thrown, it means one of the new cards has a new effect.
+  - Open the `db-convert.py` file and add support for the new effect. If possible, convert it to an existing effect so you don't have to change the actual tier list code.
+  - If you do have to change the actual tier list code, it's in `src/components/TierList.jsx` and I wish you luck
+- Move the generated cards.js file from the root into `src/cards` and rename it to `jp.js`.
+- Add the card images to `public/cardImages`. I just use the icons from `https://gametora.com/umamusume/supports`, maybe they could be taken from the game files.
+- Optional bonus step: Add the stats the cards give from events to `src/card-events.js`. Assume the best outcomes from reasonable cards (no agemasen, but also, not Fuku's +77), assume the player wants to take the path to the gold skill (no early chain ends), and otherwise use your best guess as to which option is better. You can run `event_extract.py` to take these from uma tools automatically, if uma tools has been updated, but it might not give accurate results. It was mainly to get the tier list caught back up with values that were mostly correct.
+  - The format is [Speed, Stamina, Power, Guts, Wit, Energy, Skill Points, Bond]
+- Run `npm install` and `npm run start` to confirm nothing exploded.
+- Make a pull request with the updated files and images
+
+## Updating the Tier List Site
+
+It's hard to confirm by looking at the build whether you did anything weird, so I'll probably only accept this if I trust you or there's extenuating circumstances.
+
+- Run `npm install` and `npm run start` to confirm the state is okay.
+- Run `npm run build`
+- Fork the `https://github.com/Euophrys/uma-tiers` repo.
+- Copy the files from the `build` folder into the root of that repo.
+- Make a pull request
