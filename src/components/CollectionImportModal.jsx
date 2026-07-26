@@ -18,15 +18,12 @@ class CollectionImportModal extends React.Component {
       text: "",
       source: DEFAULT_SOURCE_BY_SERVER[context.server] || "ja",
       error: null,
-      dragOver: false,
     }
 
     this.onTextChanged = this.onTextChanged.bind(this)
     this.onSourceChanged = this.onSourceChanged.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.onBackdropClick = this.onBackdropClick.bind(this)
-    this.onDragOver = this.onDragOver.bind(this)
-    this.onDragLeave = this.onDragLeave.bind(this)
     this.onDrop = this.onDrop.bind(this)
   }
 
@@ -44,22 +41,9 @@ class CollectionImportModal extends React.Component {
     }
   }
 
-  onDragOver(event) {
-    event.preventDefault()
-    event.stopPropagation()
-    this.setState({ dragOver: true })
-  }
-
-  onDragLeave(event) {
-    event.preventDefault()
-    event.stopPropagation()
-    this.setState({ dragOver: false })
-  }
-
   onDrop(event) {
     event.preventDefault()
     event.stopPropagation()
-    this.setState({ dragOver: false })
 
     const files = event.dataTransfer.files
     if (files.length === 0) return
@@ -73,8 +57,9 @@ class CollectionImportModal extends React.Component {
     reader.onload = (e) => {
       try {
         // Validate that the dropped file contains valid JSON
-        JSON.parse(e.target.result)
-        this.setState({ text: e.target.result, error: null })
+        const content = e.target.result
+        JSON.parse(content)
+        this.setState({ text: content, error: null })
       } catch (err) {
         this.setState({ error: this.context.t.importErrorInvalidJson })
       }
@@ -128,7 +113,7 @@ class CollectionImportModal extends React.Component {
 
   render() {
     const { t } = this.context
-    const { text, source, error, dragOver } = this.state
+    const { text, source, error } = this.state
 
     return (
       <div
@@ -179,8 +164,6 @@ class CollectionImportModal extends React.Component {
             placeholder={t.importCollectionPlaceholder}
             rows={8}
             className="w-full font-mono text-xs px-2 py-2 border border-slate-300 dark:border-zinc-700 rounded-md bg-white dark:bg-zinc-950 text-slate-800 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onDragOver={this.onDragOver}
-            onDragLeave={this.onDragLeave}
             onDrop={this.onDrop}
           />
 
