@@ -40,7 +40,8 @@ class CollectionImportModal extends React.Component {
       this.props.onCancel()
     }
   }
-
+// Drag and drop functionality for JSON files. Allows the user to quickly import
+// from a downloaded JSON, rather than having to open it in a text editor to copy.
   onDrop(event) {
     event.preventDefault()
     event.stopPropagation()
