@@ -24,10 +24,40 @@ class CollectionImportModal extends React.Component {
     this.onSourceChanged = this.onSourceChanged.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.onBackdropClick = this.onBackdropClick.bind(this)
+    this.onDrop = this.onDrop.bind(this)
   }
 
   onTextChanged(event) {
     this.setState({ text: event.target.value, error: null })
+  }
+
+  onDrop(event) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const files = event.dataTransfer.files
+    if (files.length === 0) return
+    const file = files[0]
+    if (!file.name.toLowerCase().endsWith('.json')) {
+      this.setState({ error: this.context.t.importErrorInvalidJson })
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        // Validate that the dropped file contains valid JSON
+        const content = e.target.result
+        JSON.parse(content)
+        this.setState({ text: content, error: null })
+      } catch (err) {
+        this.setState({ error: this.context.t.importErrorInvalidJson })
+      }
+    }
+    reader.onerror = () => {
+      this.setState({ error: this.context.t.importErrorInvalidJson })
+    }
+    reader.readAsText(file)
   }
 
   onSourceChanged(event) {
@@ -134,6 +164,7 @@ class CollectionImportModal extends React.Component {
             placeholder={t.importCollectionPlaceholder}
             rows={8}
             className="w-full font-mono text-xs px-2 py-2 border border-slate-300 dark:border-zinc-700 rounded-md bg-white dark:bg-zinc-950 text-slate-800 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onDrop={this.onDrop}
           />
 
           {error && (
