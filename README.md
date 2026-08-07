@@ -28,15 +28,37 @@ Preview the production build locally before deployment.
 
 If you'd like to provide translations for your own language, see `src/i18n/locales/README.md`. I take no responsibility for anything present in translations. I may do a brief check for bad words, but if anything's incorrect or offensive, blame the translator and make a request to update it.
 
-## Updating the Global Tier List
+## Updating the Tier Lists
+
+- Open a terminal/powershell/etc window in the root
+- Run `node update-global` or `node update-jp` to automatically run the steps in the next sections.
+  - It will look in all the common locations for the database. If it fails to find it, you can call `node update-global --db <path>`
+- Run `npm install` and `npm run start` to confirm that the new cards are present.
+- Make a pull request with the updated file
+
+### JP-specific Considerations
+
+If there are any warnings thrown, it means one of the new cards has a new effect.
+
+- Open the `db-convert.py` file and add support for the new effect. If possible, convert it to an existing effect so you don't have to change the actual tier list code. Some weird ones like Mei can just be ignored.
+- If you do have to change the actual tier list code, it's in `src/components/tierlist-calc.js` and I wish you luck.
+
+The stats from events aren't available in the database, but can change the scores.
+
+- Add the stats the cards give from events to `src/card-events.js`. Assume the best outcomes from reasonable cards (no agemasen, but also, not Fuku's +77), assume the player wants to take the path to the gold skill (no early chain ends), and otherwise use your best guess as to which option is better.
+- You can edit and run `event_extract.py` to take these from uma tools automatically, if uma tools has been updated, but it might not give accurate results. It was mainly to get the tier list caught back up with values that were mostly correct.
+
+- The format is [Speed, Stamina, Power, Guts, Wit, Energy, Skill Points, Bond]
+
+## Updating the Global Tier List Manually
 
 - [Install python](https://www.python.org/downloads/) if needed
 - Open a terminal/powershell/etc window in the root
-- Run `db-convert.py` with the path to your master.db. On Windows, this is typically in `C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`
-  - `python db-convert.py C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`; might need to use `python3`
+- Run `db-convert.py` with the path to your master.mdb. On Windows, this is typically in `C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`
+  - `python db-convert.py C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master\master.mdb`; might need to use `python3`
 - Move the generated cards.js file from the root into `src/cards` and rename it to `gl.js`.
 - The events and images are already present from the Japanese server, so there is no need to do anything else.
-- Run `npm install` and `npm run start` to confirm that the new card is present.
+- Run `npm install` and `npm run start` to confirm that the new cards are present.
 - Make a pull request with the updated file
 
 ## Updating the JP Tier List
@@ -44,14 +66,10 @@ If you'd like to provide translations for your own language, see `src/i18n/local
 - [Install python](https://www.python.org/downloads/) if needed
 - Open a terminal/powershell/etc window in the root
 - Run `db-convert.py` with the path to your master.db. On Windows, this is typically in `C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`
-  - `python db-convert.py C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master`; might need to use `python3`
-- If there are any warnings thrown, it means one of the new cards has a new effect.
-  - Open the `db-convert.py` file and add support for the new effect. If possible, convert it to an existing effect so you don't have to change the actual tier list code.
-  - If you do have to change the actual tier list code, it's in `src/components/TierList.jsx` and I wish you luck
+  - `python db-convert.py C:\Users\your username here\AppData\LocalLow\Cygames\Umamusume\master\master.mdb`; might need to use `python3`
 - Move the generated cards.js file from the root into `src/cards` and rename it to `jp.js`.
 - Add the card images to `public/cardImages`. I just use the icons from `https://gametora.com/umamusume/supports`, maybe they could be taken from the game files.
-- Optional bonus step: Add the stats the cards give from events to `src/card-events.js`. Assume the best outcomes from reasonable cards (no agemasen, but also, not Fuku's +77), assume the player wants to take the path to the gold skill (no early chain ends), and otherwise use your best guess as to which option is better. You can run `event_extract.py` to take these from uma tools automatically, if uma tools has been updated, but it might not give accurate results. It was mainly to get the tier list caught back up with values that were mostly correct.
-  - The format is [Speed, Stamina, Power, Guts, Wit, Energy, Skill Points, Bond]
+- See the JP-specific Considerations section above
 - Run `npm install` and `npm run start` to confirm nothing exploded.
 - Make a pull request with the updated files and images
 

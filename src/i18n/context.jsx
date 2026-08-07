@@ -29,12 +29,12 @@ export function useLocale() {
   return React.useContext(AppContext).t
 }
 
-export function buildContextValue(server, localeKey) {
+export function buildContextValue(server, localeKey, cards) {
   return {
     server,
     localeKey,
     t: getLocale(localeKey),
-    cards: getCards(server),
+    cards: cards || getCards(server),
     serverConfig: getServerConfig(server),
   }
 }

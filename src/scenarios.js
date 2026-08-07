@@ -216,7 +216,7 @@ const jp = {
         "アグネスタキオン",
         "Agnes Tachyon",
         "サイレンススズカ",
-        "Silence Suzuka"
+        "Silence Suzuka",
       ],
       scenarioBonus: 75,
       fanBonus: 0.05,

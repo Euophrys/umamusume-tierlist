@@ -38,7 +38,7 @@ class CollectionImportModal extends React.Component {
     const files = event.dataTransfer.files
     if (files.length === 0) return
     const file = files[0]
-    if (!file.name.toLowerCase().endsWith('.json')) {
+    if (!file.name.toLowerCase().endsWith(".json")) {
       this.setState({ error: this.context.t.importErrorInvalidJson })
       return
     }

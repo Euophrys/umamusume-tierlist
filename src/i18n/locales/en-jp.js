@@ -43,7 +43,8 @@ const locale = {
     importCollection: "Import Collection",
     importCollectionHelp:
       "Load a Gametora collection export to restrict the tier list to cards you own.",
-    importCollectionPlaceholder: "Paste or drop the JSON exported from Gametora here…",
+    importCollectionPlaceholder:
+      "Paste or drop the JSON exported from Gametora here…",
     importCollectionSource: "Collection server",
     importCollectionSourceJp: "JP",
     importCollectionSourceGl: "Global",

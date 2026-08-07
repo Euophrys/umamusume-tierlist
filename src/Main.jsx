@@ -11,7 +11,7 @@ import {
   isKnownLocaleKey,
   normalizeLocaleKey,
 } from "./i18n/locales"
-import { getCards } from "./cards"
+import { getCards, loadCards } from "./cards"
 import { getServerConfig } from "./scenarios"
 import { lsTest } from "./utils"
 import ChangeBanner from "./components/ChangeBanner"
@@ -57,6 +57,8 @@ class Main extends React.Component {
 
     const server = detectInitialServer()
     const localeKey = detectInitialLocale(server)
+    // Card data is code-split per server and fetched in componentDidMount, so
+    // the first render happens with an empty pool.
     const cards = getCards(server)
     const serverConfig = getServerConfig(server)
 
@@ -67,7 +69,9 @@ class Main extends React.Component {
       // active server. They are rebuilt whenever the server changes.
       weights: this.makeInitialWeights(),
       selectedCards: this.makeInitialSelectedCards(cards, serverConfig),
+      cards,
       availableCards: cards,
+      cardsError: null,
       // Imported Gametora collection. When non-null, the tier list is
       // restricted to the owned cards (matching id + limit_break). Cleared
       // automatically on server change.
@@ -83,6 +87,35 @@ class Main extends React.Component {
     this.onLocaleChanged = this.onLocaleChanged.bind(this)
     this.onCollectionLoaded = this.onCollectionLoaded.bind(this)
     this.onCollectionCleared = this.onCollectionCleared.bind(this)
+  }
+
+  componentDidMount() {
+    this.loadServerCards(this.state.server)
+  }
+
+  // Fetches the active server's card chunk and rebuilds everything derived
+  // from it. Results are discarded if the user switched servers again while
+  // the import was still in flight.
+  loadServerCards(server) {
+    loadCards(server).then(
+      (cards) => {
+        if (this.state.server !== server) return
+        this.setState({
+          cards,
+          availableCards: cards,
+          selectedCards: this.makeInitialSelectedCards(
+            cards,
+            getServerConfig(server)
+          ),
+          cardsError: null,
+        })
+      },
+      (err) => {
+        if (this.state.server !== server) return
+        console.error("Failed to load card data", err)
+        this.setState({ cardsError: err })
+      }
+    )
   }
 
   onCollectionLoaded(collection) {
@@ -180,7 +213,7 @@ class Main extends React.Component {
   }
 
   onLoadPreset(presetCards) {
-    const cards = getCards(this.state.server)
+    const cards = this.state.cards
     let selectedCards = []
     for (let i = 0; i < presetCards.length; i++) {
       const found =
@@ -194,19 +227,26 @@ class Main extends React.Component {
   onServerChanged(event) {
     const server = event.target.value
     if (server === this.state.server) return
+    // Already-loaded servers resolve synchronously from the module cache; a
+    // first switch shows the loading state until the chunk arrives.
     const cards = getCards(server)
     const serverConfig = getServerConfig(server)
     if (lsTest()) {
       window.localStorage.setItem("server", server)
     }
-    this.setState({
-      server,
-      availableCards: cards,
-      selectedCards: this.makeInitialSelectedCards(cards, serverConfig),
-      // Different servers have different card pools, so an imported
-      // collection is discarded whenever the user switches servers.
-      collection: null,
-    })
+    this.setState(
+      {
+        server,
+        cards,
+        availableCards: cards,
+        selectedCards: this.makeInitialSelectedCards(cards, serverConfig),
+        // Different servers have different card pools, so an imported
+        // collection is discarded whenever the user switches servers.
+        collection: null,
+        cardsError: null,
+      },
+      () => this.loadServerCards(server)
+    )
   }
 
   onLocaleChanged(event) {
@@ -218,8 +258,8 @@ class Main extends React.Component {
   }
 
   render() {
-    const { server, localeKey } = this.state
-    const ctxValue = buildContextValue(server, localeKey)
+    const { server, localeKey, cards, cardsError } = this.state
+    const ctxValue = buildContextValue(server, localeKey, cards)
     const { t, serverConfig } = ctxValue
 
     return (
@@ -286,6 +326,16 @@ class Main extends React.Component {
             </div>
           </header>
           <main className="mx-auto px-4 mt-2 space-y-8">
+            {/* Weights/Filters/TierList read the card pool synchronously when
+                they mount, so they are held back until the server's card
+                chunk has arrived. */}
+            {cards.length === 0 ? (
+              <div className="max-w-7xl mx-auto mt-8 text-center text-sm text-slate-500 dark:text-zinc-400">
+                {cardsError
+                  ? "Couldn't load the card data for this server. Please reload the page."
+                  : "Loading card data…"}
+              </div>
+            ) : (
             <div className="grid grid-cols-1 lg:grid-cols-[36rem_minmax(0,1fr)] gap-4 items-start">
               {/* Settings & Controls Panel */}
               <div className="space-y-4">
@@ -327,6 +377,7 @@ class Main extends React.Component {
                 />
               </div>
             </div>
+            )}
           </main>
         </div>
       </AppContext.Provider>

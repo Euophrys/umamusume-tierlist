@@ -25,6 +25,7 @@ Players build decks of 6 support cards. Each turn, the player chooses from 5 tra
 Each training slot has a base weight of 100; there's also a weight-50 "no training" option, giving a default appearance rate of 100/550 per card.
 
 **Specialty Priority** increases how often a card lands on its preferred training:
+
 - Base specialty adds directly to the weight
 - Unique specialty multiplies the total weight (like FriendshipBonus)
 
@@ -34,8 +35,8 @@ Up to 5 cards can appear on the same training (NPCs can take slots), but the cal
 
 ### Other Stats
 
-| Stat | Description |
-|------|-------------|
-| Initial `<Stat>` | Bonus stats granted at the start of the run |
-| Wit Friendship Recovery | Wit/Group cards only. Acts as StatBonus for energy during Wit training |
-| Race Bonus | % increase to stats and skill points gained from races. No rounding — going from +3 to +4 all stats requires 34% Race Bonus |
+| Stat                    | Description                                                                                                                 |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Initial `<Stat>`        | Bonus stats granted at the start of the run                                                                                 |
+| Wit Friendship Recovery | Wit/Group cards only. Acts as StatBonus for energy during Wit training                                                      |
+| Race Bonus              | % increase to stats and skill points gained from races. No rounding — going from +3 to +4 all stats requires 34% Race Bonus |
