@@ -326,6 +326,7 @@ class Main extends React.Component {
             </div>
           </header>
           <main className="mx-auto px-4 mt-2 space-y-8">
+            <ChangeBanner />
             {/* Weights/Filters/TierList read the card pool synchronously when
                 they mount, so they are held back until the server's card
                 chunk has arrived. */}
@@ -336,47 +337,47 @@ class Main extends React.Component {
                   : "Loading card data…"}
               </div>
             ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-[36rem_minmax(0,1fr)] gap-4 items-start">
-              {/* Settings & Controls Panel */}
-              <div className="space-y-4">
-                <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-4 shadow-sm">
-                  {/* key={server} forces Weights/Filters/TierList to remount
+              <div className="grid grid-cols-1 lg:grid-cols-[36rem_minmax(0,1fr)] gap-4 items-start">
+                {/* Settings & Controls Panel */}
+                <div className="space-y-4">
+                  <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-4 shadow-sm">
+                    {/* key={server} forces Weights/Filters/TierList to remount
                       with fresh server-appropriate defaults whenever the
                       active server changes. */}
-                  <Weights key={server} onChange={this.onWeightsChanged} />
+                    <Weights key={server} onChange={this.onWeightsChanged} />
+                  </div>
+
+                  <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-4 shadow-sm">
+                    <SelectedCards
+                      selectedCards={this.state.selectedCards}
+                      onClick={this.onCardRemoved}
+                      onLoadPreset={this.onLoadPreset}
+                      weights={this.state.weights}
+                    />
+                  </div>
+
+                  <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-4 shadow-sm">
+                    <Filters
+                      key={server}
+                      onCardsChanged={this.onCardsChanged}
+                      collection={this.state.collection}
+                      onCollectionLoaded={this.onCollectionLoaded}
+                      onCollectionCleared={this.onCollectionCleared}
+                    />
+                  </div>
                 </div>
 
+                {/* Tier List Results Panel (Takes full width remaining) */}
                 <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-4 shadow-sm">
-                  <SelectedCards
-                    selectedCards={this.state.selectedCards}
-                    onClick={this.onCardRemoved}
-                    onLoadPreset={this.onLoadPreset}
-                    weights={this.state.weights}
-                  />
-                </div>
-
-                <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-4 shadow-sm">
-                  <Filters
+                  <TierList
                     key={server}
-                    onCardsChanged={this.onCardsChanged}
-                    collection={this.state.collection}
-                    onCollectionLoaded={this.onCollectionLoaded}
-                    onCollectionCleared={this.onCollectionCleared}
+                    cards={this.state.availableCards}
+                    weights={this.state.weights}
+                    selectedCards={this.state.selectedCards}
+                    cardSelected={this.onCardSelected}
                   />
                 </div>
               </div>
-
-              {/* Tier List Results Panel (Takes full width remaining) */}
-              <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-4 shadow-sm">
-                <TierList
-                  key={server}
-                  cards={this.state.availableCards}
-                  weights={this.state.weights}
-                  selectedCards={this.state.selectedCards}
-                  cardSelected={this.onCardSelected}
-                />
-              </div>
-            </div>
             )}
           </main>
         </div>

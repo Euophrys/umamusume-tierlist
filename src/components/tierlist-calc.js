@@ -92,6 +92,8 @@ export function processCards(cards, weights, selectedCards) {
     }
   }
 
+  baseBondNeeded += NORMAL_BOND * (5 - selectedCards.length)
+
   // Chance that at least one off-type training rainbows on a given turn, used
   // later to discount a candidate's own rainbow rate (you can only be in one
   // training per turn). Skips the stat type the weights are optimising for.
@@ -430,11 +432,11 @@ export function CalculateTrainingGain(
     if (rainbow) base += card.fs_stats[stat]
     soloGain[stat] +=
       base *
-        trainingBonus *
-        (1 + weights.motivation * motivationBonus) *
-        fsBonus *
-        (1 + CARD_BONUS) *
-        weights.umaBonus[stat] -
+      trainingBonus *
+      (1 + weights.motivation * motivationBonus) *
+      fsBonus *
+      (1 + CARD_BONUS) *
+      weights.umaBonus[stat] -
       gains[stat]
   }
   if (GainsToScore(soloGain, weights) > weights.minimum) {
@@ -487,7 +489,7 @@ export function CalculateTrainingGain(
         (combinationTrainingBonus + selfTrainingBonus - 1) *
         (1 +
           weights.motivation *
-            (combinationMotivationBonus + motivationBonus - 1)) *
+          (combinationMotivationBonus + motivationBonus - 1)) *
         (combinationFriendshipBonus * fsBonus) *
         (1 + CARD_BONUS * (combination.length + 1)) *
         weights.umaBonus[stat]
@@ -576,7 +578,7 @@ export function CalculateCrossTrainingGain(
             1) *
           (1 +
             weights.motivation *
-              (combinationMotivationBonus + card.mb + card.fs_motivation - 1)) *
+            (combinationMotivationBonus + card.mb + card.fs_motivation - 1)) *
           (combinationFriendshipBonus * fsBonus) *
           (1 + CARD_BONUS * (combination.length + 1)) *
           weights.umaBonus[stat]
