@@ -24,7 +24,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "update-global": "node scripts/update-cards.mjs gl",
+    "update-jp": "node scripts/update-cards.mjs jp"
   },
   "browserslist": {
     "production": [

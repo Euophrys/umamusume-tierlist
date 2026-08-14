@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import https from "https"
 
-import cards from "./src/cards.js"
+import cards from "./src/cards/jp.js"
 
 // Folder to save images
 const folder = "./public/cardImages"

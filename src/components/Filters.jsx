@@ -14,7 +14,7 @@ class Filters extends React.Component {
     this.state = {
       ...context.serverConfig.defaultFilters,
       importOpen: false,
-      showAllMLBSSR: false
+      showAllMLBSSR: false,
     }
 
     this.onSettingChanged = this.onSettingChanged.bind(this)
