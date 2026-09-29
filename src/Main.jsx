@@ -326,7 +326,6 @@ class Main extends React.Component {
             </div>
           </header>
           <main className="mx-auto px-4 mt-2 space-y-8">
-            <ChangeBanner />
             {/* Weights/Filters/TierList read the card pool synchronously when
                 they mount, so they are held back until the server's card
                 chunk has arrived. */}
